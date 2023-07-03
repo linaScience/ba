@@ -1,0 +1,111 @@
+\begin{document}
+
+
+- restriction on time series models?
+    - ARMA, ARIMA, ...
+    - Multilayer Perceptrons
+    - research is given based on prediction on RSSI 
+    - location of aps is unknown
+- 1st place of competition used kNN (distance error of 5.8) and LightGBM (distance error of 7.25)
+- simplification: Mobile Terminal is traveling with constant speed (although acceleration is given)
+
+- Karl ist freund vom si package
+
+Intro:
+    What should be the topic?
+        - Darstellung des Themas der Arbeit
+        - genaue Auflistung der Fragestellungen (wieso Thema relevant?)
+        - knapper Überblick über Schritte der Problembehandlung:
+            - Hinführung Thema
+            - Herleitung und Ausformulierung der Fragestellung
+            - Abgrenzung des Themas (Angabe von Aspekten, die zum Thema gehören, aber nicht behandelt/ausgeklammert werden)
+            - Aufbau der Arbeit (Begründung der Gliederung)
+
+    Content:
+        - SSF and LLF is not sufficient for predicting movement
+        - current work
+        - Main question: "How could we improve handover for Access Points with predicting movement of a mobile terminal?"
+        - Thesis covers:
+            - explanation of the choice of the data set
+            - prediction of movement of an Mobile Terminal "indoors"
+                - using wifi and waypoint data, given in specific dataset -> filtering
+                - separation of train data (? -> sinnvoll, test data hat zwar auch keine waypoints, aber validierung könnte hier schwieriger sein?)
+            - assessment and restriction of general ML algorithm type
+            - implementation of movement prediction with ML algorithm
+            - ...
+        - thesis does not cover:
+            - creation of an own and most suitable dataset and usage in ml prediction
+            - implementation of handover prediction mechanism
+            - using more data like magnetic field etc.
+            - general new conception of a ML algorithm for general forecasting purposes
+            - prediction in
+
+Grundlagen/definitorischer Teil:
+    - problemorientierte Definitionen definieren
+    - Überblick in der Literatur vorhandenen Methoden bzw. Lösungsansätze
+    - aktueller Stand der Technik
+    - Related Work
+
+- time based/sequential data
+- ...
+
+Main part:
+    - eigentliche Auseinandersetzung mit der Problemstellung
+        - Problemstellung reflektiert bearbeiten
+        - Aussagen durch Literatur stützen und belegen
+        - logisch und nachvollziehbare Schritte
+
+    Ideas for ML Algorithms:
+        - time based model
+            - only when data is (mostly even) distributed over time
+            - ARIMA, ARMA, ...
+        - models with sequential data
+            - LSTM
+            - RNN
+            - GRU
+        - others
+            - kNN
+
+Approach:
+    - filtering of data in dataset for TYPE_WIFI and TYPE_WAYPOINT, for prediction
+        - analysis on data
+        - find out how we can forecast the movement of the user with this data
+        - we do not need to filter for specific SSIDs, because we only want to predict the waypoint and not a possible roam (could be part of future work)
+    - analysis of current ML algorithms and choosing "the right one"
+        - we have 27,000 train data and about 600 test data but splitting the actual train data into test data could be important
+        - first we need to approximate the location of the wifi APs, which we can do with kNN (necessary?)
+            - kNN is a supervised learning algorithm
+            - find a proper distance function
+            - we can use the rssi for kNN
+        - next we want to find the next waypoint based on the wifi data 
+            - we want supervised learning, because we have the waypoints given in train data but not in test data
+                - we want to forecast the next waypoint based on the wifi data
+                    - we want to use past values to predict the next waypoint (univariate time series)
+                    - Naïve models: XGBoost, ARIMA; Deep Learning models: RNN, LSTM, MLP
+                    - ARIMA: autocorrelation relates on same set of observations but across different time; we have many different observations, that's why ARIMA is not suitable
+                    - RNN: backpropagation could be a problem (gradient vanishing and exploding problems could occur), RNN suffers from short-term memory (cannot process long sequences, uses tanh as activation function)
+                    - LSTM/GRU: uses previous data with context 
+        - error function for penalty of wrong prediction
+            - could be quadratic error function, because the more the station is away from the ap, the worse 
+        - cross-validation (k-Fold most common)
+
+    - implementation of Machine Learning Algorithm
+        - what do i have?
+            - data with time and specific type like TYPE_WIFI and TYPE_WAYPOINT in train dataset
+            - separate data for validation: 80/20 or 70/30 for testing and remove the waypoints
+        - what do i need?
+            - ml model(s) which is suitable for the data
+                - kNN for predicting the position of the station based on the rssi
+                    - proper distance function between two WiFi observations, and compare WiFi observations at inference time with all WiFi observations seen during training
+                -  use gru for predicting the next waypoint based on the rssi
+                - working hypothesis:
+                    - prediction without the rssi is worse than with
+            - resources of my PC
+
+
+Schlussbetrachtung:
+    - Antwort auf in Problemstellung aufgeworfenen Fragen kurz zusammenfassen
+    - Ausblick auf offen gebliebene Fragen sowie interessante Fragestellungen, die sich aus der Arbeit ergeben
+    - kritische Betrachtung eigener Arbeit
+
+\end{document}
