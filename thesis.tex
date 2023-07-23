@@ -1,5 +1,12 @@
 \documentclass{scrbook} % <= Druckversion: "scrbook" / Bildschirmversion: "scrreprt"
 \usepackage[english,bibtex]{osm-thesis} % <= Sprache der Arbeit ("ngerman"/"english"), Biblatex-Backend ("bibtex"/"biber")
+\usepackage{cleveref}
+\usepackage{acro}
+
+
+\graphicspath{{images}}
+
+
 
 % ABOUT
 \newcommand{\hpitype}{Bachelor's thesis}
@@ -12,11 +19,18 @@
 \newcommand{\hpiexternal}{Chair for Internet Technologies and Softwarization}
 \newcommand{\hpidate}{\today}
 
+
+
+% Acronyms before everything else
+\include{content/acronyms}
+
 % DOCUMENT
 \bibliography{bibliography}
 
-\begin{document}
 
+
+\begin{document}
+	
 	% Einband
 	\pagenumbering{alph}
 	\ifisbook\include{content/coverpage}\fi
@@ -32,11 +46,13 @@
 
 	% Textteil
 	\pagenumbering{arabic}
-	\include{content/1_introduction}
-	\include{content/2_discussion_ml}
-	\include{content/3_implementation_ml}
-	\include{content/4_evaluation_ml}
-	\include{content/5_conclusion}
+	\include{content/introduction}
+	\include{content/data_analysis}
+	\include{content/discussion_ml}
+	\include{content/data_preperation}
+	\include{content/implementation_ml}
+	\include{content/evaluation_ml}
+	\include{content/conclusion}
 
 	% Bibliographie
 	\ifisbook\cleardoubleemptypage\fi

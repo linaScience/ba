@@ -1,0 +1,20 @@
+\chapter{Implementation}
+
+\section{Preprocessing}
+    \begin{itemize}
+        \item Preprocessing important step of ML
+        \item Data is not consistent
+        \begin{itemize}
+            \item Wi-Fi and waypoint Data are not measured at the same time (some could be event triggered, but just speculation)
+            \item First: Interpolate waypoints to the timestamps of Wi-Fi data
+            \item Second: Merge interpolated waypoints and Wi-Fi Data
+            \item Detected jumps in time and in position
+            \item Present solutions: Split data into several parts, where the position more than 10 meters from the last position or time difference more than 60 minutes
+            \item time difference of more than 60 minutes could also lead to a jump in position: Therefore, position more than 10 meters away
+            \item 
+        \end{itemize}
+    \end{itemize}
+
+\section{Machine Learning Model}
+
+%\noindent
