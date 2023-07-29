@@ -2,6 +2,10 @@
 \usepackage[english,bibtex]{osm-thesis} % <= Sprache der Arbeit ("ngerman"/"english"), Biblatex-Backend ("bibtex"/"biber")
 \usepackage{cleveref}
 \usepackage{acro}
+\usepackage{CJKutf8}
+\usepackage{ctex}
+\AtBeginDvi{\input{zhwinfonts}}
+\usepackage{listings}
 
 
 \graphicspath{{images}}
@@ -13,13 +17,9 @@
 \newcommand{\hpiauthor}{Lina Wilske}
 \newcommand{\hpititle}{Machine Learning-based User Movement Prediction in Layer 2 Networks}
 \newcommand{\hpititleother}{Vorhersage von Benutzerbewegungen in Layer 2 Netzwerken basierend auf Maschinellem Lernen} % <= das Studienreferat verlangt einen deutschen UND englischen Titel
-\newcommand{\hpisupervisor}{Prof.\,Dr.\,Holger Karl}
-\newcommand{\hpichair}{Chair for Internet Technologies and Softwarization}
-\newcommand{\hpiexternalsupervisor}{Leonard Paeleke}
-\newcommand{\hpiexternal}{Chair for Internet Technologies and Softwarization}
+\newcommand{\hpisupervisor}{Prof.\,Dr.\,Holger Karl \\ Leonard Paeleke}
+\newcommand{\hpichair}{Internet Technology and Softwarization Group}
 \newcommand{\hpidate}{\today}
-
-
 
 % Acronyms before everything else
 \include{content/acronyms}
@@ -30,10 +30,11 @@
 
 
 \begin{document}
+
 	
 	% Einband
 	\pagenumbering{alph}
-	\ifisbook\include{content/coverpage}\fi
+	%\ifisbook\include{content/coverpage}\fi
 	\ifisbook\cleardoubleemptypage\fi
 	
 	% (Haupt-)Titelseite, Abstract, ggf. Danksagung & Inhaltsverzeichnis
