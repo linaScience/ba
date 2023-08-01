@@ -1,14 +1,13 @@
 \chapter{Data analysis}\label{sec:data-ana}
 
-Data is the essential part of a machine learning model.
-Therefore, a wisely chosen dataset is needed.
 The dataset used in this thesis is the Indoor Location \& Navigation from kaggle\cite{kaggle} which was part of a competition of Microsoft Research in 2021\cite{IndoorLocationNavigation}.
-The data was recorded in shopping malls by a company called XYZ\(^{10}\) and was provided by Microsoft Research for this competition.
+The data was recorded in shopping malls by XYZ\(^{10}\) and was provided by Microsoft Research for this competition.
 The goal for the competition was, given a site-path file, predict the floor and waypoint locations at a timestamp given in the submission files.
+In the following the dataset and data will be analyzed.
 
 
 \section{Components of the dataset}\label{sec:data}
-As noted in the kaggle notebook ``Indoor Navigation: Complete Data Understanding''\cite{IndoorNavigationUnderstanding} the data consists of 3 parts:
+As noted in the kaggle notebook ``Indoor Navigation: Complete Data Understanding'' \cite{IndoorNavigationUnderstanding} the data consists of 3 parts:
 % 
 \begin{itemize}
     \item a train folder with train path files, organized by site and floor
@@ -16,9 +15,6 @@ As noted in the kaggle notebook ``Indoor Navigation: Complete Data Understanding
     \item a metadata folder with floor metadata, organized by site and floor, which includes floor images, further information and a geojson map
 \end{itemize}
 
-For this thesis, the submission files as well as the test folder will not be used, because our goal is another type of prediction.
-In the following, the train folder will be analyzed.
-In general every file was hashed, so that no specific information about the site is visible.
 The train folder consists of 204 subfolders, which represent each site where the data was recorded.
 In each site folder are a minimum of one and a maximum twelve subfolders, which represent the floors of the site, the median is 5 floors.
 Overall there are 26,925 files each representing a movement on a specific floor and site.
@@ -26,17 +22,33 @@ Per floor, there are between one and 284 files with a median of 14 files.
 These files contain the information about the movement of a person on this specific site and floor.
 With this amount of data, it could be possible to train a machine learning model.
 
+For this thesis, the submission files as well as the test folder will not be used, because our goal is another type of prediction.
+
 
 \section{File structure}\label{sec:file-structure}
-Each file contains the following information:
-% do not use this, it's ugly
-% \begin{figure}[h]
-% 	\centering
-%   \includegraphics[angle=270,scale=0.15]{file-example.png}
-% 	\caption{Each file includes X different }\label{fig:structure-data}
-% \end{figure}
 
+Each file in each floor folder is a \textbf{.txt} file. 
+The first two lines and the last are denoted with ``\#''.
+The first contains the start time of the recording, the second site information SiteID as hash, SiteName, FloorId as hash and FloorName.
+The last line contains the end time of the recording.
+The main part of the data consists of the collected data. 
+Each line contains a UNIX timestamp in milliseconds, followed by a data type and the data itself, which are all separated by a tab.
 
+Regard to the GitHub repository\cite{GitHubComp}, the data type in the second column followed by its data can be one of the following:
+
+\setlist[enumerate]{label=(\arabic*)}
+\begin{enumerate}
+    \item\label{type:acce} TYPE\_ACCELEROMETER with x, y and z acceleration and an accuracy value
+    \item\label{type:mag} TYPE\_MAGNETIC\_FIELD with x, y and z magnetic field and an accuracy value
+    \item\label{type:gyro} TYPE\_GYROSCOPE with x, y and z gyroscope and an accuracy value
+    \item\label{type:rot} TYPE\_ROTATION\_VECTOR with x, y and z rotation vector and an accuracy value
+    \item\label{type:mag_u} TYPE\_MAGNETIC\_FIELD\_UNCALIBRATED with x, y and z magnetic field and an accuracy value
+    \item\label{type:gyro_u} TYPE\_GYROSCOPE\_UNCALIBRATED with x, y and z gyroscope and an accuracy value
+    \item\label{type:acce_u} TYPE\_ACCELEROMETER\_UNCALIBRATED with x, y and z acceleration and an accuracy value
+    \item\label{type:wifi} TYPE\_WIFI with \ac{ssid}, \ac{bssid}, \ac{rssi}, frequency, and last seen timestamp of the access point. The SSID and BSSID are hashed.
+    \item\label{type:beacon} TYPE\_BEACON with \ac{uuid}, \ac{MajorID}, \ac{MinorID}, \ac{TxPower}, \ac{rssi}, distance to the device measured by the beacon, \ac{mac} address and a timestamp as padding data. The MajorID and MinorID are hashed.
+    \item\label{type:way} TYPE\_WAYPOINT with x and y coordinates which are the ground truth location labeled by the surveyor
+\end{enumerate}
 
 \lstset{
     basicstyle=\scriptsize\ttfamily,
@@ -44,9 +56,9 @@ Each file contains the following information:
     escapeinside={(*@}{@*)},
 }
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={A snippet of a file from the dataset},label={lst:dataset}]
     #	startTime:1571462193934
-    #	SiteID:5d27099303f801723c32364d	SiteName: (*@\begin{CJK*}{UTF8}{gbsn}银泰百货(庆春店)\end{CJK*}@*) FloorId:5d27099303f801723c323650	FloorName:4F
+    #	SiteID:5d27099303f801723c32364d	SiteName:(*@\begin{CJK*}{UTF8}{gbsn}银泰百货(庆春店)\end{CJK*}@*) FloorId:5d27099303f801723c323650	FloorName:4F
     1571462193944	TYPE_WAYPOINT	57.885998	69.501526
     1571462194071	TYPE_ACCELEROMETER	-0.95254517	0.7944031	8.928757	2
     1571462194071	TYPE_MAGNETIC_FIELD	-25.65918	-4.4784546	-28.201294	3
@@ -64,9 +76,42 @@ Each file contains the following information:
     #	endTime:1571462195976
 \end{lstlisting}
 
+% note focus on specific data types for problem
 
 
 
+\section{Visualization of floor data}\label{sec:visualization}
+\begin{figure}
+        \centering
+    \includegraphics[scale=0.435]{images/whole_floor_visualization.png}
+    \caption[]{Visualization of the interpolated waypoints for SiteName: \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
+\end{figure}
 
-BSSIDs are hashed, so no original BSSIDs are visible
+\section{Characteristics of the data}\label{sec:characteristics-data}
+
+Each site has different amount of floors and also the amount of files varies.
+Each file contains different amount of waypoints and sensor data.
+The first and last data type in each file is a \ref{type:wifi}.
+Lines with types from \ref{type:acce} to \ref{type:acce_u} occur every 20 ms.
+For further analysis, the data of one floor is concatenated to one file.
+
+
+\section{Peculiarities of the data}\label{sec:special-cases}
+Further analysis of the dataset revealed some peculiarities, which are described in the following.
+
+Because the data is collected by different devices, at different timestamps and days, the data is not consistent of waypoint data 
+
+\begin{lstlisting}
+1. Timestamp 1: 1572951273212.0, Timestamp 2: 1574853182904.0, Time Difference in ms: 1901909692.0 in min: 31698.494866666668 
+2. Timestamp 1: 1571745701735.0, Timestamp 2: 1572937550526.0, Time Difference in ms: 1191848791.0 in min: 19864.146516666668 
+3. Timestamp 1: 1571398890607.0, Timestamp 2: 1571745386405.0, Time Difference in ms: 346495798.0 in min: 5774.929966666667 
+4. Timestamp 1: 1571222697051.0, Timestamp 2: 1571393792128.0, Time Difference in ms: 171095077.0 in min: 2851.5846166666665 
+5. Timestamp 1: 1572947759794.0, Timestamp 2: 1572950695861.0, Time Difference in ms: 2936067.0 in min: 48.93445 
+6. Timestamp 1: 1572942316535.0, Timestamp 2: 1572944901430.0, Time Difference in ms: 2584895.0 in min: 43.081583333333334 
+7. Timestamp 1: 1572946047608.0, Timestamp 2: 1572947705343.0, Time Difference in ms: 1657735.0 in min: 27.628916666666665 
+8. Timestamp 1: 1572938081167.0, Timestamp 2: 1572938843518.0, Time Difference in ms: 762351.0 in min: 12.70585 
+9. Timestamp 1: 1571397963778.0, Timestamp 2: 1571398570240.0, Time Difference in ms: 606462.0 in min: 10.1077 
+10. Timestamp 1: 1572937620091.0, Timestamp 2: 1572938025654.0, Time Difference in ms: 405563.0 in min: 6.759383333333333 
+\end{lstlisting}
+
 
