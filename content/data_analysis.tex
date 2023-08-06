@@ -33,7 +33,6 @@ The first contains the start time of the recording, the second site information 
 The last line contains the end time of the recording.
 The main part of the data consists of the collected data. 
 Each line contains a UNIX timestamp in milliseconds, followed by a data type and the data itself, which are all separated by a tab.
-
 Regard to the GitHub repository\cite{GitHubComp}, the data type in the second column followed by its data can be one of the following:
 
 \setlist[enumerate]{label=(\arabic*)}
@@ -76,30 +75,44 @@ Regard to the GitHub repository\cite{GitHubComp}, the data type in the second co
     #	endTime:1571462195976
 \end{lstlisting}
 
-% note focus on specific data types for problem
-
-
-
-\section{Visualization of floor data}\label{sec:visualization}
-\begin{figure}
-        \centering
-    \includegraphics[scale=0.435]{images/whole_floor_visualization.png}
-    \caption[]{Visualization of the interpolated waypoints for SiteName: \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
-\end{figure}
-
-\section{Characteristics of the data}\label{sec:characteristics-data}
-
-Each site has different amount of floors and also the amount of files varies.
+Each site has different amount of floors and also the amount of generated files varies.
 Each file contains different amount of waypoints and sensor data.
 The first and last data type in each file is a \ref{type:wifi}.
 Lines with types from \ref{type:acce} to \ref{type:acce_u} occur every 20 ms.
-For further analysis, the data of one floor is concatenated to one file.
+\(TYPE\_WIFI\)\ref{type:wifi} occurs about every 1800 to 2050 ms.
 
+As seen in \autoref{lst:dataset}, the data are measured separately from each other, so there are no combinations of the data types.
+For machine learning it is essential to have all the data for a specific time for a time series.
+Especially, \(TYPE\_WAYPOINT\) and \(TYPE\_WIFI\) should be combined to get a location for the \ac{wifi} data point.
+For a \(TYPE\_WIFI\) data point a location is not provided.
+Furthermore, the \(TYPE\_WAYPOINT\) data points are not evenly distributed as well as there are only 6549 of them in the floor folder with the most files, which is floor 1 of site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*} which was hashed as ``5d27075f03f801723c2e360f''.
+A movement between these two data points may have occurred.
+For a connection between a \(TYPE\_WAYPOINT\) and a \(TYPE\_WIFI\) data point, an interpolation of waypoints between these data points could be useful.
+Therefore, this interpolation was made on the data resulting in 
+Using linear interpolation of x and y coordinates of the waypoints for the timestamps of \(TYPE\_WIFI\).
+
+This enables a more detailed analysis of the gathered data.
+
+\section{Visualization of one complete floor}\label{sec:visualization}
+- visualization of waypoints of one floor without interpolation
+%TODO: currently wrong interpolation, fix and compare
+\begin{figure}
+    \centering
+\includegraphics[scale=0.435]{images/whole_floor_visualization_wo_interpolation.png}
+\caption[]{Visualization of the waypoints for SiteName: \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
+\end{figure}
+
+- visualization of waypoints of one floor with interpolation
+\begin{figure}
+        \centering
+    \includegraphics[scale=0.435]{images/whole_floor_visualization_interpolated.png}
+    \caption[]{Visualization of the interpolated waypoints for SiteName: \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
+\end{figure}
 
 \section{Peculiarities of the data}\label{sec:special-cases}
 Further analysis of the dataset revealed some peculiarities, which are described in the following.
 
-Because the data is collected by different devices, at different timestamps and days, the data is not consistent of waypoint data 
+The data is collected by different devices, at different timestamps and days, and one problem for the ML could be, that the waypoint data were measured irregular.
 
 \begin{lstlisting}
 1. Timestamp 1: 1572951273212.0, Timestamp 2: 1574853182904.0, Time Difference in ms: 1901909692.0 in min: 31698.494866666668 
@@ -113,5 +126,4 @@ Because the data is collected by different devices, at different timestamps and 
 9. Timestamp 1: 1571397963778.0, Timestamp 2: 1571398570240.0, Time Difference in ms: 606462.0 in min: 10.1077 
 10. Timestamp 1: 1572937620091.0, Timestamp 2: 1572938025654.0, Time Difference in ms: 405563.0 in min: 6.759383333333333 
 \end{lstlisting}
-
 

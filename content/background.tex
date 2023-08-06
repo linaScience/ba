@@ -1,10 +1,35 @@
-\chapter{Background}\label{sec:data}
+\chapter{Background}\label{sec:background}
 
-\section{Suitable machine learning algorithms}
-Data is generally a time series
-    \begin{itemize}
-        \item Which Category?: Supervised Learning
-        \item 
-    \end{itemize}
+\ac{ml}, a field of computer science known for predicting future events based on past ones, can potentially bridge this gap. 
+Arthur Samuel was the first to use ML in 1959 to enable a computer program to improve its performance through self-play and learning from past decisions. \cite{SamuelML}.
+Today, ML applications extend to diverse fields like image and speech recognition, vehicular networks\cite{MachineLearningVehicular}, and human movement prediciton\cite{asaharaPedestrianmovementPredictionBased2011}.
+As Szott et al. noted in their survey\cite{szottWiFiMeetsML2022}, ML is now utilized in \acp{wlan}.
+For \ac{wifi}, a prediction for a possible roam could initiate the roaming process sooner, thereby improving the user experience and overall \ac{wifi} network performance.
+
+% In this thesis, \ac{ml} will be used to predict the movement of a station in a \ac{wifi} scenario.
+% In this thesis, the prediction will be based on the \acp{rssi} of the \acp{bssid} of the \ac{ap} and waypoints of the station.
+\ac{ml} models, however, require data to function. 
+There are two primary data sources: generate new data or utilize existing data. 
+Data generation necessitates a comprehensive plan accounting for technologies, interferences, and data setup and collection—this can be a time-consuming process. 
+Consequently, this study will utilize pre-existing data from a 2021 competition by Microsoft Research\cite{IndoorLocationNavigation}. 
+The data will be analyzed to determine which segments are required for the ML model. 
+Preprocessing is also necessary to convert raw sensor data into a format that the ML model can use.
+
+% what is time-series prediction
+Time series data, comprising a sequence of data points ordered in time, represents a common structure in many domains, including user mobility within a Wi-Fi network.
+Owing to its inherent temporal dependencies—where subsequent data points can be influenced by previous ones—particular machine learning techniques are typically employed.
+These include the \ac{arima} model, and \ac{rnn} models such as \ac{lstm} and \ac{gru}.
+Each of these techniques is designed to capture and leverage temporal patterns within the data, facilitating the prediction of future trends based on historical observations.
+
+In the context of machine learning model development, the configuration of hyperparameters represents a crucial task.
+Defined as the set of parameters that govern the learning process and are not learned from the data, hyperparameters encompass elements such as the learning rate, the number of layers within a neural network, and the quantity of clusters in a clustering algorithm.
+As these parameters are determined a priori, their careful selection—known as hyperparameter tuning or optimization—is necessary to maximize model performance.
+This iterative procedure involves exploring various hyperparameter combinations in search of the configuration that yields the most accurate predictions.
+
+Moreover, the evaluation of data stands as an essential component of any machine learning project, and this remains true for time series prediction.
+Such evaluation involves an assessment of the model's performance by contrasting predicted outcomes with actual results.
+One common technique is cross-validation, wherein the data set is partitioned into a training set for model training, and a validation set for model evaluation.
+Performance evaluation is indispensable for understanding the model's accuracy, reliability, and its ability to generalize to new, unseen data.
+Furthermore, it provides insights into potential underfitting, where the model fails to learn sufficient patterns from the training data, or overfitting, where the model becomes overly sensitive to noise or outliers in the training data, both of which can significantly impair predictive performance.
 
 %\noindent
