@@ -9,8 +9,10 @@
 % - Abgrenzung des Themas (Angabe von Aspekten, die zum Thema gehören, aber nicht behandelt/ausgeklammert werden)
 % - Aufbau der Arbeit (Begründung der Gliederung)
 
-% was Problem: Roaming mostly initiated by AP with no knowledge of human movement, 
-% wie Lösung: Machine Learning 
+% was Problem:
+%    Roaming mostly initiated by AP with no knowledge of human movement. What if BSSIDs with the strongest signal could be predicted?
+% wie Lösung: 
+%   Machine Learning with data from a competition of microsoft in 2021 in China
 
 In large-scale \ac{wifi} environments such as office buildings, shopping malls, and airports, where multiple \acp{ap} are required, people often move around indoors with their mobile devices.
 To maintain a stable connection to the \ac{ssid} a device is connected to, it must remain in range of the \ac{ap} or may roam to another \ac{ap} with the same \ac{ssid}.
@@ -18,6 +20,19 @@ Roaming has been an essential feature of Wi-Fi since the advent of the 802.11k\c
 This process was further enhanced with \ac{ap}-initiated roaming, introduced in 802.11r\cite{802.11r}.
 However, the current roaming process doesn't account for human movement patterns. 
 For example, if a station is moving away from \ac{ap}1 towards \ac{ap}2, ideally, \ac{ap}2 should initiate the roaming process.
-Unfortunately, this is not feasible under the current scheme as \ac{ap}1 cannot detect the station'a movement to \ac{ap}2.
+Furthermore, an AP may instruct a client device to roam based on signal strength, without considering the device's trajectory or the user's likely destination.
+The existing solutions are not robust enough and often leads to frequent hand-offs, inefficient resource usage, and in some cases, dropped connections.
+
+- roam to specific APs, so BSSIDs with the strongest signal could be predicted
+- 
+
+% In this thesis, \ac{ml} will be used to predict the movement of a station in a \ac{wifi} scenario.
+% In this thesis, the prediction will be based on the \acp{rssi} of the \acp{bssid} of the \ac{ap} and waypoints of the station.
+\ac{ml} models, however, require data to function. 
+There are two primary data sources: generate new data or utilize existing data. 
+Data generation necessitates a comprehensive plan accounting for technologies, interferences, and data setup and collection—this can be a time-consuming process. 
+Consequently, this study will utilize pre-existing data from a 2021 competition by Microsoft Research\cite{IndoorLocationNavigation}. 
+The data will be analyzed to determine which segments are required for the ML model. 
+Preprocessing is also necessary to convert raw sensor data into a format that the ML model can use.
 
 %\noindent

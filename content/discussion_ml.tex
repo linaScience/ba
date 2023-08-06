@@ -10,9 +10,27 @@
 %     \item Pro classification: bssids could be compared and though predicted
 % \end{itemize}
 
-As seen in \cref{sec:data-ana}, we
+\begin{itemize}
+    \item As seen in previous chapter, we have a lot of data
+    \item as this is a time series, we want to use a time series model
+    \item as we want to predict the next BSSID out of many BSSIDs, so classification problem with supervised learning
+    \item there are still many models
+    \item which one is suitable for our problem?
+\end{itemize}
 
-\section{X}
+\section{Classification Models}
+\begin{itemize}
+    \item prediction of next BSSID is a classification problem, we want to use a classification algorithm
+    \item for multivariate time series classification models there are only a few models
+    \begin{itemize}
+        \item \acp{mlp} \cite{TSC}
+        \item \acp{rnn} such as \acp{lstm}\cite{lstm-hochreiter} or \acp{gru}
+        \item \acp{hmm} \cite{hmm-movement-prediction}, 
+    \end{itemize}
+    \item \acp{mlp} performance is worse than \acp{lstm} in stock predicitons\cite{comparison-lstm-mlp} 
+\end{itemize}
+
+
 
 \section{Y}
 

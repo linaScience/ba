@@ -16,3 +16,5 @@ TYPEBEACON
 TYPEWAYPOINT
 Szott
 underfitting
+BSSIDs
+BSSID

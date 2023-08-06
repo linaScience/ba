@@ -1,4 +1,4 @@
-\chapter{Data analysis}\label{sec:data-ana}
+\chapter{Data analysis and preparation}\label{sec:data-ana}
 
 The dataset used in this thesis is the Indoor Location \& Navigation from kaggle\cite{kaggle} which was part of a competition of Microsoft Research in 2021\cite{IndoorLocationNavigation}.
 The data was recorded in shopping malls by XYZ\(^{10}\) and was provided by Microsoft Research for this competition.
@@ -55,7 +55,7 @@ Regard to the GitHub repository\cite{GitHubComp}, the data type in the second co
     escapeinside={(*@}{@*)},
 }
 
-\begin{lstlisting}[caption={A snippet of a file from the dataset},label={lst:dataset}]
+\begin{lstlisting}[caption={A snippet of a file from the dataset},label={lst:dataset},captionpos=b]
     #	startTime:1571462193934
     #	SiteID:5d27099303f801723c32364d	SiteName:(*@\begin{CJK*}{UTF8}{gbsn}银泰百货(庆春店)\end{CJK*}@*) FloorId:5d27099303f801723c323650	FloorName:4F
     1571462193944	TYPE_WAYPOINT	57.885998	69.501526
@@ -81,7 +81,7 @@ The first and last data type in each file is a \ref{type:wifi}.
 Lines with types from \ref{type:acce} to \ref{type:acce_u} occur every 20 ms.
 \(TYPE\_WIFI\)\ref{type:wifi} occurs about every 1800 to 2050 ms.
 
-As seen in \autoref{lst:dataset}, the data are measured separately from each other, so there are no combinations of the data types.
+As seen in \cref{lst:dataset}, the data are measured separately from each other, so there are no combinations of the data types.
 For machine learning it is essential to have all the data for a specific time for a time series.
 Especially, \(TYPE\_WAYPOINT\) and \(TYPE\_WIFI\) should be combined to get a location for the \ac{wifi} data point.
 For a \(TYPE\_WIFI\) data point a location is not provided.
@@ -94,36 +94,55 @@ Using linear interpolation of x and y coordinates of the waypoints for the times
 This enables a more detailed analysis of the gathered data.
 
 \section{Visualization of one complete floor}\label{sec:visualization}
-- visualization of waypoints of one floor without interpolation
-%TODO: currently wrong interpolation, fix and compare
+\begin{itemize}
+    \item visualization of waypoints of the one floor with most files without interpolation
+    \item for whole floor has 2027 waypoints
+\end{itemize}
+
 \begin{figure}
     \centering
-\includegraphics[scale=0.435]{images/whole_floor_visualization_wo_interpolation.png}
+\includegraphics[scale=0.435]{images/whole_floor_visualization_wo_interpolated.png}
 \caption[]{Visualization of the waypoints for SiteName: \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
+\label{fig:vis-wo-interpolated}
 \end{figure}
 
-- visualization of waypoints of one floor with interpolation
+\begin{itemize}
+\item visualization of waypoints of the one floor with most files with interpolation to the wifi timestamps
+    \item results in 3 times more waypoints (6549) which is better for machine learning
+\end{itemize}
+
 \begin{figure}
         \centering
     \includegraphics[scale=0.435]{images/whole_floor_visualization_interpolated.png}
     \caption[]{Visualization of the interpolated waypoints for SiteName: \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
+    \label{fig:vis-interpolated}
 \end{figure}
+
 
 \section{Peculiarities of the data}\label{sec:special-cases}
 Further analysis of the dataset revealed some peculiarities, which are described in the following.
 
-The data is collected by different devices, at different timestamps and days, and one problem for the ML could be, that the waypoint data were measured irregular.
+The data is collected by different devices, at different timestamps and days.
+A problem for the ML could be, that the waypoint data were measured irregularly.
+\begin{itemize}
+    \item As in \cref{fig:vis-wo-interpolated} some waypoints seem to be very distant from the next one
+    \item \cref{lst:metric-diff} shows the top 10 pairs of waypoints with the most significant metric differences
+    \item if points are more than 10 meters apart, they are not near enough for us
+    \item split up the data where the distance between two points is more than 10 meters
+    \item result: 123 files
+\end{itemize}
 
-\begin{lstlisting}
-1. Timestamp 1: 1572951273212.0, Timestamp 2: 1574853182904.0, Time Difference in ms: 1901909692.0 in min: 31698.494866666668 
-2. Timestamp 1: 1571745701735.0, Timestamp 2: 1572937550526.0, Time Difference in ms: 1191848791.0 in min: 19864.146516666668 
-3. Timestamp 1: 1571398890607.0, Timestamp 2: 1571745386405.0, Time Difference in ms: 346495798.0 in min: 5774.929966666667 
-4. Timestamp 1: 1571222697051.0, Timestamp 2: 1571393792128.0, Time Difference in ms: 171095077.0 in min: 2851.5846166666665 
-5. Timestamp 1: 1572947759794.0, Timestamp 2: 1572950695861.0, Time Difference in ms: 2936067.0 in min: 48.93445 
-6. Timestamp 1: 1572942316535.0, Timestamp 2: 1572944901430.0, Time Difference in ms: 2584895.0 in min: 43.081583333333334 
-7. Timestamp 1: 1572946047608.0, Timestamp 2: 1572947705343.0, Time Difference in ms: 1657735.0 in min: 27.628916666666665 
-8. Timestamp 1: 1572938081167.0, Timestamp 2: 1572938843518.0, Time Difference in ms: 762351.0 in min: 12.70585 
-9. Timestamp 1: 1571397963778.0, Timestamp 2: 1571398570240.0, Time Difference in ms: 606462.0 in min: 10.1077 
-10. Timestamp 1: 1572937620091.0, Timestamp 2: 1572938025654.0, Time Difference in ms: 405563.0 in min: 6.759383333333333 
+
+\begin{lstlisting}[caption={Top 10 pairs with the most significant metric differences},label={lst:metric-diff},captionpos=b]
+    1. Point 1: (247.96523998265695, 168.7631635050295), Point 2: (117.92375106521739, 51.997759545341616), Metric Difference: 174.77113148839442
+    2. Point 1: (98.66346, 127.5971), Point 2: (258.75049789436116, 181.23350740899357), Metric Difference: 168.83342057049657
+    3. Point 1: (189.58672, 71.454666), Point 2: (89.73448203762376, 102.255128190099), Metric Difference: 104.49467879858156
+    4. Point 1: (223.49295, 145.0939), Point 2: (174.26284532732006, 78.86335505811792), Metric Difference: 82.52325908119289
+    5. Point 1: (34.864815, 35.45561), Point 2: (33.284438514193546, 110.76117936967742), Metric Difference: 75.32215057954856
+    6. Point 1: (50.31085719185683, 92.03105531572366), Point 2: (114.97229034709193, 123.04521228267667), Metric Difference: 71.71456525741291
+    7. Point 1: (150.91972285390713, 145.15169976783693), Point 2: (222.23440919809525, 146.11043967333333), Metric Difference: 71.32113060360388
+    8. Point 1: (64.64140228107132, 25.345204272946134), Point 2: (34.47475562023909, 84.44615420072283), Metric Difference: 66.35471990088624
+    9. Point 1: (56.83799274253731, 74.52090035349569), Point 2: (94.43750948519768, 125.97292215289488), Metric Difference: 63.72624425248555
+    10. Point 1: (172.3439286324042, 56.200716101045295), Point 2: (212.4478039192399, 99.33967479470648), Metric Difference: 58.90068395354572
 \end{lstlisting}
 
