@@ -3,37 +3,106 @@
 % \begin{itemize}
 %     \item What do we want to predict?
 %     \item We want to use supervised learning
-%     \item We want to predict the 3 best bssids for a given location of a user
+%     \item We want to predict the 3 best BSSIDs for a given location of a user
 %     \item We could use regression or classification
 %     \item Pro regression: We could predict the exact signal strength
-%     \item Con: bssids could not be compared and though predicted
-%     \item Pro classification: bssids could be compared and though predicted
+%     \item Con: BSSIDs could not be compared and though predicted
+%     \item Pro classification: BSSIDs could be compared and though predicted
 % \end{itemize}
 
 \begin{itemize}
-    \item As seen in previous chapter, we have a lot of data
-    \item as this is a time series, we want to use a time series model
-    \item as we want to predict the next BSSID out of many BSSIDs, so classification problem with supervised learning
-    \item there are still many models
-    \item which one is suitable for our problem?
+    \item As seen in the previous chapter, a lot of data for one floor 
+    \item As this is a time series, we want to use a time series machine learning model
+    \item As we want to predict the next BSSID out of many BSSIDs, so classification problem with supervised learning
+    \item Discussion of some pre-chosen models and decision for one which will be implemented in the next chapter
 \end{itemize}
 
 \section{Classification Models}
 \begin{itemize}
-    \item prediction of next BSSID is a classification problem, we want to use a classification algorithm
-    \item for multivariate time series classification models there are only a few models
+    \item Stated in \cref{sec:background}, classification model in ML is a type of predictive model that categorizes incoming input data into specific classes
+    \item Prediction of next BSSID is a classification problem
+    \item therefore, interpret problem as classification problem
+    \item For multivariate time series classification models there are only a few models
     \begin{itemize}
         \item \acp{mlp} \cite{TSC}
-        \item \acp{rnn} such as \acp{lstm}\cite{lstm-hochreiter} or \acp{gru}
+        \item \acp{rnn} such as \acp{lstm}\cite{lstm-hochreiter}
         \item \acp{hmm} \cite{hmm-movement-prediction}, 
     \end{itemize}
-    \item \acp{mlp} performance is worse than \acp{lstm} in stock predicitons\cite{comparison-lstm-mlp} 
 \end{itemize}
 
 
+% Machine learning models
+\subsection{\ac{mlp}}
 
-\section{Y}
+\ac{mlp}, also known as a feedforward artificial neural network, is a class of deep learning models, primarily used for supervised learning tasks.
+An MLP consists of multiple layers of nodes in a directed graph, with each layer fully connected to the next one.
+Each node in one layer is connected with certain weights to every node in the following layer.
+\acp{mlp} apply a series of transformations, typically nonlinear, to the input data using activation functions, such as the sigmoid or \ac{relu}, facilitating the model's ability to model complex patterns and dependencies in the data \cite{goodfellow_deep_2016}.
 
-\section{Z}
+\subsection{\ac{hmm}}
+
+\ac{hmm} is a statistical model that assumes the system being modeled is a Markov process with unobserved (hidden) states\cite{hmm-rabiner-1989}.
+\acp{hmm} are particularly known for their application in temporal pattern recognition such as speech, and handwriting.
+They describe the probability of a sequence of observable data, which is assumed to be the result of a sequence of hidden states, each producing an observable output according to a certain probability distribution.
+
+\subsection{\ac{rnn}}
+
+\ac{rnn} is a type of artificial neural network well-suited to sequential data because of its intrinsic design.
+Unlike traditional feedforward neural networks, an \ac{rnn} possesses loops in its topology, allowing information to persist over time.
+This unique characteristic enables the model to use its internal state (memory) to process sequences of inputs, making it ideally suited for tasks involving sequential data such as speech recognition, language modeling, and time series prediction\cite{elman_finding_1990}.
+
+\subsubsection{\ac{lstm}}
+
+\ac{lstm} is a special kind of RNN, capable of learning long-term dependencies, which was introduced by Hochreiter and Schmidhuber in 1997\cite{lstm-hochreiter}.
+\acp{lstm} were designed to combat the ``vanishing gradient'' problem in traditional \acp{rnn}, which made it difficult for these networks to learn from data where relevant events occurred with large gaps between them.
+The key to the \acp{lstm} ability is its cell state and the accompanying gates (input, forget, and output gate), which regulate the flow of information in the network.
+
+% \subsubsection{\ac{gru}}
+
+% \ac{gru} is a type of \ac{rnn} introduced by Cho et al. in 2014, as a simpler variant of the LSTM.
+% \acp{gru} use gating mechanisms similar to those in the LSTM but combine the cell state and hidden state, while also using fewer gates, which can make them more computationally efficient\cite{cho_learning_2014}.
+% This simplified structure has been shown to perform comparably to the LSTM on certain tasks.
+
+\subsection{Discussion of Classification Models}
+As mentioned in \cref{sec:data-ana}, the floor analyzed there has 4795 \acp{bssid}.
+So we have 4795 classes for the classification problem.
+The selection of the right model for this task is even more important.
+
+We will discuss the classification models by the following topics: Temporal Dependency Handling, Capacity and Complexity, Multivariate Data, Flexibility and Integration, Regularization and Overfitting, and Adaptability.
+
+
+\textbf{Temporal Dependency Handling:}
+\begin{itemize}
+    \item \acp{lstm}, by design, are equipped to handle long-term temporal dependencies. Their unique cell state and gating mechanisms allow them to store, modify, and access information over extended periods, making them adept at capturing patterns from long sequences.
+    \item \acp{mlp} lack a built-in mechanism for remembering past information, making them less suitable for time series data where temporal order and dependencies are crucial.
+    \item While \acp{hmm} can handle temporal dependencies to some extent, they often struggle with longer sequences and multivariate data due to their Markovian assumption, which limits their memory to the most recent state.
+    \item Standard RNNs were designed to handle temporal dependencies, but they suffer the vanishing gradient problem, making them less effective in capturing long-term dependencies compared to \acp{lstm}\cite{rnn_difficulties_2013}.
+\end{itemize}
+
+\textbf{Capacity and Complexity:}
+With 4,795 classes, the model needs a considerable capacity to differentiate between the subtle differences in patterns that might exist among them. 
+\acp{lstm}, being deep learning models, can scale effectively in terms of capacity by adding more layers or units, while still maintaining their ability to handle temporal data.
+
+\textbf{Multivariate Data:}
+\begin{itemize}
+    \item \acp{lstm} can seamlessly handle multivariate time series data. Their recurrent nature allows them to process each time step with multiple features effectively.
+    \item While \acp{mlp} can also handle multivariate data, they treat each feature and time step independently, often missing out on the interdependencies.
+    \item \acp{hmm} are primarily designed for univariate data. Extending them to multivariate scenarios requires additional complexities and assumptions.
+\end{itemize}
+
+\textbf{Flexibility and Integration:}
+\acp{lstm} can be easily integrated with other deep learning architectures, such as Convolutional Neural Networks (CNNs), to capture both temporal and spatial features. 
+This flexibility is particularly useful when dealing with complex and varied data sources.
+
+\textbf{Regularization and Overfitting:}
+Deep learning models, including \acp{lstm}, come with a plethora of regularization techniques, such as dropout, which can be crucial when dealing with many classes and the risk of overfitting.
+
+\textbf{Adaptability:}
+\acp{lstm} can be trained with various architectures, like bidirectional \acp{lstm}, which process the data from both past-to-future and future-to-past directions, providing a richer representation of the data.
+
+
+In conclusion, while \acp{mlp}, \acp{hmm}, and traditional RNNs have their strengths and have been successful in many applications, they have problems with multivariate time series classification with a vast number of classes.
+This problem demands a model that can capture intricate temporal patterns, scale in capacity, and handle multivariate data efficiently.
+\acp{lstm}, with their unique architecture and properties, can deal with this challenge, making them the preferred choice for this task and the selected model for our implementation.
 
 %\noindent

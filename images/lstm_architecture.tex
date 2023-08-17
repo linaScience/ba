@@ -1,0 +1,43 @@
+\begin{tikzpicture}[
+    node distance=1cm and 1cm,
+    mynode/.style={draw, rectangle, align=center, fill=blue!20, minimum width=3cm, minimum height=2cm},
+    arrow/.style={->, >=stealth, shorten >=1pt, thick}
+  ]
+  
+  % Data Preprocessing
+  \node[mynode] (load) {Load Data};
+  \node[mynode, below=of load] (concat) {Concatenate};
+  \node[mynode, below=of concat] (replace) {Replace Missing Values};
+  \node[mynode, below=of replace] (normalize) {Normalize};
+  \node[mynode, below=of normalize] (sequence) {Create Sequences};
+  \node[mynode, below=of sequence] (encode) {Encode Target};
+  \node[mynode, below=of encode] (split) {Train-Test Split};
+  \node[fit=(load) (split), draw, dashed, inner sep=8pt, label=above:{\textbf{Data Preprocessing}}] (preprocessing) {};
+  
+  % Model Architecture
+  \node[mynode, right=2cm of split, yshift=2cm] (lstm) {LSTM Layer};
+  \node[mynode, below=of lstm] (dense) {Dense Layer};
+  \node[fit=(lstm) (dense), draw, dashed, inner sep=8pt, label=above:{\textbf{Model Architecture}}] (architecture) {};
+  
+  % Training & Evaluation
+  \node[mynode, right=2cm of dense] (compile) {Compile Model};
+  \node[mynode, below=of compile] (train) {Train Model};
+  \node[mynode, below=of train] (predict) {Generate Predictions};
+  \node[mynode, below=of predict] (evaluate) {Evaluate Accuracy};
+  \node[fit=(compile) (evaluate), draw, dashed, inner sep=8pt, label=above:{\textbf{Training \& Evaluation}}] (training) {};
+  
+  % Arrows
+  \draw[arrow] (load) -- (concat);
+  \draw[arrow] (concat) -- (replace);
+  \draw[arrow] (replace) -- (normalize);
+  \draw[arrow] (normalize) -- (sequence);
+  \draw[arrow] (sequence) -- (encode);
+  \draw[arrow] (encode) -- (split);
+  \draw[arrow] (split) -- (lstm);
+  \draw[arrow] (lstm) -- (dense);
+  \draw[arrow] (dense) -- (compile);
+  \draw[arrow] (compile) -- (train);
+  \draw[arrow] (train) -- (predict);
+  \draw[arrow] (predict) -- (evaluate);
+  
+  \end{tikzpicture}

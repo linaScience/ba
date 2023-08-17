@@ -18,3 +18,4 @@ Szott
 underfitting
 BSSIDs
 BSSID
+uncalibrated

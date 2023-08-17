@@ -1,12 +1,10 @@
 \chapter{Background}\label{sec:background}
 
-Machine learning is a subset of artificial intelligence where algorithms are designed to identify patterns in data, allowing machines to learn from experience without explicit programming.
-This includes supervised learning with labeled data, unsupervised learning identifying patterns in unlabeled data, and reinforcement learning through environment interaction.
-Applications range from speech recognition to recommendation systems.
-As Szott et al. noted in their survey\cite{szottWiFiMeetsML2022}, ML is now utilized in \acp{wlan}.
+\section{Machine Learning in Wireless Networks}
+As Szott et al. noted in their survey\cite{szottWiFiMeetsML2022}, ML is also now utilized in \acp{wlan}.
 For \ac{wifi}, a prediction for a possible roam could initiate the roaming process sooner, thereby improving the user experience and overall \ac{wifi} network performance.
 
-% what is time-series prediction
+% What is time-series prediction
 \section{Time Series Prediction}
 Time series data, comprising a sequence of data points ordered in time, represents a common structure in many domains, including user mobility within a Wi-Fi network.
 Owing to its inherent temporal dependencies—where subsequent data points can be influenced by previous ones—particular machine learning techniques are typically employed.
@@ -14,46 +12,40 @@ These include the \ac{arima} model, and \ac{rnn} models such as \ac{lstm} and \a
 Each of these techniques is designed to capture and leverage temporal patterns within the data, facilitating the prediction of future trends based on historical observations.
 
 In the context of machine learning model development, the configuration of hyperparameters represents a crucial task.
-Defined as the set of parameters that govern the learning process and are not learned from the data, hyperparameters encompass elements such as the learning rate, the number of layers within a neural network, and the quantity of clusters in a clustering algorithm.
+Defined as the set of parameters that govern the learning process and are not learned from the data, hyperparameters encompass elements such as the learning rate, the number of layers within a neural network, and the number of clusters in a clustering algorithm.
 As these parameters are determined a priori, their careful selection—known as hyperparameter tuning or optimization—is necessary to maximize model performance.
 This iterative procedure involves exploring various hyperparameter combinations in search of the configuration that yields the most accurate predictions.
 
 Moreover, the evaluation of data stands as an essential component of any machine learning project, and this remains true for time series prediction.
 Such evaluation involves an assessment of the model's performance by contrasting predicted outcomes with actual results.
 One common technique is cross-validation, wherein the data set is partitioned into a training set for model training, and a validation set for model evaluation.
-Performance evaluation is indispensable for understanding the model's accuracy, reliability, and its ability to generalize to new, unseen data.
+Performance evaluation is indispensable for understanding the model's accuracy, reliability, and ability to generalize to new, unseen data.
 Furthermore, it provides insights into potential underfitting, where the model fails to learn sufficient patterns from the training data, or overfitting, where the model becomes overly sensitive to noise or outliers in the training data, both of which can significantly impair predictive performance.
 
-% machine learning models
-\section{\ac{mlp}}
+% What is supervised learning
+\section{Supervised Learning}
+Supervised learning is a \acs{ml} technique that uses labeled data to train a model.
+The model learns from the training data and applies this learning to new, unseen data which is called test data.
 
-The Multilayer Perceptron (MLP), also known as a feedforward artificial neural network, is a class of deep learning models, primarily used for supervised learning tasks.
-An MLP consists of multiple layers of nodes in a directed graph, with each layer fully connected to the next one.
-Each node in one layer is connected with certain weights to every node in the following layer.
-MLPs apply a series of transformations, typically nonlinear, to the input data using activation functions, such as the sigmoid or \ac{relu}, facilitating the model's ability to model complex patterns and dependencies in the data \cite{goodfellow_deep_2016}.
+% What is classification in machine learning
+\section{Classification}
 
-\section{\ac{hmm}}
+A classification model in machine learning is a type of predictive model that categorizes incoming input data into specific categories or classes.
+It works by learning from a set of input features and corresponding labels during the training phase.
+It then applies this learning to new, unseen data.
+Classification models are used across various domains.
+The output of a classification model is discrete, meaning it assigns each input to a specific category.
+Examples of classification models include logistic regression, decision trees, random forests, and support vector machines.
 
-\ac{hmm} is a statistical model that assumes the system being modeled is a Markov process with unobserved (hidden) states\cite{hmm-rabiner-1989}.
-\acp{hmm} are particularly known for their application in temporal pattern recognition such as speech, handwriting.
-They describe the probability of a sequence of observable data, which is assumed to be the result of a sequence of hidden states, each producing an observable output according to a certain probability distribution.
+\section{Univariate and Multivariate Time Series}
+\begin{itemize}
+    \item Differ in number of variables
+    \item univariate: one observation recorded sequentially over time, e.g., temperature, stock prices; focus on understanding and forecasting a single variable's behavior
+    \item multivariate: multiple observations recorded over the same time intervals, allowing for the analysis of interrelationships and interdependencies between these variables, e.g. temperature and humidity; focus on delving into understanding dynamic interactions and co-movements between multiple variables
+\end{itemize}
 
-\section{\ac{rnn}}
-
-\ac{rnn} is a type of artificial neural network well-suited to sequential data because of its intrinsic design.
-Unlike traditional feedforward neural networks, an RNN possesses loops in its topology, allowing information to persist over time.
-This unique characteristic enables the model to use its internal state (memory) to process sequences of inputs, making it ideally suited for tasks involving sequential data such as speech recognition, language modeling, and time series prediction\cite{elman_finding_1990}.
-
-\subsection{\ac{lstm}}
-
-\ac{lstm} is a special kind of RNN, capable of learning long-term dependencies, which was introduced by Hochreiter & Schmidhuber in 1997\cite{lstm-hochreiter}.
-\acp{lstm} were designed to combat the ``vanishing gradient'' problem in traditional RNNs, which made it difficult for these networks to learn from data where relevant events occurred with large gaps between them.
-The key to the \acp{lstm} ability is its cell state and the accompanying gates (input, forget, and output gate), which regulate the flow of information in the network.
-
-\subsection{\ac{gru}}
-
-\ac{gru} is a type of RNN introduced by Cho et al. in 2014, as a simpler variant of the LSTM.
-\acp{gru} use gating mechanisms similar to those in the LSTM but combine the cell state and hidden state, while also using fewer gates, which can make them more computationally efficient\cite{cho_learning_2014}.
-This simplified structure has been shown to perform comparably to the LSTM on certain tasks.
+\section{Temporal Dependency Handling}
+Temporal dependency handling refers to the ability of a model to recognize and leverage the relationships or dependencies between data points that are separated by time. 
+In time series data, the value at a given time point can be influenced by previous values, and understanding this dependency is crucial for accurate predictions.
 
 %\noindent

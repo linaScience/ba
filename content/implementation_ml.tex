@@ -1,11 +1,39 @@
 \chapter{Implementation}
 
 \section{Preprocessing}
-    \begin{itemize}
-        \item data from \cref{sec:data-ana} is used for preprocessing
-        \item 
-    \end{itemize}
+\begin{itemize}
+    \item data from \cref{sec:data-ana} is used for preprocessing
+    \item Load data from the CSV files.
+    \item Concatenate data from the first 10 lines of each file.
+    \item Replace missing \acs{bssid} value
+    \item Create a target variable.
+    \item Normalize the data.
+    \item Create sequences of data based on window_size.
+    \item Encode the target variable.
+    \item Split the data into training and testing sets.
+\end{itemize}
 
-\section{Machine Learning Model}
+\begin{figure}
+\input{images/flow_diagram_code.tex}
+\caption{Flow diagram of the LSTM implementation process.}
+\label{fig:flow_diagram}
+\end{figure} 
 
+
+\section{\ac{lstm}}
+\begin{itemize}
+    \item Decision in previous chapter for \ac{lstm}
+    \item LSTM layer with 1000 units.
+    \item Dense layer with softmax activation (number of units equal to the number of categories in the target variable).
+\end{itemize}
+
+\section{Training}
+
+\begin{figure}
+\input{images/lstm_architecture.tex}
+\caption{LSTM neural network architecture.}
+\label{fig:lstm_architecture}
+\end{figure}
+    
+    
 %\noindent

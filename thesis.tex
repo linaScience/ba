@@ -4,6 +4,8 @@
 \usepackage{acro}
 \usepackage{CJKutf8}
 \usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta, fit}
 
 
 
@@ -19,6 +21,13 @@
 \newcommand{\hpisupervisor}{Prof.\,Dr.\,Holger Karl \\ Leonard Paeleke}
 \newcommand{\hpichair}{Internet Technology and Softwarization Group}
 \newcommand{\hpidate}{\today}
+
+\definecolor{hpiyellow}{RGB}{246,168,0}
+\definecolor{hpiorange}{RGB}{221,97,8}
+\definecolor{hpired}{RGB}{177,6,58}
+\definecolor{hpigray}{RGB}{90,96,101}
+\definecolor{hpiblue}{RGB}{0,122,158}
+
 
 % Acronyms before everything else
 \include{content/acronyms}
@@ -50,7 +59,6 @@
 	\include{content/background}
 	\include{content/data_analysis}
 	\include{content/discussion_ml}
-	\include{content/data_preperation}
 	\include{content/implementation_ml}
 	\include{content/evaluation_ml}
 	\include{content/conclusion}
