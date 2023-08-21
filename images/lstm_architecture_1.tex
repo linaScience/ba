@@ -1,0 +1,27 @@
+\begin{tikzpicture}[
+    >=stealth,
+    node distance=1.5cm,
+    layer/.style={rectangle, draw, fill=blue!20, minimum width=1.5cm, minimum height=1cm},
+    neuron/.style={circle, draw, fill=red!20, minimum size=0.65cm},
+]
+
+% LSTM layer
+\node[layer] (lstm) at (0,0) {LSTM};
+\node (timesteps) at (-3,0.5) {TIMESTAMPS};
+\node (features) at (-3,-0.5) {NUM\_FEATURES};
+
+% Dense layer
+\node[layer, right=of lstm] (dense) {Dense};
+\node (classes) at (6,0) {CLASSES};
+
+% Arrows
+\draw[->] (timesteps) -- (lstm);
+\draw[->] (features) -- (lstm);
+\draw[->] (lstm) -- (dense);
+\draw[->] (dense) -- (classes);
+
+% Annotations
+\node[above=0.75cm of timesteps] {Input};
+\node[above=0.75cm of classes] {Output};
+
+\end{tikzpicture}

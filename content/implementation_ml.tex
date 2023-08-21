@@ -2,38 +2,52 @@
 
 \section{Preprocessing}
 \begin{itemize}
-    \item data from \cref{sec:data-ana} is used for preprocessing
-    \item Load data from the CSV files.
-    \item Concatenate data from the first 10 lines of each file.
-    \item Replace missing \acs{bssid} value
-    \item Create a target variable.
+    \item Preprocessing with numpy and pandas
+    \item Use data from \cref{sec:data-ana} for preprocessing
+    \item Load data from files of floor with most files
+    \item Create a target variable (based on RSSIs of BSSIDs)
     \item Normalize the data.
-    \item Create sequences of data based on window_size.
-    \item Encode the target variable.
-    \item Split the data into training and testing sets.
+    \item Create sequences of data based on window\_size variable.
+    \item Encode the target variable, which is a variable with 4795, where 1 means the class is the nearest \ac{ap} and 0 means the class is not the nearest \ac{ap}, which results in a one-hot encoding.
+    \item Split the data into training and testing set. (80/20)
 \end{itemize}
 
-\begin{figure}
-\input{images/flow_diagram_code.tex}
-\caption{Flow diagram of the LSTM implementation process.}
-\label{fig:flow_diagram}
+\begin{figure}[h!]
+    \centering
+    \input{images/flow_diagram_code.tex}
+    \caption{Flow diagram of the implementation process.}
+    \label{fig:flow_diagram}
 \end{figure} 
 
-
-\section{\ac{lstm}}
+\section{\ac{lstm} Training and Testing}
 \begin{itemize}
-    \item Decision in previous chapter for \ac{lstm}
-    \item LSTM layer with 1000 units.
-    \item Dense layer with softmax activation (number of units equal to the number of categories in the target variable).
+    \item Use Keras library for implementation \cite{keras}
+    \item Model: LSTM layer, Dense layer with softmax activation
+    \subitem Sequences are of length window\_size for each entry in the dataset
+    \subitem Inputs are (window\_size, number\_of\_features (which are 6 + number of BSSIDs)), see \cref{fig:lstm_architecture}
 \end{itemize}
 
-\section{Training}
-
-\begin{figure}
-\input{images/lstm_architecture.tex}
-\caption{LSTM neural network architecture.}
-\label{fig:lstm_architecture}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.5]{images/model_plot.png}
+    \caption{An example LSTM Network with Input, LSTM and Dense Layer with 4801 Features and window\_size of 10.}
+    \label{fig:lstm_architecture}
 \end{figure}
-    
-    
+
+\begin{itemize}
+    \item Generate predictions on the test set
+    \item Get class with the highest probability as prediction
+    \item Get top 3 predictions for the test set and check if the target variable is in the top 3 predictions.
+\end{itemize}
+
+\section{Tuning model and hyperparameters}
+\begin{itemize}
+    \item Combining all the below-mentioned hyperparameters results in potentially 5 * 2 * 2 * 4 = 80 different models. % TODO, say, why not all 80 are trained?
+    % TODO basically we do Random Search here and try out different hyperparameters
+    \subitem Number of units in the LSTM layer = \{100, 150, 200, 500, 1000\}
+    \item hyperparameters:
+    \subitem Number of epochs = \{ 100, 200\}
+    \subitem batch size = \{32, 64\}
+    \subitem window size = \{3, 5, 10, 20\}
+\end{itemize}
 %\noindent

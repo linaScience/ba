@@ -19,3 +19,4 @@ underfitting
 BSSIDs
 BSSID
 uncalibrated
+numpy

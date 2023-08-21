@@ -5,7 +5,19 @@
 \begin{otherlanguage}{english}
 \begin{center}\textsf{\textbf{\abstractname}}\end{center}
 
-\noindent ...
+\noindent 
+\begin{itemize}
+    % intro/background: what's problem?
+    \item human movement not considered when roaming of mobile devices appears
+    \item could lead to many unnecessary handovers and thus to bad performance
+    \item this thesis proposes a machine learning-based approach to predict the \ac{ap} a user is nearest to, according to the \ac{rssi} of the \acp{ap}
+    \item the machine learning model is based on \ac{lstm} and is trained on a real-world dataset from a competition by Microsoft Research
+    \item many \acp{ap} are deployed in the buildings of the dataset, which makes the prediction task hard
+    \item one building and one floor was chosen to be the dataset for this thesis
+    \item the evaluation of the model shows that the model is able to predict the \ac{ap} a user is nearest to with a top 3 accuracy of about 71\%
+    \item too many classes, which makes prediction too hard and top 3 accuracy too low
+    \item with fewer classes, the model could predict better
+\end{itemize}
 
 \end{otherlanguage}
 \vfil\null

@@ -1,43 +1,48 @@
 \begin{tikzpicture}[
-    node distance=1cm and 1cm,
-    mynode/.style={draw, rectangle, align=center, fill=blue!20, minimum width=3cm, minimum height=2cm},
-    arrow/.style={->, >=stealth, shorten >=1pt, thick}
-  ]
-  
-  % Data Preprocessing
-  \node[mynode] (load) {Load Data};
-  \node[mynode, below=of load] (concat) {Concatenate};
-  \node[mynode, below=of concat] (replace) {Replace Missing Values};
-  \node[mynode, below=of replace] (normalize) {Normalize};
-  \node[mynode, below=of normalize] (sequence) {Create Sequences};
-  \node[mynode, below=of sequence] (encode) {Encode Target};
-  \node[mynode, below=of encode] (split) {Train-Test Split};
-  \node[fit=(load) (split), draw, dashed, inner sep=8pt, label=above:{\textbf{Data Preprocessing}}] (preprocessing) {};
-  
-  % Model Architecture
-  \node[mynode, right=2cm of split, yshift=2cm] (lstm) {LSTM Layer};
-  \node[mynode, below=of lstm] (dense) {Dense Layer};
-  \node[fit=(lstm) (dense), draw, dashed, inner sep=8pt, label=above:{\textbf{Model Architecture}}] (architecture) {};
-  
-  % Training & Evaluation
-  \node[mynode, right=2cm of dense] (compile) {Compile Model};
-  \node[mynode, below=of compile] (train) {Train Model};
-  \node[mynode, below=of train] (predict) {Generate Predictions};
-  \node[mynode, below=of predict] (evaluate) {Evaluate Accuracy};
-  \node[fit=(compile) (evaluate), draw, dashed, inner sep=8pt, label=above:{\textbf{Training \& Evaluation}}] (training) {};
-  
-  % Arrows
-  \draw[arrow] (load) -- (concat);
-  \draw[arrow] (concat) -- (replace);
-  \draw[arrow] (replace) -- (normalize);
-  \draw[arrow] (normalize) -- (sequence);
-  \draw[arrow] (sequence) -- (encode);
-  \draw[arrow] (encode) -- (split);
-  \draw[arrow] (split) -- (lstm);
-  \draw[arrow] (lstm) -- (dense);
-  \draw[arrow] (dense) -- (compile);
-  \draw[arrow] (compile) -- (train);
-  \draw[arrow] (train) -- (predict);
-  \draw[arrow] (predict) -- (evaluate);
-  
-  \end{tikzpicture}
+     % Define styles
+     input neuron/.style={draw, fill=green!50, circle, minimum size=20pt, inner sep=0pt},
+     lstm neuron/.style={draw, fill=blue!50, rectangle, rounded corners, minimum size=20pt, inner sep=0pt},
+     output neuron/.style={draw, fill=red!50, circle, minimum size=20pt, inner sep=0pt},
+     arrow/.style={->, >=stealth, shorten >=1pt, shorten <=1pt, semithick}
+ ]
+ 
+ % Parameters for number of nodes
+ \def\n{10}
+ \def\m{5}
+ \def\l{8}
+ 
+ % Input layer
+ \foreach \name/\y/\label in {1/7/$\text{timestamp}$, 2/6/$\text{waypoint x}$, 3/5/$\text{waypoint y}$, 4/4/$\text{acceleration x}$, 5/3/$\text{acceleration y}$, 6/2/$\text{acceleration z}$, 7/1/$\text{BSSID 1}$, 8/-1/$\text{BSSID n}$}
+     \node[input neuron, label=left:\label] (I-\name) at (0,\y) {};
+ \node at (0,-3) {n=\n nodes};
+ 
+ % Dots for input layer
+ \node at (0,0) {$\vdots$};
+ 
+ % LSTM layers
+ \foreach \y [count=\name] in {4.5,2.5,0.5,-1.5}
+     \node[lstm neuron] (L-\name) at (2,\y) {LSTM};
+ \node at (2,-3) {m=\m LSTM layers};
+ 
+ % Dots for LSTM layer
+ \node at (2,3.5) {$\vdots$};
+ 
+ % Output layer
+ \foreach \name/\y in {1/4, 2/2, 3/0, 4/-2}
+     \node[output neuron] (O-\name) at (4,\y) {};
+ \node at (4,-3) {l=\l nodes};
+ 
+ % Dots for output layer
+ \node at (4,3) {$\vdots$};
+ 
+ % Connect input layer to LSTM
+ \foreach \i in {1,...,8}
+     \foreach \j in {1,...,4}
+         \draw[arrow] (I-\i) -- (L-\j);
+ 
+ % Connect LSTM to output layer
+ \foreach \i in {1,...,4}
+     \foreach \j in {1,...,4}
+         \draw[arrow] (L-\i) -- (O-\j);
+
+\end{tikzpicture}
