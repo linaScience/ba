@@ -107,15 +107,6 @@ The \cref{tab:data_summary} shows an analysis of the site with the most files fo
 \label{tab:data_summary}
 \end{table}
 
-% To gain more information on the data, we will analyze the files in F1 of the site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}.
-% We have 7,157,081 data points distributed in 284 files, which are 25,201 data points per file on average.
-% 2027 of those are waypoints.
-% 746,689 lines are accelerometer and uncalibrated, magnetic field and uncalibrated, gyroscope and uncalibrated, and rotation vector.
-% 1,862,044 lines are \ac{wifi} and 66,187 lines are beacon data.
-% A visualization of the waypoints can be seen in \cref{fig:vis-wo-interpolated}.
-% On this floor are 4795 \acp{bssid}, so 4795 \acp{ap}, which emit 1,421 \acp{ssid}.
-% The \ac{rssi} ranges from -93 dBm to -13 dBm.
-
 \section{Improvement on data for an ML model}\label{sec:improvement-on-data-for-an-ml-model}
 
 As seen in previous sections, a location for the time of \(TYPE\_WIFI\) data points is not provided.
@@ -123,9 +114,9 @@ Also, we only have 2,027 waypoints for this floor but 1,862,044 lines of \ac{wif
 The visualization of the waypoints can be seen in \cref{fig:vis-wo-interpolated}.
 \begin{figure}[h!]
     \centering
-\includegraphics[scale=0.4]{images/whole_floor_visualization_wo_interpolated.png}
-\caption[]{Visualization of the waypoints for SiteName: \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
-\label{fig:vis-wo-interpolated}
+    \includegraphics[scale=0.4]{images/whole_floor_visualization_wo_interpolated.png}
+    \caption{Visualization of the 2,027 waypoints of the site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
+    \label{fig:vis-wo-interpolated}
 \end{figure}
 
 Further human movement may have occurred between \(TYPE\_WAYPOINT\) and \(TYPE\_WIFI\) data.
@@ -139,22 +130,22 @@ However, they can be combined using linear interpolation, as seen in \cref{fig:i
 
 Thus, \(TYPE\_WAYPOINT\) and \(TYPE\_WIFI\) are combined to get a location for the \ac{wifi} data point.
 The interpolation results in 6549 waypoints which is three times more than the original amount of waypoints, as seen in \cref{fig:vis-interpolated}.
+Furthermore, we will also interpolate \(TYPE\_ACCELEROMETER\) to improve the predictions.
+Now a multivariate time series is interpolated out of the original data, which will be used for the machine learning model.
+A further interpolation is possible, but we will focus on a simpler multivariate time series in this thesis.\\
+
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.435]{images/whole_floor_visualization_interpolated.png}
+    \includegraphics[scale=0.4]{images/whole_floor_visualization_interpolated.png}
     \caption{Visualization of the interpolated waypoints for SiteName: \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
     \label{fig:vis-interpolated}
 \end{figure}
-Furthermore, we will also interpolate \(TYPE\_ACCELEROMETER\) to improve the predictions.
-Now a multivariate time series is interpolated out of the original data, which will be used for the machine learning model.
-A further interpolation is possible, but we will focus on a simpler multivariate time series. %because?
-
 
 \section{Peculiarities of the data}\label{sec:special-cases}
 Further analysis of the dataset revealed some peculiarities, which are described in the following.
 
 The data is collected by different devices at different timestamps and days.
-A problem for the ML is that the waypoint data were measured irregularly.
+A problem for the time series is that the waypoint data were measured irregularly.
 \begin{itemize}
     \item As in \cref{fig:vis-wo-interpolated}, some waypoints seem to be very distant from the next one
     \item \cref{lst:metric-diff} shows the top 10 pairs of waypoints with the most significant metric differences

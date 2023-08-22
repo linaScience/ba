@@ -1,40 +1,34 @@
 \chapter{Background}\label{sec:background}
 
-\begin{itemize}
-    \item in the following, some special terms used in this thesis are explained here
-\end{itemize}
+\section{Machine Learning}
 
-\section{Time Series Prediction}
-Time series data, comprising a sequence of data points ordered in time, represents a typical structure in many domains, including user mobility within a Wi-Fi network.
-Owing to its inherent temporal dependencies—where subsequent data points influence previous ones—particular machine learning techniques are typically employed.
-These include the \ac{arima} model and \ac{rnn} models such as \ac{lstm} and \ac{gru}.
+\subsection{Time Series Prediction}
+Time series data consists of data points arranged chronologically, prevalent in numerous domains like stock prices.
+Due to its inherent temporal dependencies, where subsequent data points influence previous ones, specific machine learning techniques are applied.
+These include \ac{mlp}, \ac{hmm}, and \ac{rnn} models such as \ac{lstm}.
 Each model is designed to capture and leverage temporal patterns within the data, predicting future trends based on historical observations.
 
-\section{Hyperparameter tuning}
-In the context of machine learning model development, the configuration of hyperparameters represents a crucial task.
-Defined as the set of parameters that govern the learning process and are not learned from the data, hyperparameters encompass elements such as the learning rate, the number of layers within a neural network, the number of window and batch size.
-As these parameters are determined a priori, their careful selection—known as hyperparameter tuning or optimization—is necessary to maximize model performance.
-This iterative procedure involves exploring various hyperparameter combinations in search of the configuration that yields the most accurate predictions.
-Hyperparameters can be tuned by e.g., random search, which can be done manually or with the use of libraries such as keras-tuner.
+\subsection{Hyperparameter tuning}
+In machine learning, hyperparameters play a vital role in model development.
+These are parameters such as the learning rate, neural network layers, and the number of windows or batch sizes.
+Proper selection of hyperparameters, known as hyperparameter tuning or optimization, is crucial to optimize model performance.
+This iterative procedure involves exploring various hyperparameter combinations for the configuration that yields the most accurate predictions.
+Hyperparameters can be tuned by, e.g., random search, which can be done manually or using libraries such as keras-tuner\cite{keras_tuner}.
 
-\section{Classification}
+\subsection{Classification}
+Classification models in \ac{ml} predict specific categories or classes for input data.
+By training on input features and labels, these models categorize unseen data.
+They find use in many domains, producing outputs such as spam or not spam, positive or negative sentiment, and malignant or benign tumors.
+A specific type of classification is multi-class classification which categorizes more than two classes.
 
-A classification model in machine learning is a type of predictive model that categorizes incoming input data into specific categories or classes.
-It works by learning from a set of input features and corresponding labels during the training phase.
-It then applies this learning to new, unseen data.
-Classification models are used across various domains.
-The output of a classification model is discrete, meaning it assigns each input to a specific category.
-Examples of classification models include logistic regression, decision trees, random forests, and support vector machines.
-
-\section{Univariate and Multivariate Time Series}
+\subsection{Univariate and Multivariate Time Series}
 \begin{itemize}
-    \item Differ in number of variables
     \item univariate: one observation recorded sequentially over time, e.g., temperature, stock prices; focus on understanding and forecasting a single variable's behavior
-    \item multivariate: multiple observations recorded over the same time intervals, allowing for the analysis of interrelationships and interdependencies between these variables, e.g. temperature and humidity; focus on delving into understanding dynamic interactions and co-movements between multiple variables
+    \item multivariate: multiple observations recorded over the same time intervals, allowing for the analysis of interrelationships and interdependencies between these variables, e.g., temperature and humidity; focus on delving into understanding dynamic interactions and co-movements between multiple variables
 \end{itemize}
 
-\section{Temporal Dependency Handling}
+\subsection{Temporal Dependency Handling}
 Temporal dependency handling refers to the ability of a \acs{ml} model to recognize and leverage the relationships or dependencies between data points that are separated by time. 
-In time series data, the value at a given time point can be influenced by previous values, and understanding this dependency is crucial for accurate predictions.
+In time series data, previous values can influence the value at a given time point, and understanding this dependency is crucial for accurate predictions.
 
 %\noindent
