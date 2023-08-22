@@ -1,4 +1,6 @@
-\chapter{Implementation}
+\chapter{Implementation}\label{sec:implementation}
+
+All the code for this implementation can be found in the GitHub repository \cite{github-repo}.
 
 \section{Preprocessing}
 \begin{itemize}
@@ -12,12 +14,12 @@
     \item Split the data into training and testing set. (80/20)
 \end{itemize}
 
-\begin{figure}[h!]
-    \centering
-    \input{images/flow_diagram_code.tex}
-    \caption{Flow diagram of the implementation process.}
-    \label{fig:flow_diagram}
-\end{figure} 
+% \begin{figure}[h!]
+%     \centering
+%     \input{images/flow_diagram_code.tex}
+%     \caption{Flow diagram of the implementation process.}
+%     \label{fig:flow_diagram}
+% \end{figure} 
 
 \section{\ac{lstm} Training and Testing}
 \begin{itemize}
@@ -25,6 +27,9 @@
     \item Model: LSTM layer, Dense layer with softmax activation
     \subitem Sequences are of length window\_size for each entry in the dataset
     \subitem Inputs are (window\_size, number\_of\_features (which are 6 + number of BSSIDs)), see \cref{fig:lstm_architecture}
+    \item Generate predictions on the test set
+    \item Get class with the highest probability as prediction
+    \item Get top 3 predictions for the test set and check if the target variable is in the top 3 predictions.
 \end{itemize}
 
 \begin{figure}[h!]
@@ -34,20 +39,13 @@
     \label{fig:lstm_architecture}
 \end{figure}
 
-\begin{itemize}
-    \item Generate predictions on the test set
-    \item Get class with the highest probability as prediction
-    \item Get top 3 predictions for the test set and check if the target variable is in the top 3 predictions.
-\end{itemize}
-
 \section{Tuning model and hyperparameters}
 \begin{itemize}
-    \item Combining all the below-mentioned hyperparameters results in potentially 5 * 2 * 2 * 4 = 80 different models. % TODO, say, why not all 80 are trained?
-    % TODO basically we do Random Search here and try out different hyperparameters
-    \subitem Number of units in the LSTM layer = \{100, 150, 200, 500, 1000\}
-    \item hyperparameters:
-    \subitem Number of epochs = \{ 100, 200\}
-    \subitem batch size = \{32, 64\}
+    \item try out different hyperparameters also in combination
+    \subitem Number of units in the LSTM layer = \{100, 150, 200, 350, 500, 1000, 2000\}
+    \subitem Number of epochs = \{100, 200\}
+    \subitem batch size = \{16, 32, 64\}
     \subitem window size = \{3, 5, 10, 20\}
 \end{itemize}
+
 %\noindent

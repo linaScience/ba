@@ -1,35 +1,27 @@
 \chapter{Introduction}\label{sec:intro}
 
-% Darstellung des Themas der Arbeit
-% genaue Auflistung der Fragestellungen (wieso Thema relevant?)
-% knapper Überblick über Schritte der Problembehandlung:
-
-% - Hinführung Thema
-% - Herleitung und Ausformulierung der Fragestellung
-% - Abgrenzung des Themas (Angabe von Aspekten, die zum Thema gehören, aber nicht behandelt/ausgeklammert werden)
-% - Aufbau der Arbeit (Begründung der Gliederung)
-
-
 In large-scale \ac{wifi} environments such as office buildings, shopping malls, and airports, where multiple \acp{ap} are required, people often move around indoors with their mobile devices.
 To maintain a stable connection to the \ac{ssid} a device connects to, it must remain in the range of the \ac{ap} or may roam to another \ac{ap} with the same \ac{ssid}.
 Roaming has been an essential feature of \ac{wifi} since the advent of the 802.11k\cite{802.11k} feature.
 This process improved with \ac{ap}-initiated roaming, introduced in 802.11r\cite{802.11r}.
 However, the current roaming process does not account for human movement patterns. 
-For example, if a station is moving away from \ac{ap}1 towards \ac{ap}2, ideally, \ac{ap}2 should initiate the roaming process.
-Furthermore, an AP may instruct a client device to roam based on signal strength without considering the device's trajectory or the user's likely destination.
-The existing solutions need to be more robust and often lead to frequent hand-offs, inefficient resource usage, and in some cases, dropped connections.
-This thesis will explore using time series \ac{ml} model to predict the top 3 \acp{bssid} a station may connect to next.
-Therefore, this thesis needs data with \ac{wifi}, waypoint of clients and sensor data, e.g. acceleration.
+For example, if a station is moving away from \ac{ap}1 towards \ac{ap}2 and further towards \ac{ap}3, ideally, \ac{ap}3 should not initiate the roaming process but instead \ac{ap}2 and then \ac{ap}3 is connected.
+An \ac{ap} may instruct a client device to roam based on signal strength without considering the device's trajectory or the user's likely destination.
+Hence, existing solutions often lead to frequent hand-offs, resulting in dropped connections and unsatisfied users.
 
-A time series \ac{ml} models require time series data as input.
+This thesis will explore if a time series \ac{ml} model can predict the nearest \ac{ap} a station may connect to next.
+This nearest station needs to be in the top 3 of the predictions to be considered a correct prediction.
+Hence, this thesis needs data with \ac{wifi}, waypoint of clients, and sensor data, e.g., acceleration.
+A time series \ac{ml} model requires input time series data.
 There are two possible data sources: generate new or utilize existing data. 
 Data generation needs a comprehensive plan for accounting data setup and collection.
-The generation is a time-consuming process and needs a lot of planning and evaluation beforehand.
-Therefore, this thesis will utilize pre-existing data from a 2021 competition by Microsoft Research\cite{IndoorLocationNavigation}.
-The data will be analyzed to determine what specific parts of the data we will use for the \ac{ml} model.
+This process is time-consuming and needs a lot of planning and evaluation beforehand, which is not the focus of this thesis.
+Thus, we will utilize pre-existing data from a 2021 competition by Microsoft Research\cite{IndoorLocationNavigation}.
+The data will be analyzed in \cref{sec:data-ana} to determine what parts of the data we will use for the \ac{ml} model.
+Additionally, the data will be prepared for a time series \ac{ml} model.
 
-Furthermore, the data will be prepared for a time series \ac{ml} model.
-After that, we will discuss the suitability of some pre-selected \ac{ml} models for the task. 
-Due to the large number of data, this thesis will implement improving it, and evaluate the model's performance for a specific site and floor.
+After that, we will discuss the suitability of some pre-selected time series \ac{ml} models for the task in \cref{sec:discuss-ml}. 
+Due to many data, we will discover in the \cref{sec:data-ana}, this thesis will implement, in \cref{sec:implementation}, a \ac{ml} model, train and test it for one site and floor of the competition.
+Finally, in \cref{sec:conclusion}, we will evaluate the model's performance and conclude if this prediction could be useful.
 
 %\noindent
