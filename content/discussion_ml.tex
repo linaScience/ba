@@ -30,7 +30,6 @@
     \end{itemize}
 \end{itemize}
 
-
 % Machine learning models
 \subsection{\ac{mlp}}
 
@@ -72,29 +71,40 @@ We will discuss the classification models by the following topics: Temporal Depe
 
 \textbf{Temporal Dependency Handling:}
 \begin{itemize}
-    \item \acp{lstm}, by design, are equipped to handle long-term temporal dependencies. Their unique cell state and gating mechanisms allow them to store, modify, and access information over extended periods, making them adept at capturing patterns from long sequences.
-    \item \acp{mlp} lack a built-in mechanism for remembering past information, making them less suitable for time series data where temporal order and dependencies are crucial.
-    \item While \acp{hmm} can handle temporal dependencies to some extent, they often struggle with longer sequences and multivariate data due to their Markovian assumption, which limits their memory to the most recent state.
-    \item Standard RNNs were designed to handle temporal dependencies, but they suffer the vanishing gradient problem, making them less effective in capturing long-term dependencies compared to \acp{lstm}\cite{rnn_difficulties_2013}.
+    \item \acp{mlp} have no loop \cite{mlp_and_nn}, making them less suitable for time series data where temporal dependencies are crucial.
+    \item While \acp{hmm} can handle temporal dependencies to some extent, they often struggle with longer sequences and multivariate data due to their Markovian assumption \cite{hmm-rabiner-1989}, which limits their memory to the most recent state.
+    \item Standard RNNs were designed to handle temporal dependencies, but they suffer the vanishing gradient problem, making them less effective in capturing long-term dependencies compared to \acp{lstm} \cite{rnn_difficulties_2013}.
+    \item \acp{lstm}, by design, are equipped to handle long-term temporal dependencies. Their unique cell state and gating mechanisms allow them to store, modify, and access information over extended periods, making them adept at capturing patterns from long sequences. \cite{lstm-hochreiter}
 \end{itemize}
 
 \textbf{Capacity and Complexity:}
-With 4,795 classes, the model needs a considerable capacity to differentiate between the subtle differences in patterns that might exist among them. 
-\acp{lstm}, being deep learning models, can scale effectively in terms of capacity by adding more layers or units while still maintaining their ability to handle temporal data.\\
+\begin{itemize}
+    \item \acp{mlp} can also scale their capacity by adding more hidden layers and units. They are capable of modeling complex relationships within data through their nonlinear activations.
+    \item \acp{hmm} have limitations in handling the complexity of multi-class and multivariate problems due to their inherent Markovian assumptions and discrete state representations.
+    \item traditional \acp{rnn} suffer from the vanishing gradient problem, especially in longer sequences, which limits their ability to capture long-term dependencies effectively. \cite{rnn_difficulties_2013}
+    \item With 4,795 classes, the model needs a considerable capacity to differentiate between the subtle differences in patterns that might exist among them. \acp{lstm}, being deep learning models, can scale effectively in terms of capacity by adding more layers or units while still maintaining their ability to handle temporal data.
+\end{itemize}
 
 \textbf{Multivariate Data:}
 \begin{itemize}
-    \item \acp{lstm} can seamlessly handle multivariate time series data. Their recurrent nature allows them to effectively process each time step with multiple features.
     \item While \acp{mlp} can also handle multivariate data, they treat each feature and time step independently, often missing out on the interdependencies.
     \item \acp{hmm} are primarily designed for univariate data. Extending them to multivariate scenarios requires additional complexities and assumptions.
+    \item \acp{rnn} and \acp{lstm} can seamlessly handle multivariate time series data. Their recurrent nature allows them to effectively process each time step with multiple features.
 \end{itemize}
 
 \textbf{Flexibility and Integration:}
-\acp{lstm} can be easily integrated with other deep learning architectures, such as Convolutional Neural Networks (CNNs), to capture both temporal and spatial features. 
-This flexibility is advantageous when dealing with complex and varied data sources.\\
+\begin{itemize}
+    \item \acp{mlp} are very flexible and can be used generally to learn a mapping from inputs to outputs. \cite{mlp-vs-cnn-vs-rnn} As we want to learn, which BSSID is the next one, this may be a good fit.
+    \item \acp{hmm} are primarily designed for capturing state transitions in sequential data and may not be suitable for tasks requiring the integration of spatial and temporal information. Their rigid assumptions about state transitions limit their flexibility in capturing complex patterns. \cite{hmm-rabiner-1989}
+    \item Traditional \acp{rnn} can capture short-term dependencies and are relatively simpler to integrate with other architectures due to their sequential nature.
+    \item \acp{lstm} can be easily integrated with other deep learning architectures, such as Convolutional Neural Networks (CNNs), to capture both temporal and spatial features. This flexibility is advantageous when dealing with complex and varied data sources.
+\end{itemize}
 
 \textbf{Regularization and Overfitting:}
-Deep learning models, including \acp{lstm}, come with many regularization techniques, such as dropout, which can be crucial when dealing with many classes and the risk of overfitting.\\
+\begin{itemize}
+    \item dropouts may be used to prevent overfitting for each model\cite{srivastava14a}.
+    \item \acp{rnn} are prone to vanishing gradient issues, which can increase overfitting in general. \cite{rnn_difficulties_2013}
+\end{itemize}
 
 In conclusion, while \acp{mlp}, \acp{hmm}, and traditional RNNs have their strengths and have been successful in many applications, they have problems with multivariate time series classification with many classes.
 This problem demands a model that can efficiently capture intricate temporal patterns, scale in capacity, and handle multivariate data.
