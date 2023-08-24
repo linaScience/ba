@@ -1,16 +1,24 @@
 \chapter{Evaluation}\label{sec:evaluation}
 
+
+\fmhkn{Variablen aus mehr als einem Buchstaben immer upright setzen. Es ist $\mathrm{NUM}$, nicht $NUM = N\cdot U \cdot M$!}
+
 \begin{itemize}
     \item Top k: predicted class is within the top k predictions
     \item calculation for top k: 
-    \[\frac{\binom{NUM\_CLASSES - 1}{k - 1}}{\binom{NUM\_CLASSES}{k}} = \frac{k}{NUM\_CLASSES}\]
+      \[\frac{\binom{NUM\_CLASSES - 1}{k - 1}}{\binom{NUM\_CLASSES}{k}} = \frac{k}{NUM\_CLASSES}\]
+      \fmhkn{what does that mean?}
     \item for the floor with most files: NUM\_CLASSES = 4795
-    \item Probabilities to pick one random \ac{bssid}, and it is the right one in top 3, 5 or 10, see \cref{fig:random_accuracies_4795_classes}
+    \item Probabilities to pick one random \ac{bssid}, and it is the right one in top 3, 5 or 10, see \cref{fig:random_accuracies_4795_classes} \fmhkn{naja... aber Random ist jetzt kein sehr aussagefähiger Vergleichsfall, oder? }\fmhkn{was ist mit trivialen Vergelichsfällen? Z.B: ich nehme den letzten AP, davon die fünf nächsten, und suche mir zufällig einen aus? die drei nächsten? oder ... ? DAs wäre nahezu trivial zu realisieren und vermutlich auch gar nicht so schlecht??? }
     \item Accuracy of the model's prediction with a batch\_size of 32, see \cref{fig:window_size3},\cref{fig:window_size5},\cref{fig:window_size10} and \cref{fig:window_size20}
     \item Accuracy of the model's prediction with a batch\_size of 16, see \cref{fig:window_size10_batch16}
     \item Accuracy of the model's prediction with a batch\_size of 64, see \cref{fig:window_size10_batch64}
-\end{itemize}
+    \end{itemize}
 
+    \fmhkn{what is batch size? }
+
+\fmhkn{seriously, PNGs??? }
+    
 \begin{figure}[h!]
     \centering
     \includegraphics*[scale=0.8]{images/random_accuracies_4795_classes.png}
@@ -62,14 +70,16 @@
 \end{figure}
 
 \begin{itemize}
-    \item Comparison with random selection of classes: lstm always better than random selection
+    \item Comparison with random selection of classes: lstm always better than random selection \fmhkn{well, one would STRONGLY hope so! }
     \item TODO: describing the plots
     \item best performance: 71\%, see \cref{fig:top3_best_models}
     \item Reasons:
     \subitem data contains too many classes, with fewer classes to predict the model could have performed better
     \subitem discussion could have missed a better model
     \subitem model very simple, could be improved by using other layers in between LSTM and Dense layers
-\end{itemize}
+  \end{itemize}
+
+  \fmhkn{subitem is odd... usually, just net itemize environments; usually looks better }
 
 \begin{figure}[h!]
     \centering
@@ -79,3 +89,6 @@
 \end{figure}
 
 %\noindent
+
+
+\fmhkn{The results are what they are. THat's fine. But the comparison case of random choice really is too simplistic!! even some simple heuristic is likely to be much better than pure random choice?!?!? And should not be too much to implement? }

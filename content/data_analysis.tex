@@ -1,8 +1,8 @@
 \chapter{Dataset analysis and preparation}\label{sec:data-ana}
 
-The dataset used in this thesis is the Indoor Location \& Navigation from kaggle\cite{kaggle}, which was part of a competition of Microsoft Research in 2021\cite{IndoorLocationNavigation}.
-The company XYZ\(^{10}\) recorded the data in shopping malls and was provided by Microsoft Research for this competition.
-The goal for the competition was, given a site-path file, predict the floor and waypoint locations at a timestamp given in the submission files.
+The dataset used in this thesis is the Indoor Location \& Navigation from kaggle\cite{kaggle}, which was part of a competition of Microsoft Research in 2021\cite{IndoorLocationNavigation}.\fmhkn{again: WHY this one? you always need to give reasons for such decisions! }
+The company XYZ\(^{10}\) \fmhkn{?? that is really their name?} recorded the data in shopping malls and was provided by Microsoft Research for this competition.
+The goal for the competition was, given a site-path file,\fmhkn{what is that?} predict the floor and waypoint locations at a timestamp given in the submission files.
 In the following, the dataset and data will be analyzed.
 
 
@@ -19,16 +19,16 @@ The train folder contains 204 subfolders, which represent each site where the da
 In each site folder are a minimum of one and a maximum of twelve subfolders, which represent the floors of the site; the median is five floors.
 Overall there are 26,925 files, each containing the movement of one person for a specific site and floor.
 Per floor, there are between one and 284 files with a median of 14.
-The floor F1 of the site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*} which was hashed as ``5d27075f03f801723c2e360f'' in the train folder of the competition, has the most files.
+The floor F1 of the site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}, which was hashed as ``5d27075f03f801723c2e360f'' in the train folder of the competition, has the most files.
 
 For this thesis, the submission files, as well as the test folder, will not be used because our goal is not to predict the floor and site name for a certain timestamp but to predict the \ac{bssid} to which a device may connect next.
-Therefore, we will not analyze the content of these folders in more detail.
+Therefore, we will not analyze the content of these folders in more detail.\fmhkn{no submission files are used? I am confused. What DO you use, then?}
 
 \section{File structure}\label{sec:file-structure}
 
 Each file in each floor folder is a \textbf{.txt} file. 
 The first two lines and the last are denoted with ``\#''.
-The first contains the start time of the recording, the second site information SiteID as hash, SiteName, FloorId as hash, and FloorName.
+The first line\fmhkn{?} contains the start time of the recording, the second site information SiteID as hash, SiteName, FloorId as hash, and FloorName.
 The last line contains the end time of the recording.
 The main part of the data consists of the collected data. 
 Each line contains a UNIX timestamp in milliseconds, followed by a data type and the data itself, which are all separated by a tabulator.
@@ -54,6 +54,8 @@ The GitHub repository of the competition\cite{GitHubComp} shows that the data ty
     escapeinside={(*@}{@*)},
 }
 
+\fmhkn{captions for tables, listings etc. usually go above the table, ... Usually, only figure cpations go below }
+
 \begin{lstlisting}[caption={A snippet from the dataset of the file 5daa9e38df065a00069beb79.txt of the floor F4 of the site with the ID 5d27099303f801723c32364d},label={lst:dataset},captionpos=b]
     #   startTime:1571462193934
     #   SiteID:5d27099303f801723c32364d SiteName:(*@\begin{CJK*}{UTF8}{gbsn}银泰百货(庆春店)\end{CJK*}@*) FloorId:5d27099303f801723c323650 FloorName:4F
@@ -73,20 +75,22 @@ The GitHub repository of the competition\cite{GitHubComp} shows that the data ty
     ...
     1571462195943   TYPE_WAYPOINT   59.72475    69.02152
     #   endTime:1571462195976
-\end{lstlisting}
+  \end{lstlisting}
+\fmhkn{das pinyin für den chinesischen Namen ist: Yíntài chéng (chéngxi dìan) Yintai city (chengxi branch)}
+  
 
 Each file contains a different amount of waypoints and sensor data.
-The first and last data type in each file is a \ref{type:way}.
+The first and last data type in each file is a Type~\ref{type:way}.
 Lines with types from \ref{type:acce} to \ref{type:acce_u} occur every 20 ms and are measured at the same time.
 \ref{type:wifi} occurs about every 1800-2200 ms.
 \ref{type:way} data is not evenly distributed.
 An assumption for this is that the recording of the waypoint data is triggered by an exterior event, e.g., a button press.
 As seen in \cref{lst:dataset}, the data are measured separately from each other, so there are no combinations of the data types.
 
-A prediction of the next \ac{bssid} will only work per site due to the different architectures of the sites.
-Still, the prediction could be difficult for a whole site because the \acp{ap} are different on each floor, which may result in many \acp{ap} for the prediction.
-To get better results in the prediction, we will focus on a single floor of a site.
-The \cref{tab:data_summary} shows an analysis of the site with the most files for a single floor.
+A prediction of the next \ac{bssid} will only work per site due to the different architectures of the sites.\fmhkn{I think I can guess, but not really sure what you mean? }
+But even when limiting a prediction model to a single site,  prediction could be\fmhkn{?? ``could be'' ist immer richtig} difficult for a whole site because the \acp{ap} are different on each floor, which may result in many \acp{ap} for the prediction.\fmhkn{versteh ich nihct... }
+To get better results in the prediction,\fmhkn{Viel schöner: To better predict, ... } we will focus on a single floor of a site.
+\cref{tab:data_summary} \fmhkn{Eigenname; kein the} shows an analysis of the site with the most files for a single floor.\fmhkn{not toally clear what you are trying to tell me }
 % \subsection{Analysis of floor with most files}
 \begin{table}[h]
     \centering
@@ -108,10 +112,11 @@ The \cref{tab:data_summary} shows an analysis of the site with the most files fo
 \label{tab:data_summary}
 \end{table}
 
-\section{Improvement on data for an ML model}\label{sec:improvement-on-data-for-an-ml-model}
+\section{Improving data for an ML model}\label{sec:improvement-on-data-for-an-ml-model}
+\fmhkn{Ist ``improving'' hier richtig? ``preprocessing''? }
 
-As seen in previous sections, a location for the time of \(TYPE\_WIFI\) data points is not provided.
-Also, we only have 2,027 waypoints for this floor but 1,862,044 lines of \ac{wifi} data, as seen in \cref{tab:data_summary}.
+As seen in previous sections, a location for the time of \(TYPE\_WIFI\) \fmhkn{warum math mode??? Korrekter wäre texttt? } data points is not provided.
+Also, we only\fmhkn{?? da sist ne Menge} have 2,027 waypoints for this floor but 1,862,044 lines of \ac{wifi} data, as seen in \cref{tab:data_summary}.
 The visualization of the waypoints can be seen in \cref{fig:vis-wo-interpolated}.
 \begin{figure}[h!]
     \centering
@@ -129,11 +134,13 @@ However, they can be combined using linear interpolation, as seen in \cref{fig:i
     \label{fig:interpolation}
 \end{figure}
 
-Thus, \(TYPE\_WAYPOINT\) and \(TYPE\_WIFI\) are combined to get a location for the \ac{wifi} data point.
-The interpolation results in 6549 waypoints which is three times more than the original amount of waypoints, as seen in \cref{fig:vis-interpolated}.
+Thus, \(TYPE\_WAYPOINT\) and \(TYPE\_WIFI\) are combined to get a location for the \ac{wifi} data point.\fmhkn{?? versteh ich nicht. Wie? Details? WArum ist das angemessen; kam das raus, was Sie erwartet hatten?}
+The interpolation results in 6549 waypoints, which is three times more than the original amount of waypoints, as seen in \cref{fig:vis-interpolated}.
 Furthermore, we will also interpolate \(TYPE\_ACCELEROMETER\) to improve the predictions.
 Now a multivariate time series is interpolated out of the original data, which will be used for the machine learning model.
-A further interpolation is possible, but we will focus on a simpler multivariate time series in this thesis.\\
+A further interpolation is possible, but we will focus on a simpler multivariate time series in this thesis.\fmhkn{simpler? compared to what? Sorry, aber das ist hier schwer zu folgen. Da müssen mehr Details hin.}
+
+
 
 \begin{figure}[h!]
     \centering
@@ -154,6 +161,8 @@ A problem for the time series is that the waypoint data were measured irregularl
     \item split up the data where the distance between two points is more than 10 meters
     \item result: 123 files, with interpolation
 \end{itemize}
+
+\fmhkn{ok, but what follows from that, WHY is that important; WHY is it a problem or opportunity, ...? Don't just describe the mere facts; interpret them, explain them! }
 
 \begin{lstlisting}[caption={Top 10 pairs with the most significant metric differences},label={lst:metric-diff},captionpos=b]
     1. Point 1: (247.96523998265695, 168.7631635050295), Point 2: (117.92375106521739, 51.997759545341616), Metric Difference: 174.77113148839442

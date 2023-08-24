@@ -2,24 +2,26 @@
 
 In large-scale \ac{wifi} environments such as office buildings, shopping malls, and airports, where multiple \acp{ap} are required, people often move around indoors with their mobile devices.
 To maintain a stable connection to the \ac{ssid}, the station must remain in the range of the \ac{ap} or may roam to another \ac{ap} with the same \ac{ssid}.
-However, the current roaming process in 802.11k/r\cite{802.11k}\cite{802.11r} does not include human movement.
-For example, if a user's station is moving away from \ac{ap}1 towards \ac{ap}2 and further towards \ac{ap}3, ideally, \ac{ap}3 should not initiate the roaming process but instead \ac{ap}2 and then \ac{ap}3 is connected.
+However, the current roaming process in 802.11k/r \cite{802.11k}\cite{802.11r} does not include human movement.\fmhkn{not sure how a roaming process could INCLUDE human movement? consider, take into account, optimize using that information , ... ?}
+For example, if a user's station is moving away from \ac{ap}1 towards \ac{ap}2 and further towards \ac{ap}3, ideally, \ac{ap}3 should not initiate the roaming process but instead \ac{ap}2 and then \ac{ap}3 is connected.\fmhkn{not sure why this is IDEAL?}
 An \ac{ap} may instruct a client device to roam based on signal strength without considering the device's trajectory or the user's likely destination.
-Real time applications such as video conferencing are particularly sensitive to these hand-offs, which may result in dropped connections and unsatisfied users.
+Real-time applications such as video conferencing are particularly sensitive to these hand-offs, which may result in dropped connections and unsatisfied users.
 
-This thesis will explore if a time series \ac{ml} model can predict the nearest \ac{ap} a station may connect to next.
-This nearest station needs to be in the top 3 of the predictions to be considered a correct prediction.
-Hence, this thesis needs data with \ac{wifi}, waypoint of clients, and sensor data, e.g., acceleration.
-A time series \ac{ml} model requires as input time series data.
+This thesis will explore if a time-series \ac{ml} model can predict the nearest \ac{ap} to which a station  may connect next.
+This nearest station needs to be in the top 3 of the predictions to be considered a correct prediction.\fmhkn{why? ideally, I want THE next station. Top 3 is just a relexation of that requirement; needs to be explained. That needs a more extensive discussion. Either here (I think), or alternatively when you get to the design section, at the latest at the  evaluation section}
+Hence, this thesis needs data with \ac{wifi}, waypoint of clients, and sensor data, e.g., acceleration.\fmhkn{why ``hence''? Why does that follow from the top-3 requirement?}
+
+\fmhkn{new thought, new paragraph}
+A time-series \ac{ml} model requires as input time-series data.\fmhkn{maybe briefly explain what that is?}
 There are two possible data sources: generate new or utilize existing data. 
-Data generation needs a comprehensive plan for accounting data setup and collection.
+Data generation needs a comprehensive plan for accounting data setup and collection.\fmhkn{and to makes ure that this is representative, ... }
 This process is time-consuming and needs a lot of planning and evaluation beforehand, which is not the focus of this thesis.
-Thus, we will utilize pre-existing data from a 2021 competition by Microsoft Research\cite{IndoorLocationNavigation}.
-The data will be analyzed in \cref{sec:data-ana} to determine what parts of the data we will use for the \ac{ml} model.
-Additionally, the data will be prepared for a time series \ac{ml} model.
+Thus, we\fmhkn{royal plural??} will utilize pre-existing data from a 2021 competition by Microsoft Research\cite{IndoorLocationNavigation}.\fmhkn{it does not need long explanation why you used existing data sources. but why THIS one, what were the criteria you used to select, what were the alternative traces? Need not be discussed in intro, can be alter, but needs a reference that section, if discussed later.}
+The data will be analyzed in \cref{sec:data-ana}\fmhkn{cref should capitalizue Chapter 3 . Fixed in preamble } to determine what parts of the data we will use for the \ac{ml} model.
+Additionally, the data will be prepared for a time series \ac{ml} model.\fmhkn{reference to chapter 2 is missing? gap in intro narrative}
 
-After that, we will discuss the suitability of some pre-selected time series \ac{ml} models for the task in \cref{sec:discuss-ml}. 
-Due to many data, we will discover in the \cref{sec:data-ana}, this thesis will implement, in \cref{sec:implementation}, a \ac{ml} model, train and test it for one site and floor of the competition.
+After that, we will discuss the suitability of some pre-selected time series \ac{ml} models for the task in \cref{sec:discuss-ml}. \fmhkn{aha! a bit late in intro story line... but ok }
+Due to many data,\fmhkn{?? not sure what that means} we will discover in \cref{sec:data-ana},\fmhkn{no ``the'' -- Chapter 4 is a proper name. You would also not write ``we will discover the Peter'', but ``disciver Peter''} this thesis will implement, in \cref{sec:implementation}, a \ac{ml} model, train and test it for one site and floor of the competition.
 Finally, in \cref{sec:conclusion}, we will evaluate the model's performance and conclude if this prediction could be useful.
 
 %\noindent

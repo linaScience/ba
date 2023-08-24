@@ -1,18 +1,20 @@
 \chapter{Implementation}\label{sec:implementation}
 
+\fmhkn{obviously, this is a bit too brief in this form :-) }
+
 All the code for this implementation can be found in the GitHub repository \cite{github-repo}.
 
 \section{Preprocessing}
 \begin{itemize}
     \item Preprocessing with numpy and pandas
     \item Use data from \cref{sec:data-ana} for preprocessing
-    \item Explain what was done to the .txt files in preprocessing part  (see \cite{github-repo} preparation.ipynb)
+    \item Explain what was done to the .txt files in preprocessing part  (see \cite{github-repo} preparation.ipynb) \fmhkn{yes, please! in more detail than in the earlier section! }
     \item Explain preprocessing of model (see \cite{github-repo} lstm.ipynb)
     \item Load data from files of floor with most files
     \item Create a target variable (based on RSSIs of BSSIDs)
     \item Normalize the data.
     \item Create sequences of data based on window\_size variable.
-    \item Encode the target variable, which is a variable with 4795, where 1 means the class is the nearest \ac{ap} and 0 means the class is not the nearest \ac{ap}, which results in a one-hot encoding.
+    \item Encode the target variable, which is a variable with 4795, \fmhkn{4795 whats?} where 1 means the class is the nearest \ac{ap} and 0 means the class is not the nearest \ac{ap}, which results in a one-hot encoding. \fmhkn{why one-hot? ios this then still mutli-variate?}
     \item Split the data into training and testing set. (80/20)
 \end{itemize}
 
@@ -31,7 +33,7 @@ All the code for this implementation can be found in the GitHub repository \cite
     \subitem Inputs are (window\_size, number\_of\_features (which are 6 + number of BSSIDs)), see \cref{fig:lstm_architecture}
     \item Generate predictions on the test set
     \item Get class with the highest probability as prediction
-    \item Get top 3 predictions for the test set and check if the target variable is in the top 3 predictions.
+    \item Get top 3 predictions for the test set and check if the target variable is in the top 3 predictions.\fmhkn{why top 3 ? why not 2 or 5?}
 \end{itemize}
 
 \begin{figure}[h!]
@@ -40,6 +42,8 @@ All the code for this implementation can be found in the GitHub repository \cite
     \caption{An example LSTM Network with Input, LSTM and Dense Layer with 4801 Features and window\_size of 10.}
     \label{fig:lstm_architecture}
 \end{figure}
+\fmhkn{uh... NIE pngs einbinden; immer Vektorformate!! }
+
 
 \section{Tuning model and hyperparameters}
 \begin{itemize}
@@ -48,5 +52,8 @@ All the code for this implementation can be found in the GitHub repository \cite
     \subitem batch size = \{16, 32, 64\}
     \subitem window size = \{3, 5, 10, 20\}
 \end{itemize}
+
+\fmhkn{again: why these??? always give reasons for such decisions! }
+
 
 %\noindent

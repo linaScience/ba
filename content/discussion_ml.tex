@@ -12,16 +12,16 @@
 
 \begin{itemize}
     \item As seen in the previous \cref{sec:data-ana}, many data for one floor 
-    \item As this is a time series, we want to use a time series machine learning model
-    \item As we want to predict the next BSSID out of many BSSIDs, we have multi-class classification problem with supervised learning, as we know, which BSSID is the next one
-    \item Discussion of some pre-chosen models and decision for one which will be implemented in the next chapter
+    \item As this is a time series, we want to use a  machine-learning model suitable for time series \fmhkn{kind of obvious, isnt it?}
+    \item As we want to predict the next BSSID out of many BSSIDs, we have multi-class classification\fmhkn{why is it multi-class if you just want THE (single) next one??} problem with supervised learning, as we know which BSSID is the next one
+    \item Discussion of some pre-chosen models and decision for one which will be implemented in the next chapter \fmhkn{indeed!}
 \end{itemize}
 
 \section{Classification Models}
 \begin{itemize}
-    \item Stated in \cref{sec:background}, classification model in ML is a type of predictive model that categorizes incoming input data into specific classes
-    \item Prediction of next BSSID is a classification problem
-    \item therefore, interpret the problem as a classification problem
+    \item Stated in \cref{sec:background}, classification model in ML is a type of predictive model that categorizes incoming input data into specific classes\fmhkn{but do we really have a classification here? in the narrow sense? classes of APs are given}
+    \item Prediction of next BSSID is a classification problem\fmhkn{so, in the sense of classifying the sequence of recent APs into the proper class for ``next AP'' (or next APs)? }
+    \item therefore, interpret the problem as a classification problem \fmhkn{is that the common approach? I suppose, but back it up by literature!}
     \item For multivariate time series classification models, there are only a few models
     \begin{itemize}
         \item \acp{mlp} \cite{TSC}
@@ -33,6 +33,8 @@
 % Machine learning models
 \subsection{\ac{mlp}}
 
+\fmhkn{in headings, use full forms of the acronyms}
+
 \ac{mlp}, also known as a feedforward artificial neural network, is a class of deep learning models primarily used for supervised learning tasks.
 An MLP consists of multiple layers of nodes in a directed graph, each fully connected to the next one.
 Each node in one layer is connected with certain weights to every node in the following layer.
@@ -40,7 +42,7 @@ Each node in one layer is connected with certain weights to every node in the fo
 
 \subsection{\ac{hmm}}
 
-\ac{hmm} is a statistical model that assumes the system being modeled is a Markov process with unobserved (hidden) states\cite{hmm-rabiner-1989}.
+\ac{hmm} is a statistical model that assumes the system being modeled is a Markov process with unobserved (hidden) states \cite{hmm-rabiner-1989}. \fmhkn{always a space before a cite }
 \acp{hmm} are mainly known for their application in temporal pattern recognition, such as speech and handwriting.
 They describe the probability of a sequence of observable data, which is assumed to result from a sequence of hidden states, each producing an observable output according to a particular probability distribution.
 
@@ -67,7 +69,9 @@ The key to the ability of the \acp{lstm} is its cell state and the accompanying 
 As mentioned in \cref{sec:data-ana}, the floor analyzed there has 4795 \acp{bssid}.
 So we have 4795 classes for the classification problem.
 The selection of a suitable model for this task is even more critical.
-We will discuss the classification models by the following topics: Temporal Dependency Handling, Capacity and Complexity, Multivariate Data, Flexibility and Integration, and Regularization and Overfitting. \\
+We will discuss the classification models according to  the following aspects\fmhkn{properties?}: Temporal Dependency Handling, Capacity and Complexity, Multivariate Data, Flexibility and Integration, and Regularization and Overfitting.\fmhkn{Why these? Why are these aspects relevant for the problem at hand? Which are less important? Do you have a concrete expectation for these aspects BEFORE looking at the different techniques? Make it specific to YOUR problem, not just a generic discussion! }
+
+\fmhkn{never use linebreaks in text. No colons at the end of headings. NEver use textbf as headings. Use descipriotn environments or simiarl. }
 
 \textbf{Temporal Dependency Handling:}
 \begin{itemize}
@@ -82,7 +86,7 @@ We will discuss the classification models by the following topics: Temporal Depe
     \item \acp{mlp} can also scale their capacity by adding more hidden layers and units. They are capable of modeling complex relationships within data through their nonlinear activations.
     \item \acp{hmm} have limitations in handling the complexity of multi-class and multivariate problems due to their inherent Markovian assumptions and discrete state representations.
     \item traditional \acp{rnn} suffer from the vanishing gradient problem, especially in longer sequences, which limits their ability to capture long-term dependencies effectively. \cite{rnn_difficulties_2013}
-    \item With 4,795 classes, the model needs a considerable capacity to differentiate between the subtle differences in patterns that might exist among them. \acp{lstm}, being deep learning models, can scale effectively in terms of capacity by adding more layers or units while still maintaining their ability to handle temporal data.
+    \item With 4,795 classes, the model needs a considerable capacity to differentiate between the subtle differences in patterns that might exist among them. \acp{lstm}, being deep learning models, can scale effectively in terms of capacity by adding more layers or units while still maintaining their ability to handle temporal data.\fmhkn{that is the only really concrete, specific aspect, I think? anything I missed? }
 \end{itemize}
 
 \textbf{Multivariate Data:}
@@ -106,8 +110,14 @@ We will discuss the classification models by the following topics: Temporal Depe
     \item \acp{rnn} are prone to vanishing gradient issues, which can increase overfitting in general. \cite{rnn_difficulties_2013}
 \end{itemize}
 
+
+\fmhkn{man hätte diese pure Beschreibung der verschiedenen Modelle  nun auch gut nach Background an den Anfang legen können. aber ist ok, lassen wir hier. }
+
+
 In conclusion, while \acp{mlp}, \acp{hmm}, and traditional RNNs have their strengths and have been successful in many applications, they have problems with multivariate time series classification with many classes.
 This problem demands a model that can efficiently capture intricate temporal patterns, scale in capacity, and handle multivariate data.
 \acp{lstm}, with their unique architecture and properties, can deal with this challenge, making them the preferred choice for this task and the selected model for our implementation.
+
+\fmhkn{well... this almost sounds like a foregone conclusion? Empahsis which aspects of the problem really caused this decision. }
 
 %\noindent
