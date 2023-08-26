@@ -17,51 +17,7 @@
     \item Discussion of some pre-chosen models and decision for one which will be implemented in the next chapter
 \end{itemize}
 
-\section{Classification Models}
-\begin{itemize}
-    \item Stated in \cref{sec:background}, classification model in ML is a type of predictive model that categorizes incoming input data into specific classes
-    \item Prediction of next BSSID is a classification problem
-    \item therefore, interpret the problem as a classification problem
-    \item For multivariate time series classification models, there are only a few models
-    \begin{itemize}
-        \item \acp{mlp} \cite{TSC}
-        \item \acp{rnn} such as \acp{lstm}\cite{lstm-hochreiter}
-        \item \acp{hmm} \cite{hmm-movement-prediction}, 
-    \end{itemize}
-\end{itemize}
 
-% Machine learning models
-\subsection{\ac{mlp}}
-
-\ac{mlp}, also known as a feedforward artificial neural network, is a class of deep learning models primarily used for supervised learning tasks.
-An MLP consists of multiple layers of nodes in a directed graph, each fully connected to the next one.
-Each node in one layer is connected with certain weights to every node in the following layer.
-\acp{mlp} apply a series of transformations, typically nonlinear, to the input data using activation functions, such as the sigmoid or \ac{relu}, facilitating the model's ability to model complex patterns and dependencies in the data \cite{goodfellow_deep_2016}.
-
-\subsection{\ac{hmm}}
-
-\ac{hmm} is a statistical model that assumes the system being modeled is a Markov process with unobserved (hidden) states\cite{hmm-rabiner-1989}.
-\acp{hmm} are mainly known for their application in temporal pattern recognition, such as speech and handwriting.
-They describe the probability of a sequence of observable data, which is assumed to result from a sequence of hidden states, each producing an observable output according to a particular probability distribution.
-
-\subsection{\ac{rnn}}
-
-\ac{rnn} is an artificial neural network well-suited to sequential data because of its intrinsic design.
-Unlike traditional feedforward neural networks, an \ac{rnn} possesses loops in its topology, allowing information to persist over time.
-This unique characteristic enables the model to use its internal state (memory) to process sequences of inputs, making it ideally suited for tasks involving sequential data such as speech recognition, language modeling, and time series prediction\cite{elman_finding_1990}.
-
-\subsubsection{\ac{lstm}}
-
-\ac{lstm} is a special kind of RNN, capable of learning long-term dependencies, which Hochreiter and Schmidhuber introduced in 1997\cite{lstm-hochreiter}.
-\acp{lstm} were designed to combat the ``vanishing gradient'' problem in traditional \acp{rnn}. 
-This problem made it difficult for other neural networks to learn from data where relevant events occurred with significant gaps between them.
-The key to the ability of the \acp{lstm} is its cell state and the accompanying gates (input, forget, and output gate), which regulate the flow of information in the network.
-
-% \subsubsection{\ac{gru}}
-
-% \ac{gru} is a type of \ac{rnn} introduced by Cho et al. in 2014 as a simpler variant of the LSTM.
-% \acp{gru} use gating mechanisms similar to those in the LSTM but combine the cell state and hidden state while also using fewer gates, which can make them more computationally efficient\cite{cho_learning_2014}.
-% This simplified structure has been shown to perform comparably to the LSTM on specific tasks.
 
 \subsection{Discussion of Classification Models}
 As mentioned in \cref{sec:data-ana}, the floor analyzed there has 4795 \acp{bssid}.

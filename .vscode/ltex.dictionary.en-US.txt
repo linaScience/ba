@@ -20,3 +20,4 @@ BSSIDs
 BSSID
 uncalibrated
 numpy
+handoff
