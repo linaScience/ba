@@ -1,11 +1,11 @@
-\chapter{Implementation}\label{sec:implementation}
+\chapter{Implementation}\label{ch:implementation}
 
 All the code for this implementation can be found in the GitHub repository \cite{github-repo}.
 
 \section{Preprocessing}
 \begin{itemize}
     \item Preprocessing with numpy and pandas
-    \item Use data from \Cref{sec:data-ana} for preprocessing
+    \item Use data from \Cref{ch:data-ana} for preprocessing
     \item Explain what was done to the .txt files in preprocessing part  (see \cite{github-repo} preparation.ipynb)
     \item Explain preprocessing of model (see \cite{github-repo} lstm.ipynb)
     \item Load data from files of floor with most files
@@ -28,7 +28,7 @@ All the code for this implementation can be found in the GitHub repository \cite
     \item Use Keras library for implementation \cite{keras}
     \item Model: LSTM layer, Dense layer with softmax activation
     \subitem Sequences are of length window\_size for each entry in the dataset
-    \subitem Inputs are (window\_size, number\_of\_features (which are 6 + number of BSSIDs)), see \cref{fig:lstm_architecture}
+    \subitem Inputs are (window\_size, number\_of\_features (which are 6 + number of BSSIDs)), see \Cref{fig:lstm_architecture}
     \item Generate predictions on the test set
     \item Get class with the highest probability as prediction
     \item Get top 3 predictions for the test set and check if the target variable is in the top 3 predictions.

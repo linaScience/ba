@@ -1,9 +1,9 @@
-\chapter{Dataset analysis and preparation}\label{sec:data-ana}
+\chapter{Dataset analysis and preparation}\label{ch:data-ana}
 
-The dataset used in this thesis is the Indoor Location \& Navigation from kaggle\cite{kaggle}, which was part of a competition of Microsoft Research in 2021\cite{IndoorLocationNavigation}.
-The company XYZ\(^{10}\) recorded the data in shopping malls and was provided by Microsoft Research for this competition.
-The goal for the competition was, given a site-path file, predict the floor and waypoint locations at a timestamp given in the submission files.
-In the following, the dataset and data will be analyzed.
+As mentioned in \Cref{ch:intro}, the dataset used in this thesis is the Indoor Location \& Navigation from kaggle \cite{kaggle}, which was part of a competition of Microsoft Research in 2021 \cite{IndoorLocationNavigation}.
+The company \(XYZ^{10}\) recorded the data in shopping malls and was provided by Microsoft Research for this competition.
+The goal for the competition was to give a file with a path of a shopping mall and predict the floor and waypoint locations at a timestamp given in the submission files for that shopping mall.
+The following will analyze and prepare the dataset and data for the \ac{ml} model.
 
 
 \section{Components of the dataset}\label{sec:data}
@@ -15,14 +15,16 @@ As noted in the kaggle notebook ``Indoor Navigation: Complete Data Understanding
     \item a metadata folder with floor metadata, organized by site and floor, which includes floor images, further information, and a geojson map
 \end{itemize}
 
-The train folder contains 204 subfolders, which represent each site where the data was recorded.
+The train folder contains 204 subfolders representing each site where the data was recorded.
 In each site folder are a minimum of one and a maximum of twelve subfolders, which represent the floors of the site; the median is five floors.
-Overall there are 26,925 files, each containing the movement of one person for a specific site and floor.
+Overall, there are 26,925 files, each containing the movement of one person for a specific site and floor.
 Per floor, there are between one and 284 files with a median of 14.
-The floor F1 of the site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*} which was hashed as ``5d27075f03f801723c2e360f'' in the train folder of the competition, has the most files.
+The floor F1 of the site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*} (Yintai City (Chengxi Branch)) which was hashed as ``5d27075f03f801723c2e360f'' in the train folder of the competition, has the most files.
 
-For this thesis, the submission files, as well as the test folder, will not be used because our goal is not to predict the floor and site name for a certain timestamp but to predict the \ac{bssid} to which a device may connect next.
-Therefore, we will not analyze the content of these folders in more detail.
+For this thesis, the submission files and the test folder will not be used.
+Instead, we will generate our test set out of the train data because our goal is not to predict the floor and site name for a specific timestamp but to predict the \ac{bssid} to which a device may connect next, which is an entirely different task.
+Therefore, we will not analyze the content of the test and metadata folders in detail.
+
 
 \section{File structure}\label{sec:file-structure}
 
@@ -32,7 +34,7 @@ The first contains the start time of the recording, the second site information 
 The last line contains the end time of the recording.
 The main part of the data consists of the collected data. 
 Each line contains a UNIX timestamp in milliseconds, followed by a data type and the data itself, which are all separated by a tabulator.
-The GitHub repository of the competition\cite{GitHubComp} shows that the data type in the second column followed by its data can be one of the following:
+The GitHub repository of the competition \cite{GitHubComp} shows that the data type in the second column followed by its data can be one of the following:
 
 \setlist[enumerate]{label=(\arabic*)}
 \begin{enumerate}
@@ -54,7 +56,7 @@ The GitHub repository of the competition\cite{GitHubComp} shows that the data ty
     escapeinside={(*@}{@*)},
 }
 
-\begin{lstlisting}[caption={A snippet from the dataset of the file 5daa9e38df065a00069beb79.txt of the floor F4 of the site with the ID 5d27099303f801723c32364d},label={lst:dataset},captionpos=b]
+\begin{lstlisting}[caption={A snippet from the dataset of the file 5daa9e38df065a00069beb79.txt of the floor F4},label={lst:dataset}]
     #   startTime:1571462193934
     #   SiteID:5d27099303f801723c32364d SiteName:(*@\begin{CJK*}{UTF8}{gbsn}银泰百货(庆春店)\end{CJK*}@*) FloorId:5d27099303f801723c323650 FloorName:4F
     1571462193944   TYPE_WAYPOINT   57.885998   69.501526
@@ -81,15 +83,16 @@ Lines with types from \ref{type:acce} to \ref{type:acce_u} occur every 20 ms and
 \ref{type:wifi} occurs about every 1800-2200 ms.
 \ref{type:way} data is not evenly distributed.
 An assumption for this is that the recording of the waypoint data is triggered by an exterior event, e.g., a button press.
-As seen in \cref{lst:dataset}, the data are measured separately from each other, so there are no combinations of the data types.
+As seen in \Cref{lst:dataset}, the data are measured separately from each other, so there are no combinations of the data types.
 
-A prediction of the next \ac{bssid} will only work per site due to the different architectures of the sites.
+A prediction of the next \ac{bssid} will only work per site due to the different \acp{ap} and therefore, \acp{bssid} per site.
 Still, the prediction could be difficult for a whole site because the \acp{ap} are different on each floor, which may result in many \acp{ap} for the prediction.
-To get better results in the prediction, we will focus on a single floor of a site.
-The \cref{tab:data_summary} shows an analysis of the site with the most files for a single floor.
+To better predict, we will focus on a single floor of a site, and use the data from the fourth floor of the shopping mall in Yintai City (Chengxi Branch).
+To further know, how many data we have for the model, \Cref{tab:data_summary} shows a more detailed analysis.
 % \subsection{Analysis of floor with most files}
 \begin{table}[h]
     \centering
+    \caption{Summary of data for F1 of site Yintai City (Chengxi Branch)}
     \begin{tabular}{|l|l|}
     \hline
     \textbf{Information} & \textbf{Value} \\ \hline
@@ -104,58 +107,59 @@ The \cref{tab:data_summary} shows an analysis of the site with the most files fo
     Number of \acp{ssid} & 1,421 \\ \hline
     \ac{rssi} range & -93 to -13 dBm \\ \hline
     \end{tabular}
-\caption{Summary of data for F1 of site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
 \label{tab:data_summary}
 \end{table}
 
-\section{Improvement on data for an ML model}\label{sec:improvement-on-data-for-an-ml-model}
 
-As seen in previous sections, a location for the time of \(TYPE\_WIFI\) data points is not provided.
-Also, we only have 2,027 waypoints for this floor but 1,862,044 lines of \ac{wifi} data, as seen in \cref{tab:data_summary}.
-The visualization of the waypoints can be seen in \cref{fig:vis-wo-interpolated}.
+\section{Preprocessing data for an ML model}\label{sec:prep-on-data-for-an-ml-model}
+
+As seen in previous sections, a location for the time of \texttt{TYPE\_WIFI} data points is not provided.
+Also, we have 2,027 waypoints for this floor but 1,862,044 lines of \ac{wifi} data, as seen in \Cref{tab:data_summary}.
+The visualization of the waypoints can be seen in \Cref{fig:vis-wo-interpolated}.
+
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.4]{images/whole_floor_visualization_wo_interpolated.png}
-    \caption{Visualization of the 2,027 waypoints of the site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
+    \includegraphics[scale=0.375]{images/whole_floor_visualization_wo_interpolated.pdf}
+    \caption{Visualization of the 2,027 waypoints of the site Yintai City (Chengxi Branch) on floor F1}
     \label{fig:vis-wo-interpolated}
 \end{figure}
 
-Further human movement may have occurred between \(TYPE\_WAYPOINT\) and \(TYPE\_WIFI\) data.
-However, they can be combined using linear interpolation, as seen in \cref{fig:interpolation}.
+Further human movement may have occurred between \texttt{TYPE\_WAYPOINT} and \texttt{TYPE\_WIFI} data points.
+Therefore, we cannot combine the data points directly, in order to get a location for the \ac{wifi} data points.
+But, they can be combined using linear interpolation.%, as seen in \Cref{fig:interpolation}.
+
+% \begin{figure}[h!]
+%     \centering
+%     \input{images/interpolated_waypoints.tex}
+%     \caption{Visualization of linear interpolation for \ac{wifi} timestamps based on given waypoints. The blue points represent the original waypoints, while the red points show the interpolated positions for specific \ac{wifi}}
+%     \label{fig:interpolation}
+% \end{figure}
+
+Therefore, an interpolation of \texttt{TYPE\_WAYPOINT} data for \texttt{TYPE\_WIFI} timestamps will be done, in order to get a location for the \ac{wifi}.
+With this interpolation, we have a combination of \texttt{TYPE\_WAYPOINT} and \texttt{TYPE\_WIFI} data as well as more data, we could use for the prediction.
+The interpolation results in 6549 waypoints which is three times more than the original amount of waypoints, as seen in \Cref{fig:vis-interpolated}.
+
 \begin{figure}[h!]
     \centering
-    \input{images/interpolated_waypoints.tex}
-    \caption{Visualization of linear interpolation for \ac{wifi} timestamps based on given waypoints. The blue points represent the original waypoints, while the red points show the interpolated positions for specific \ac{wifi}}
-    \label{fig:interpolation}
-\end{figure}
-
-Thus, \(TYPE\_WAYPOINT\) and \(TYPE\_WIFI\) are combined to get a location for the \ac{wifi} data point.
-The interpolation results in 6549 waypoints which is three times more than the original amount of waypoints, as seen in \cref{fig:vis-interpolated}.
-Furthermore, we will also interpolate \(TYPE\_ACCELEROMETER\) to improve the predictions.
-Now a multivariate time series is interpolated out of the original data, which will be used for the machine learning model.
-A further interpolation is possible, but we will focus on a simpler multivariate time series in this thesis.\\
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[scale=0.4]{images/whole_floor_visualization_interpolated.png}
-    \caption{Visualization of the interpolated waypoints for SiteName: \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*}}
+    \includegraphics[scale=0.375]{images/whole_floor_visualization_interpolated.pdf}
+    \caption{Visualization of the interpolated waypoints for site Yintai City (Chengxi Branch) on floor F1}
     \label{fig:vis-interpolated}
 \end{figure}
 
-\section{Peculiarities of the data}\label{sec:special-cases}
-Further analysis of the dataset revealed some peculiarities, which are described in the following.
+Furthermore, we will also interpolate \texttt{TYPE\_ACCELEROMETER} data for \texttt{TYPE\_WIFI} timestamps because, if the timestamps do not match for \texttt{TYPE\_WIFI} and \texttt{TYPE\_ACCELEROMETER} we will interpolate for a small time range, which may not change the acceleration values significantly and may result in a more accurate prediction.
+Now we have a multivariate time series with \texttt{TYPE\_WAYPOINT}, \texttt{TYPE\_WIFI} and \texttt{TYPE\_ACCELEROMETER} data out of the original data as one file, which will be used for the machine learning model.
+A further interpolation of the other data such as \texttt{TYPE\_GYROSCOPE} is possible, but this thesis only utilizes the data mentioned above.
+
+
+\subsection{Peculiarities of the data}\label{sec:special-cases}
+The analysis of the dataset revealed some peculiarities, which are described in the following.
 
 The data is collected by different devices at different timestamps and days.
 A problem for the time series is that the waypoint data were measured irregularly.
-\begin{itemize}
-    \item As in \cref{fig:vis-wo-interpolated}, some waypoints seem to be very distant from the next one
-    \item \cref{lst:metric-diff} shows the top 10 pairs of waypoints with the most significant metric differences
-    \item if points are more than 10 meters apart, we will define them as ``to apart from each other.''
-    \item split up the data where the distance between two points is more than 10 meters
-    \item result: 123 files, with interpolation
-\end{itemize}
+As in \Cref{fig:vis-wo-interpolated} shows, some waypoints seem to be very distant from the next one, which can be detected by the dotted lines which go all across the floor.
+\Cref{lst:metric-diff} shows the top 10 pairs of waypoints with the most significant metric differences, where \(174.77\) meters is the most significant difference.\\
 
-\begin{lstlisting}[caption={Top 10 pairs with the most significant metric differences},label={lst:metric-diff},captionpos=b]
+\begin{lstlisting}[caption={Top 10 pairs with the most significant metric differences of data from floor F1 of site Yintai City (Chengxi Branch)},label={lst:metric-diff}]
     1. Point 1: (247.96523998265695, 168.7631635050295), Point 2: (117.92375106521739, 51.997759545341616), Metric Difference: 174.77113148839442
     2. Point 1: (98.66346, 127.5971), Point 2: (258.75049789436116, 181.23350740899357), Metric Difference: 168.83342057049657
     3. Point 1: (189.58672, 71.454666), Point 2: (89.73448203762376, 102.255128190099), Metric Difference: 104.49467879858156
@@ -168,3 +172,20 @@ A problem for the time series is that the waypoint data were measured irregularl
     10. Point 1: (172.3439286324042, 56.200716101045295), Point 2: (212.4478039192399, 99.33967479470648), Metric Difference: 58.90068395354572
 \end{lstlisting}
 
+This difference is too high for a human to walk in 1.8 to 2.2 seconds, which is the time between two waypoints.
+A human's gait speed has its maximum at about 2.53 meters per second, according to \cite{bohannonComfortableMaximumWalking1997}.
+So in 2.2 seconds a human can walk 5.57 meters, which is much less than each of the values in the top 10 in \Cref{lst:metric-diff}.
+Therefore, waypoints which are more than about 5.57 meters apart, are defined as ``to apart from each other'' and therefore, we will split the path.
+This results in 123 files with data interpolation.
+
+
+\subsection{Received Signal Strength Indicators for each timestamp}
+It is obvious, that for a waypoint we have not all \ac{rssi} values for each \ac{ap} because the \ac{ap} may be out of range.
+In order to use the \ac{rssi} in the prediction and treat each \ac{bssid} as a class for the \ac{ml} model, we need to have a \ac{rssi} value for each \ac{ap} for each timestamp.
+This will result in a table with the \ac{bssid} as columns and the timestamps as rows, where each value in the table is the corresponding \ac{rssi} value for the \ac{bssid} at the timestamp.
+
+First, we will gather all \ac{bssid} of the site and iterate over each 
+This is done by filling the missing \ac{rssi} values of an \ac{ap} with the value \(-999\) for the specific timestamp.
+This results 
+
+These files will be used to train the machine learning model with.
