@@ -6,25 +6,25 @@ However, the current roaming process in 802.11k/r\cite{802.11k}\cite{802.11r} do
 For example, if a user's station is moving away from \ac{ap}1 towards \ac{ap}2 and further towards \ac{ap}3.
 \ac{ap}3 does not initiate the roaming process, but instead the station will connect to \ac{ap}2 first and then to \ac{ap}3, which increases the number of handovers.
 It would be ideal if the movement from \ac{ap}1 to \ac{ap}3 was detected and a roam from \ac{ap}1 to \ac{ap}3 was initiated.
-An \ac{ap} may instruct a client device to roam based on signal strength without considering the device's trajectory or the user's likely destination.
+An \ac{ap} may instruct a client device to roam based on signal strength, but currently without considering the device's trajectory or the user's likely destination.
 Real time applications such as video conferencing are particularly sensitive to these hand-offs, which may result in dropped connections and unsatisfied users.
 
-This thesis will explore if a time series \ac{ml} model can predict the nearest \ac{ap} a station may connect to next.
-Because of the many \acp{ap} in large-scale \ac{wifi} environments, this prediction is a multi-class classification problem with many classes, how many exactly will be discovered in \cref{sec:data-ana}.
+Therefore, this thesis will explore if a time series \ac{ml} model can predict the nearest \ac{ap} a station may connect to next.
+Because of the many \acp{ap} in large-scale \ac{wifi} environments, this prediction is a multi-class classification problem with many classes, how many exactly will be discovered in \Cref{sec:data-ana}.
 This leads to a hard prediction task, as the model needs to predict the next \ac{ap} out of many \acp{ap}.
 To make the prediction task easier, the model will predict the top 3 \acp{ap} the station may connect to next.
 So the nearest station needs to be in the top 3 of the predictions to be considered a correct prediction.
-This thesis needs data with \ac{wifi}, waypoint of clients, and sensor data, e.g., acceleration.
-A time series \ac{ml} model requires as input time series data.
+
+A time series \ac{ml} model requires time series data as input.
 There are two possible data sources: generate new or utilize existing data. 
 Data generation needs a comprehensive plan for accounting data setup and collection.
-This process is time-consuming and needs a lot of planning and evaluation beforehand, which is not the focus of this thesis.
-Thus, I will utilize pre-existing data from a 2021 competition by Microsoft Research\cite{IndoorLocationNavigation}.
-The data will be analyzed in \cref{sec:data-ana} to determine what parts of the data we will use for the \ac{ml} model.
-Additionally, the data will be prepared for a time series \ac{ml} model.
+As this process is time-consuming and needs a lot of planning and evaluation beforehand, this thesis will not generate data.
+Thus, this thesis will use a pre-existing dataset with sensor data such as acceleration, waypoint data and \ac{wifi} data from large-scale environments.
+The only dataset which I found with these requirements is from a 2021 competition by Microsoft Research \cite{IndoorLocationNavigation} on kaggle \cite{kaggle}.
+The data will be analyzed in \Cref{sec:data-ana} to determine what parts of the data I will use for the \ac{ml} model.
 
-After that, I will discuss the suitability of some pre-selected time series \ac{ml} models for the task in \cref{sec:discuss-ml}. 
-Due to many data, I will discover in \cref{sec:data-ana}, this thesis will implement, in \cref{sec:implementation}, a \ac{ml} model, train and test it for one site and floor of the competition.
-Finally, in \cref{sec:conclusion}, I will evaluate the model's performance and conclude if this prediction could be useful.
+After that, I will discuss the suitability of some pre-selected time series \ac{ml} models for the task in \Cref{sec:discuss-ml}. 
+Because of findings in \Cref{sec:data-ana}, this thesis will preprocess the data and implement the \ac{lstm} model for one site and floor of the competition in \Cref{sec:implementation}.
+Finally, in \Cref{sec:evaluation}, I will evaluate the model's performance and, in \Cref{sec:conclusion}, conclude if this prediction could be useful in the future.
 
 %\noindent
