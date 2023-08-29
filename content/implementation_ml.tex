@@ -27,7 +27,8 @@ All the code for this implementation can be found in the GitHub repository \cite
 \begin{itemize}
     \item Use Keras library for implementation \cite{keras}
     \item Model: LSTM layer, Dense layer with softmax activation
-    \subitem Sequences are of length window\_size for each entry in the dataset
+    \subitem Sequences are of length sliding window\_size for each entry in the dataset 
+    \item sliding window size will be \(25 * 0.25 = 6.25\), so we choose 6 seconds as the sliding window size, as our dataset has \ac{wifi} timestamps for every about 2 seconds, we set window\_size = 3 \cite{EffectsSlidingWindow2022}
     \subitem Inputs are (window\_size, number\_of\_features (which are 6 + number of BSSIDs)), see \Cref{fig:lstm_architecture}
     \item Generate predictions on the test set
     \item Get class with the highest probability as prediction

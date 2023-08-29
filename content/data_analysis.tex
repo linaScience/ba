@@ -147,7 +147,7 @@ The interpolation results in 6549 waypoints which is three times more than the o
 \end{figure}
 
 Furthermore, we will also interpolate \texttt{TYPE\_ACCELEROMETER} data for \texttt{TYPE\_WIFI} timestamps because, if the timestamps do not match for \texttt{TYPE\_WIFI} and \texttt{TYPE\_ACCELEROMETER} we will interpolate for a small time range, which may not change the acceleration values significantly and may result in a more accurate prediction.
-Now we have a multivariate time series with \texttt{TYPE\_WAYPOINT}, \texttt{TYPE\_WIFI} and \texttt{TYPE\_ACCELEROMETER} data out of the original data as one file, which will be used for the machine learning model.
+Now we have a multivariate time series with \texttt{TYPE\_WAYPOINT} and \texttt{TYPE\_ACCELEROMETER} data for \texttt{TYPE\_WIFI} timestamps out of the original data as one file, which will be used for the machine learning model.
 A further interpolation of the other data such as \texttt{TYPE\_GYROSCOPE} is possible, but this thesis only utilizes the data mentioned above.
 
 
@@ -172,20 +172,22 @@ As in \Cref{fig:vis-wo-interpolated} shows, some waypoints seem to be very dista
     10. Point 1: (172.3439286324042, 56.200716101045295), Point 2: (212.4478039192399, 99.33967479470648), Metric Difference: 58.90068395354572
 \end{lstlisting}
 
-This difference is too high for a human to walk in 1.8 to 2.2 seconds, which is the time between two waypoints.
-A human's gait speed has its maximum at about 2.53 meters per second, according to \cite{bohannonComfortableMaximumWalking1997}.
-So in 2.2 seconds a human can walk 5.57 meters, which is much less than each of the values in the top 10 in \Cref{lst:metric-diff}.
-Therefore, waypoints which are more than about 5.57 meters apart, are defined as ``to apart from each other'' and therefore, we will split the path.
-This results in 123 files with data interpolation.
+This difference is too high for a human to walk in \(1.8\) to \(2.2\) seconds, which is the time between two waypoints.
+A human's gait speed has its maximum at about \(2.53\) meters per second, according to \cite{bohannonComfortableMaximumWalking1997}.
+So in \(2.2\) seconds a human can walk \(5.57\) meters, which is much less than each of the values in the top 10 in \Cref{lst:metric-diff}.
+Therefore, waypoints which are more than about 5.57 meters apart, are defined as ``to apart from each other'' to walk in this time and therefore, we will split the path there and will generate separated files.
+This results in 147 files with data interpolation, which will be used for the \ac{ml} model.
+But the data in those interpolated files do not contain any information about the \ac{bssid} and corresponding \ac{rssi} values, which are needed for the prediction.
+This will be solved in \Cref{sec:wifi-data}.
 
 
-\subsection{Received Signal Strength Indicators for each timestamp}
+\subsection{Received Signal Strength Indicators for each timestamp}\label{sec:wifi-data}
 It is obvious, that for a waypoint we have not all \ac{rssi} values for each \ac{ap} because the \ac{ap} may be out of range.
 In order to use the \ac{rssi} in the prediction and treat each \ac{bssid} as a class for the \ac{ml} model, we need to have a \ac{rssi} value for each \ac{ap} for each timestamp.
-This will result in a table with the \ac{bssid} as columns and the timestamps as rows, where each value in the table is the corresponding \ac{rssi} value for the \ac{bssid} at the timestamp.
 
-First, we will gather all \ac{bssid} of the site and iterate over each 
-This is done by filling the missing \ac{rssi} values of an \ac{ap} with the value \(-999\) for the specific timestamp.
-This results 
-
-These files will be used to train the machine learning model with.
+First, we will gather all \ac{bssid} of the site by iterating over all \ac{wifi} data and save it in one file.
+Every line contains the timestamp and each column header is the \ac{bssid} of the \ac{ap} and each value of the line is the \ac{rssi} value of the \ac{bssid} at the timestamp.
+If an \ac{ap} is not present, we add a very low value \(-999\) into the field. 
+Then we will use this \ac{wifi} file and iterate over each file with interpolated data and for each timestamp the \ac{bssid} and the corresponding \ac{rssi} value.
+At each timestamp with \texttt{TYPE\_WIFI} timestamps the \ac{rssi} value for each \ac{bssid} is now saved.
+These files will be used to train the \ac{ml} model.
