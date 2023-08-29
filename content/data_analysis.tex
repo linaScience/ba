@@ -181,7 +181,7 @@ However, the data in those interpolated files do not contain any information abo
 This will be solved in \Cref{sec:wifi-data}.
 
 
-\subsection{Received Signal Strength Indicators for each timestamp}\label{sec:wifi-data}
+\subsection{Wi-Fi data for each timestamp}\label{sec:wifi-data}
 It is evident that for a waypoint, we have not all \ac{rssi} values for each \ac{ap} because the \ac{ap} may be out of range.
 In order to use the \ac{rssi} in the prediction and treat each \ac{bssid} as a class for the \ac{ml} model, we need to have a \ac{rssi} value for each \ac{ap} for each timestamp.
 
@@ -190,4 +190,5 @@ Every line contains the timestamp, and each column header is the \ac{bssid} of t
 If an \ac{ap} is absent, we add a very low value \(-999\) into the field. 
 Then, we will use this \ac{wifi} file and iterate over each file with interpolated data, and for each timestamp, the \ac{bssid} and the corresponding \ac{rssi} value.
 At each timestamp with \texttt{TYPE\_WIFI} timestamps, the \ac{rssi} value for each \ac{bssid} is now saved.
+The code for this can be found in the GitHub repository \cite{github-repo} in the file \texttt{preparation.ipynb}.
 These files will train the \ac{ml} model.
