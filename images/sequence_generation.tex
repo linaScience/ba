@@ -1,0 +1,35 @@
+\begin{tikzpicture}
+
+% File representation
+\draw[blue] (2,1) rectangle (7,9);
+\draw[blue] (2,7) -- (7,7);
+\node[align=center, blue, font=\small] at (6.25, 7.25) {File 1};
+\draw[blue] (2,4) -- (7,4);
+\node[align=center, blue, font=\small] at (6.25, 4.25) {File 2};
+\draw[blue] (2,2) -- (7,2);
+\node[align=center, blue, font=\small] at (6.25, 2.25) {...};
+\draw[blue] (2,1) -- (7,1);
+\node[align=center, blue, font=\small] at (6.25, 1.25) {File 147};
+\node[align=center, font=\small] at (4.5, 9.5) {File with data of the whole floor};
+
+% Arrow
+\draw[->, thick] (7.5,5) -- (9.5,5);
+
+% Sliding window representation
+\draw[green] (2,8.5) rectangle (7,9);
+\node[align=center, green, font=\small] at (4.5, 8.25) {Sliding Window};
+
+% Generated sequences representation
+\draw[orange] (10,3.5) rectangle (15,9);
+\draw[orange] (10,7.5) -- (15,7.5);
+\node[align=center, orange, font=\small] at (14.25, 7.75) {File 1};
+\draw[orange] (10,5.5) -- (15,5.5);
+\node[align=center, orange, font=\small] at (14.25, 5.75) {File 2};
+\draw[orange] (10,4) -- (15,4);
+\node[align=center, orange, font=\small] at (14.25, 4.25) {...};
+\draw[orange] (10,3.5) -- (15,3.5);
+\node[align=center, orange, font=\small] at (14.25, 3.75) {File 147};
+\node[align=center, orange, font=\small] at (12.5, 9.5) {Generated Sequences};
+
+\end{tikzpicture}
+    

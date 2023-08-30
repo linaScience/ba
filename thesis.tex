@@ -80,6 +80,17 @@
 	% ggf. bei englischen Arbeiten den deutschen Abstract nach hinten verschieben
 	\ifisbook\pagestyle{plain}\cleardoubleemptypage\include{content/abstract_ger}\fi
 
+	\listoftables
+    \begingroup
+    \let\clearpage\relax
+    \let\cleardoublepage\relax
+    \listoffigures
+
+    \renewcommand{\lstlistlistingname}{List of Listings}
+    \lstlistoflistings
+    \endgroup
+
+
 	% Eigenständigkeitserklärung
 	\ifisbook\pagestyle{plain}\cleardoubleemptypage\include{content/disclaimer}\fi
 
