@@ -1,13 +1,13 @@
 \begin{tikzpicture}[
     node distance=3cm,
-    block/.style={rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em},
+    block/.style={rectangle, draw, fill=blue!20, text width=7em, text centered, rounded corners, minimum height=4em},
     line/.style={draw, -{Latex[length=2mm]}},
 ]
 
 % Nodes
-\node [block] (input) {Input};
-\node [block, right of=input] (lstm) {LSTM\\Units: 640\\l2 reg: 0.008\\rec l2 reg: 0.002};
-\node [block, right of=lstm] (dropout) {Dropout Layer\\Rate: 0.2};
+\node (input) {Input}; %\\ $3 \times 4975$ does not work
+\node [block, right of=input] (lstm) {LSTM\\Units: 512\\Optimizer: sgd\\Batch Size: 96};
+\node [block, right of=lstm] (dropout) {Dropout Layer\\Rate: 0.3};
 \node [block, right of=dropout] (batchnorm) {Batch Normalization};
 \node [block, right of=batchnorm] (output) {Output (Dense layer)\\softmax\\};
 
@@ -16,9 +16,5 @@
 \path [line] (lstm) -- (dropout);
 \path [line] (dropout) -- (batchnorm);
 \path [line] (batchnorm) -- (output);
-
-% Additional details
-\node [below of=lstm, node distance=1.5cm] (optimizer) {Optimizer: sgd};
-\node [below of=optimizer, node distance=0.5cm] (batchsize) {Batch Size: 112};
 
 \end{tikzpicture}

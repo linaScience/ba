@@ -5,79 +5,71 @@ It is structured in preprocessing and \ac{lstm} implementation, which will be de
 
 \section{Preprocessing}
 As described in \Cref{ch:data-ana}, the data was prepared and has the following structure:
-The first column contains the \ac{wifi} timestamps in milliseconds, the second and third column contain the waypoint data values x and y in meters, the fourth to sixth column contain the acceleration data values x, y and z in meters per second squared, and the rest of the columns contain the \ac{rssi} data for each \ac{bssid} in the dataset.
-This data is preprocessed for the model in the following way:
-First, we set a \texttt{window\_size} for the sliding window we want to use for the model.
-According to Ja{\'e}n-Vargas et al. \cite{EffectsSlidingWindow2022} the sliding window size for acceleration-based activity recognition should be \(25 * 0.25 = 6.25\) seconds, so we choose \(3\) as the sliding window size, as our dataset has \ac{wifi} timestamps for every about 2 seconds.
-With this information we check, if a file as less or equal to \(3\) lines, if yes, than the file will not be used, because we cannot use a sliding window.
-We furthermore, save the length of each files, to know where we need to split the sliding window in the preprocessing later.
-Then, we create our target variable, which is a variable where the \ac{bssid} with the highest \ac{rssi} is saved for each timestamp, which results in a list with 4795 entries, as we have 4795 \acp{bssid} in our dataset.
-An encoding of the target variable is necessary for the model, so we encode the target variable with a one-hot encoding.
-We initialize a \texttt{MinMaxScaler} which ranges from \(-1\) to \(1\), as our model need to scale the \ac{rssi} values, so that the \ac{rssi} values are considered in the learning process.
+The first column contains the \ac{wifi} timestamps in milliseconds, the second and third columns contain the waypoint data values x and y in meters, the fourth to sixth columns contain the acceleration data values x, y, and z in meters per second squared, and the rest of the columns contain the \ac{rssi} data for each \ac{bssid} in the dataset.
+This data is preprocessed for the model as follows:\\
+First, I set a \texttt{window\_size} for the sliding window I want to use for the model, as \ac{lstm} needs sequence data.
+According to Ja{\'e}n-Vargas et al. \cite{EffectsSlidingWindow2022}, the sliding window size for acceleration-based activity recognition should be \(25 * 0.25 = 6.25\) seconds, so I choose \(3\) as the sliding window size, as our dataset has \ac{wifi} timestamps for every about 2 seconds.
+If a file has less or equal to \(3\) lines, it will not be used because I cannot apply a sliding window for this data.
+Furthermore, the length of each file will be saved to know where I need to split the sliding window in the preprocessing later.
+Then, I create our target variable, which is a variable where the \ac{bssid} with the highest \ac{rssi} is saved for each timestamp, which results in a list with 4795 entries, as there are 4795 \acp{bssid} in our dataset.
+An encoding of the target variable is necessary for the model, so I encode the target variable with a one-hot encoding.
+I initialize a \texttt{MinMaxScaler} which ranges from \(-1\) to \(1\), as \acp{lstm} use \texttt{tanh} as activation function. 
+Furthermore, our model needs to scale the \ac{rssi} values so that the \ac{rssi} values are considered in the learning process.
 By ensuring all \ac{rssi} features have similar scales, the learning process can be more stable and faster. 
 
-\todo{why exactly -1 to 1 MinMaxScaler?, and maybe citation?}
-
-After this, we are using the \texttt{window\_size} to create sequences with our files.
-If we reach the length of the file mentioned above, we stop creating sequences for this file and proceed with the next file.
-We create sequences for each file, result in 
+After this, I use the \texttt{window\_size} to create sequences with our files.
+If the length of the file mentioned above is reached, a stop in creating the sequences for this file is done, and the next sequences will be created out of the next file.
+There are 
 \[S = \texttt{Length of file} - \texttt{window\_size} + 1\] 
-sequences per file.
-Resulting in 
+sequences per file, which results in 
 
 \[
     S_{\text{total}} = \sum_{i=0}^{146} (\text{Length of } i^{\text{th}} \text{ file} - \text{window\_size} + 1)
 \]
+sequences in total.
 
-Finally, we shuffle the data to ensure a randomness in the data and our model does not learn chronological dependencies.
-Then, we split the data into training and testing set, where the training set is \(80\%\) and the testing set is \(20\%\) of the data.
+I shuffle the data to eliminate chronological biases. 
+Instead of a basic train-test split, I use 5-fold cross-validation.
+This trains the model on 4 partitions and tests on the remaining one, ensuring a comprehensive evaluation.
+A k-value of 5 is standard in machine learning due to its balance between computational efficiency and robust evaluation across varied data subsets.
+
 \begin{figure}[h]
     \centering
     \input{images/sequence_generation.tex}
-    \caption{Sequence generation process.}
+    \caption{Size of sequence generation for all files}
     \label{fig:sequence_generation}
 \end{figure}
 
 
 \section{\ac{lstm} Tuning, Training and Testing}
 
-We test different models with keras-tuner \cite{keras_tuner} \texttt{RandomSearch} with different hyperparameters.
-As we want at least one \ac{lstm} layer in the model, we need to set the number of units in the \ac{lstm} layer, which is one hyperparameter of the model.
+I test different models with keras-tuner \cite{keras_tuner} \texttt{RandomSearch} with different hyperparameters.
+As a \ac{lstm} model needs at least one \ac{lstm} layer, the number of layers must be set, which is one hyperparameter of the model.
 The first LSTM layer's architecture is contingent upon the potential presence of a subsequent LSTM layer, and it gets the number of samples, timesteps, and features.
-If there's going to be a second LSTM layer, the first LSTM must return sequences to feed the subsequent layer.
+If there will be a second LSTM layer, the first LSTM must return sequences to feed the subsequent layer.
 This conditional structure provides flexibility in model depth.
-Regularization techniques are applied to prevent overfitting.
-Specifically, L2 regularization is employed on both the kernel and recurrent weights of the LSTM layers.
-Regularization adds a penalty to the loss function, discouraging overly complex models which can overfit to the training data.
-The activation function for the LSTM layers will be \texttt{tanh} as it is a traditional choice for LSTM units.
-Each of these functions has its benefits and use-cases.
-
-A Dropout layer can be optionally added. 
-Dropout is a regularization method where randomly selected neurons are ignored during training, helping prevent overfitting.
+The activation function for the LSTM layers will be \texttt{tanh} as it is a traditional choice.
+A Dropout layer can be optionally added, to randomly select neurons to be ignored during training, helping prevent overfitting, which was mentioned in \Cref{ch:discuss-ml}.
 A Batch Normalization layer can also be optionally added.
 Batch normalization standardizes the activations of a given input volume before passing it to the next layer, helping improve the model's convergence speed and overall accuracy.
+The final layer is a Dense layer with a \texttt{softmax} activation function, which is needed for multi-class classification problems to get the probabilities for each class \cite{cat_cross_entropy}.
+As optimizers the \texttt{RandomSearch} will try out \texttt{Adam}, \texttt{SDG}, and \texttt{RMSprop} with adapted learning rates, which are used to minimize the loss function.
+If a learning rate should not be set, the default learning rate for each of the optimizers is \(0.001\).
 
-The final layer is a Dense (or fully connected) layer with a \texttt{softmax} activation function, which is needed for multi-class classification problems.
+Finally, the model is compiled and tested with the chosen optimizer and the loss function \texttt{categorical\_crossentropy}, which converts the probabilities to target values.
 
-We will also try out the optimizers \texttt{Adam}, \texttt{SDG}, \texttt{RMSprop} with adapted learning rates, which are used to minimize the loss function.
-The default learning rate for each of the optimizers are \(0.001\).
-
-Finally, the model compiled and tested with the chosen optimizer and the loss function \texttt{categorical\_crossentropy}, which is the standard loss function for multi-class classification problems.
-
-This \texttt{RandomSearch} lead to the following hyperparameters:
+This \texttt{RandomSearch} leads to the following hyperparameters:
 \begin{itemize}
-    \item lstm\_units: 640
-    \item lstm\_l2\_reg\_1: 0.008
-    \item lstm\_rec\_l2\_reg\_1: 0.002
+    \item lstm\_units: 512
     \item second\_lstm\_layer: False
-    \item dropout: True with rate 0.2
+    \item dropout: True with rate 0.3
     \item batch\_norm: True
     \item learning\_rate: False
     \item optimizer: sgd
-    \item batch\_size: 112
+    \item batch\_size: 96
 \end{itemize}
 
-With these parameters the model looks like the following:
+When configured with the parameters mentioned above, the model is shown in \Cref{final_model}.
 \begin{figure}[h!]
     \centering
     \input{images/final_model.tex}
@@ -89,7 +81,7 @@ With these parameters the model looks like the following:
 % \begin{figure}[h!]
 %     \centering
 %     \includegraphics[scale=0.5]{images/model_plot.png}
-%     \caption{An example LSTM Network with Input, LSTM and Dense Layer with 4801 Features and window\_size of 10.}
+%     \caption{An example LSTM Network with Input, LSTM, and Dense Layer with 4801 Features and window\_size of 10.}
 %     \label{fig:lstm_architecture}
 % \end{figure}
 

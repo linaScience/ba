@@ -10,7 +10,7 @@ An \ac{ap} may instruct a client device to roam based on signal strength, but cu
 Real time applications such as video conferencing are particularly sensitive to these hand-offs, which may result in dropped connections and unsatisfied users.
 
 Therefore, this thesis will explore if a time series \ac{ml} model can predict the nearest \ac{ap} a station may connect to next.
-Because of the many \acp{ap} in large-scale \ac{wifi} environments, this prediction is a multi-class classification problem with many classes, how many exactly will be discovered in \Cref{ch:data-ana}.
+Because of the many \acp{ap} in large-scale \ac{wifi} environments, this prediction is a multi-class classification problem with many classes.
 This leads to a hard prediction task, as the model needs to predict the next \ac{ap} out of many \acp{ap}.
 To make the prediction task easier, the model will predict the top 3 \acp{ap} the station may connect to next.
 So the nearest station needs to be in the top 3 of the predictions to be considered a correct prediction.
@@ -24,7 +24,5 @@ The only dataset which I found with these requirements is from a 2021 competitio
 The data will be analyzed in \Cref{ch:data-ana} to determine what parts of the data I will use for the \ac{ml} model.
 
 After that, I will discuss the suitability of some pre-selected time series \ac{ml} models for the task in \Cref{ch:discuss-ml}. 
-Because of findings in \Cref{ch:data-ana}, this thesis will preprocess the data and implement the \ac{lstm} model for one site and floor of the competition in \Cref{ch:implementation}.
+Because of findings in \Cref{ch:data-ana}, this thesis needs to preprocess the prepared data further and will implement the \ac{lstm} model for one site and floor of the competition in \Cref{ch:implementation}.
 Finally, in \Cref{ch:evaluation}, I will evaluate the model's performance and, in \Cref{ch:conclusion}, conclude if this prediction could be useful in the future.
-
-%\noindent

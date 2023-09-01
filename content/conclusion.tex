@@ -1,13 +1,12 @@
 \chapter{Conclusion}\label{ch:conclusion}
+ 
+\ac{ap} prediction with user movement is a hard task with many classes.
+Although \ac{lstm} is the best choice among the discussed models for this task, the prediction accuracy for selecting on of the top 3 \acp{ap} is XX\%.
+In the future, the model could also be trained for other floors and sites, which would likely result in similar accuracies.
 
-\begin{itemize}
-    \item indoor human movement prediction is a hard task with many classes
-    \item although \ac{lstm} is the best choice for this task, the prediction accuracy is 70\%
-    \item with lesser classes, model could predict better, which could be a reason why \ac{ml} model 
-    \item future work: use \ac{lstm} with fewer classes 
-    \subitem or generate data from mobile devices, so complete setup is known
-    \subitem or generate data from \acp{ap} to predict human movement 
-    \subitem could than be integrated in \acs{ap} software like OpenWrt
-\end{itemize}
+With fewer classes, the \ac{lstm} model could predict better, which could be a reason why \ac{ml} model prediction is only slightly better than the simpler heuristic approach.
+Furthermore, the model could be enhanced with other sensor data such as gyroscope and magnetic field data.
+Maybe the sliding window size is too small, and a larger window size could improve the prediction.
+Also, one could generate data from mobile devices or \acp{ap}, so that more information such as location of the \ac{ap} and setup is known and can be used in prediction.
 
 %\noindent

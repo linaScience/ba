@@ -54,7 +54,7 @@ This unique characteristic enables the model to use its internal state (memory) 
 \acp{lstm} were designed to combat the ``vanishing gradient'' problem in traditional \acp{rnn}. 
 This problem made it difficult for other neural networks to learn from data where relevant events occurred with significant gaps between them.
 The key to the ability of the \acp{lstm} is its cell state and the accompanying gates (input, forget, and output gate), which regulate the flow of information in the network.
-
+\acp{lstm} use \texttt{tanh} as activation function.
 
 \subsection{Hyperparameter tuning}
 
@@ -64,7 +64,6 @@ Proper selection of hyperparameters, known as hyperparameter tuning or optimizat
 This iterative procedure involves exploring various hyperparameter combinations for the configuration that yields the most accurate predictions.
 Hyperparameters can be tuned by, e.g., random search, which can be done manually or using libraries.
 This thesis will use keras-tuner\cite{keras_tuner} to tune the hyperparameters of the \ac{lstm} model.
-
 
 \section{Related Work}
 
@@ -79,10 +78,8 @@ While Khan et al. focuses on using \ac{ml} for throughput estimation of the netw
 Lastly, these approaches do not use user generated data, but synthesized data.
 
 This thesis however will use user generated data, instead of synthesized, and will use \ac{ml} to predict the next \ac{ap} a user will be nearest to based on the \ac{rssi} of the \acp{ap} and the trajectory of the user.
-The prediction will be difficult, because we do not know the location of the \acp{ap}, and factors such as walls and other obstacles may influence the \ac{rssi}.
+The prediction will be difficult, because the dataset does not provide the location of the \acp{ap}, and factors such as walls and other obstacles may influence the \ac{rssi}.
 Additionally, there is no information about the throughput or load an access point has, so the predictions cannot be use this information.
 
 These predictions can be used to improve the handover process in \ac{wifi} networks initiated by a mobile device, because the predictions use real-world user generated data.
 This thesis has a different approach, so the results of this thesis cannot be compared to the related work.
-
-%\noindent

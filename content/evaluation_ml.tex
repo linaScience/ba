@@ -1,21 +1,38 @@
 \chapter{Evaluation}\label{ch:evaluation}
 
 For the evaluation of the model, I do the following:
-First, we get the predictions of the test set in \texttt{X\_test}.
-Since the predictions are probabilities for each class, we convert the highest probability as true labels in \texttt{y\_test}, because this value will be the predicted \ac{ap}.
+First, the predictions of the test set are in \texttt{X\_test}.
+Since the predictions are probabilities for each class, a conversion of the highest probability as true labels in \texttt{y\_test} is done, because this value will be the predicted \ac{ap}.
 Those are one-hot encoded, as described in \Cref{ch:implementation}.
-Then, we decode the one-hot encoded classes to the original classes, which can be done by \texttt{inverse\_transform} with the encoder.
-Finally, we select the highest probabilities of the predictions and compare it with the corresponding true label for the timestamp.
+Then, I decode the one-hot encoded classes to the original classes, which can be done by \texttt{inverse\_transform} with the encoder.
+Finally, I select the highest probabilities of the predictions and compare it with the corresponding true label for the timestamp.
 If they are equal, the prediction is correct, otherwise it is false.
-The model's evaluation is seen in \Cref{fig:accuracy_epochs_100_window_3_batch_112_lstm_640}.
+The top 3 prediction accuracy of the \ac{lstm} model results in 76\%.
+The predictions ranging from top 1 to top 5 are also evaluated, which can be seen in \Cref{fig:ml_plot}.
 
 \begin{figure}[h]
-    \includegraphics*[scale=0.8]{images/accuracy_epochs_100_window_3_batch_112_lstm_640.png}
+    \includegraphics*[scale=0.6]{images/ml_plot.pdf}
     \caption{Accuracy of the model that the predicted \ac{ap} is among the top X.}
-    \label{fig:accuracy_epochs_100_window_3_batch_112_lstm_640}
+    \label{fig:ml_plot}
 \end{figure}
 
-We will now compare it to another approach.
-Instead of predicting the top 3 \acp{ap}, we will use a heuristic approach.
-The heuristic approach will predict the \ac{ap} with the highest signal strength, if this fails, the second strongest will be selected and so on to the fifth strongest.
-This can be calculated by the following formula:
+Instead of predicting the top 3 \acp{ap}, a heuristic approach could be used and will be compared with the model in the following.
+The heuristic chooses the \ac{ap} with the highest signal strength as next \ac{ap}, if this is not the next strongest, it will proceed with the second strongest and so on.
+\Cref{fig:heuristic-approach} shows the accuracy of this heuristic approach for choosing the strongest to the fifth strongest \ac{ap}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.45]{images/heuristic_plot.pdf}
+    \caption{Accuracy of the model that the heuristic \ac{ap} is among the top X.}
+    \label{fig:heuristic-approach}
+\end{figure}
+
+Also, for predicting the top 1 to top 5 \ac{ap} the \ac{ml} models predictions are from Top 2 on better than the heuristic approach, as seen in \Cref{fig:comparison_ml_heuristic_1_to_5}.
+As seen, the \ac{ml} model is slightly better than the heuristic approach for the top 3 \acp{ap}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[scale=0.45]{images/comparison_ml_heuristic_1_to_5.pdf}
+    \caption{Comparison of the Probabilities of correctly predicting the Top 1 to Top 5 \acp{ap} in the ML Model and the Heuristic Approach.}
+    \label{fig:comparison_ml_heuristic_1_to_5}
+\end{figure}

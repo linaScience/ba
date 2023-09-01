@@ -3,20 +3,22 @@
 \babel@toc {english}{}\relax 
 \babel@toc {english}{}\relax 
 \babel@toc {english}{}\relax 
+\babel@toc {ngerman}{}\relax 
+\babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Visualization of the 2,027 waypoints of the site Yintai City (Chengxi Branch) on floor F1\relax }}{10}{figure.caption.3}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Visualization of the interpolated waypoints for site Yintai City (Chengxi Branch) on floor F1\relax }}{10}{figure.caption.4}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Visualization of the interpolated waypoints for site Yintai City (Chengxi Branch) on floor F1\relax }}{11}{figure.caption.4}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Sequence generation process.\relax }}{16}{figure.caption.7}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces The final model architecture.\relax }}{17}{figure.caption.8}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Size of sequence generation for all files\relax }}{18}{figure.caption.6}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces The final model architecture.\relax }}{19}{figure.caption.7}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Accuracy of the model that the predicted \ac {ap} is among the top X.\relax }}{19}{figure.caption.9}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Accuracy of the model that the predicted \ac {ap} is among the top X.\relax }}{21}{figure.caption.8}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Accuracy of the model that the heuristic \ac {ap} is among the top X.\relax }}{22}{figure.caption.9}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Comparison of the Probabilities of correctly predicting the Top 1 to Top 5 \acp {ap} in the ML Model and the Heuristic Approach.\relax }}{22}{figure.caption.10}%
 \addvspace {10\p@ }
-\babel@toc {ngerman}{}\relax 
-\babel@toc {english}{}\relax 
 \babel@toc {ngerman}{}\relax 
 \babel@toc {english}{}\relax 
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

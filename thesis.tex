@@ -11,6 +11,7 @@
 \usepackage{amsmath}
 \usepackage{svg}
 \usepackage{amssymb}
+\usepackage{parskip}[parskip]
 
 % Set the caption position for listings and tables to top
 \lstset{captionpos=t}
@@ -54,7 +55,7 @@
 	% (Haupt-)Titelseite, Abstract, ggf. Danksagung & Inhaltsverzeichnis
 	\pagenumbering{roman}
 	\include{content/titlepage}
-	\ifisbook\cleardoubleemptypage\fi\include{content/abstract_eng}
+	\ifisbook\cleardoubleemptypage\fi\include{content/abstract}
 	%\ifisbook\cleardoubleemptypage\fi\include{content/dedication}
 	\tableofcontents
 	\cleardoublepage
