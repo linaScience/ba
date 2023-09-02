@@ -4,9 +4,14 @@
 Although \ac{lstm} is the best choice among the discussed models for this task, the prediction accuracy for selecting on of the top 3 \acp{ap} is XX\%.
 In the future, the model could also be trained for other floors and sites, which would likely result in similar accuracies.
 
-With fewer classes, the \ac{lstm} model could predict better, which could be a reason why \ac{ml} model prediction is only slightly better than the simpler heuristic approach.
-Furthermore, the model could be enhanced with other sensor data such as gyroscope and magnetic field data.
-Maybe the sliding window size is too small, and a larger window size could improve the prediction.
-Also, one could generate data from mobile devices or \acp{ap}, so that more information such as location of the \ac{ap} and setup is known and can be used in prediction.
+With 4795 classes, the \ac{lstm} model faces the challenge of distinguishing between a vast number of classes.
+Such high class cardinality can introduce greater complexity, making it harder for the model to generalize well across all classes.
+This could be one reason why the \ac{ml} model prediction is only slightly better than the simpler heuristic approach.
+Moreover, the data not being generated specifically for this type of prediction suggests that it might not be the most relevant or informative for the task, leading to potential shortcomings in learning the underlying patterns effectively.
 
+On the aspect of features, incorporating other sensor data, such as gyroscope and magnetic field data, can offer a more comprehensive view of the environment, potentially capturing patterns not evident with the existing features.
+Additionally, the sliding window size of 3 might not be providing enough historical context. An increased window size could offer more temporal information, improving the model's prediction capabilities.
+
+Lastly, generating data from mobile devices or \acp{ap} to gain knowledge about the location and setup can provide valuable context.
+Understanding specific locations or setups can aid the model in capturing patterns unique to certain environments, thereby enhancing its predictive power.
 %\noindent

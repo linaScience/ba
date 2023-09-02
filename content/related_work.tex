@@ -1,0 +1,18 @@
+\chapter{Related Work}\label{ch:related-work}
+
+Montavont et al. \cite{handover-assisted-by-gps} propose a handover decision algorithm based on the \ac{gps} location of the mobile device.
+Khan et al. \cite{MLBasedHandoverPrediction2022} address the problem of handover prediction and \ac{ap} selection in dense \ac{wifi} networks with \ac{sdn}.
+They use \ac{ml} models such as \ac{svr} and \ac{mlp} for estimating the throughput of the network to.
+The predictions outperform the current approaches of strongest received signal first by 9.2\% and least loaded signal first by 8\%.
+
+Both approaches do not consider the trajectory of the mobile device in the handover or \ac{ap} selection.
+Furthermore, in large-scale and dense \ac{wifi} environments, \ac{gps} may not be available or not accurate enough for indoor trajectories.
+While Khan et al. focuses on using \ac{ml} for throughput estimation of the network and accordingly choose the best \ac{ap} to roam to, they do not consider the trajectory of the mobile device in the \ac{ap} selection or use \ac{ml} for the \ac{ap} selection process directly.
+Lastly, these approaches do not use user generated data, but synthesized data.
+
+This thesis however will use user generated data, instead of synthesized, and will use \ac{ml} to predict the next \ac{ap} a user will be nearest to based on the \ac{rssi} of the \acp{ap} and the trajectory of the user.
+The prediction will be difficult, because the dataset does not provide the location of the \acp{ap}, and factors such as walls and other obstacles may influence the \ac{rssi}.
+Additionally, there is no information about the throughput or load an access point has, so the predictions cannot be use this information.
+
+These predictions can be used to improve the handover process in \ac{wifi} networks initiated by a mobile device, because the predictions use real-world user generated data.
+This thesis has a different approach, so the results of this thesis cannot be compared to the related work.

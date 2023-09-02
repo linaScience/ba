@@ -2,8 +2,10 @@
 
 As mentioned in \Cref{ch:intro}, the dataset used in this thesis is the Indoor Location \& Navigation from kaggle \cite{kaggle}, which was part of a competition of Microsoft Research in 2021 \cite{IndoorLocationNavigation}.
 The company \(XYZ^{10}\) recorded the data in shopping malls and was provided by Microsoft Research for this competition.
-The goal for the competition was to give a file with a path of a shopping mall and predict the floor and waypoint locations at a timestamp given in the submission files for that shopping mall.
-The following will analyze and prepare the dataset and data for the \ac{ml} model
+The goal of the competition was to predict the indoor position of users' smartphones based on real-time sensor data and user trace data.
+The prediction for this competition contain the floor and waypoint at a certain timestamp.
+However, this thesis will not predict the floor and waypoint but the next \ac{bssid} a device may connect to based on the \ac{rssi} of the \acp{ap} and the trajectory of the user.
+Therefore, the dataset will be analyzed to determine what parts of the data will be used for the \ac{ml} model.
 
 \section{Components of the dataset}\label{sec:data}
 As noted in the kaggle notebook ``Indoor Navigation: Complete Data Understanding'' \cite{IndoorNavigationUnderstanding} the data consists of 3 parts:
@@ -16,13 +18,13 @@ As noted in the kaggle notebook ``Indoor Navigation: Complete Data Understanding
 
 The train folder contains 204 subfolders representing each site where the data was recorded.
 In each site folder are a minimum of one and a maximum of twelve subfolders, which represent the floors of the site; the median is five floors.
-Overall, there are 26,925 files, each containing the movement of one person for a specific site and floor.
+Overall, there are 26,925 files, each containing the movement of a person for a specific site and floor.
 Per floor, there are between one and 284 files with a median of 14.
 The floor F1 of the site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*} (Yintai City (Chengxi Branch)) which was hashed as ``5d27075f03f801723c2e360f'' in the train folder of the competition, has the most files.
 
 The submission files and the test folder will not be used for this thesis.
 Instead, I will generate our test set out of the train data because our goal is not to predict the floor and site name for a specific timestamp but to predict the \ac{bssid} to which a device may connect next, which is an entirely different task.
-Therefore, I will not analyze the content of the test and metadata folders in detail.
+Therefore, I will not analyze the content of the test and metadata folders in detail, but further the content of the train folder.
 
 
 \section{File structure}\label{sec:file-structure}
@@ -35,7 +37,7 @@ The central part of the data consists of the collected data.
 Each line contains a UNIX timestamp in milliseconds, followed by a data type and the data itself, all separated by a tabulator.
 The GitHub repository of the competition \cite{GitHubComp} shows that the data type in the second column followed by its data can be one of the following:
 
-\setlist[enumerate]{label=(\arabic*)}
+\setlist[enumerate]{label=T\arabic*}
 \begin{enumerate}
     \item\label{type:acce} TYPE\_ACCELEROMETER with x, y and z acceleration and an accuracy value
     \item\label{type:mag} TYPE\_MAGNETIC\_FIELD with x, y and z magnetic field and an accuracy value
@@ -59,7 +61,7 @@ As seen in \Cref{lst:dataset}, the data are measured separately from each other,
 
 A prediction of the next \ac{bssid} will only work per site due to the different \acp{ap} and, therefore, \acp{bssid} per site.
 Still, the prediction could be difficult for a whole site because the \acp{ap} are different on each floor, which may result in many \acp{ap} for the prediction.
-To better predict, I will focus on a single floor of a site and use the data from the fourth floor of the shopping mall in Yintai City (Chengxi Branch).
+To better predict, I will focus on a single floor of a site and use the data from the fourth floor of the shopping mall in Yintai City (Chengxi Branch), which has the most trajectories.
 To further know how much data there is for the model, \Cref{tab:data_summary} shows a more detailed analysis.
 
 \lstset{
@@ -192,8 +194,9 @@ In order to use the \ac{rssi} in the prediction and treat each \ac{bssid} as a c
 For this, all \acp{bssid} of the site will be gathered by iterating over all \ac{wifi} data and save it in one file.
 Every line contains the timestamp, and each column header is the \ac{bssid} of the \ac{ap}, and each value of the line is the \ac{rssi} value of the \ac{bssid} at the timestamp.
 If an \ac{ap} is absent, a very low value \(-999\) into the field.
-This value is chosen because it is very unlikely that an \ac{ap} has this \ac{rssi} value. 
+The chosen value is based on the typical \ac{rssi} range of \(-55\) to \(-90\) \cite{rssi_calculation}.
+This ensures that it's highly improbable for an \ac{ap} to be selected for the prediction with this value.
 Then, I iterate over each file with interpolated data, and for each timestamp, the \ac{bssid} and the corresponding \ac{rssi} value from the \ac{wifi} file is added to the interpolated file.
-At each \texttt{TYPE\_WIFI} timestamp with waypoint and acceleration data , the \ac{rssi} value for each \ac{bssid} is now saved.
+At each \texttt{TYPE\_WIFI} timestamp with waypoint and acceleration data, the \ac{rssi} value for each \ac{bssid} is now saved.
 The code for this can be found in the GitHub repository \cite{github-repo} in the file \texttt{preparation.ipynb}.
 These files will train the \ac{ml} model.

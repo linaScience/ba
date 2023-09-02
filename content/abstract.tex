@@ -3,9 +3,12 @@
 \begin{center}\textsf{\textbf{\abstractname}}\end{center}
 
 \noindent 
-Mobile device roaming on \ac{wifi} networks currently does not consider human movement, leading to performance issues.
+Mobile device roaming on \ac{wifi} networks currently does not consider human movement, leading to performance issues for e.g. video conferencing \cite{handoff_performance_issues}.
 This thesis presents a machine learning approach that uses an LSTM model to predict the nearest \ac{ap} based on \ac{rssi} values from the surrounding \ac{ap}.
-The model was trained using real-world data from a Microsoft Research competition and achieved a top 3 prediction accuracy of 76\%.
+The models input are sequences of waypoint, acceleration and \ac{wifi} data such as \acp{bssid} with their \ac{rssi} values.
+Its output is the top 3 \acp{bssid} the model predicts the station will connect to next.
+The model was trained using modified real-world data from a Microsoft Research competition and achieved a top 3 prediction accuracy of 76\%.
+With these predictions, the roaming process in \ac{wifi} networks initiated by a mobile device could be improved.
 However, the performance was only marginally better than a heuristic method.
 Improvements could be achieved with fewer classes, a different sized sliding window, additional sensor data.
 Future research should focus on generated data with more information such as the location of the \ac{ap}, so that human movement can be utilized to precisely predict the next \ac{ap}.
@@ -21,11 +24,14 @@ Future research should focus on generated data with more information such as the
 \begin{center}\textsf{\textbf{\abstractname}}\end{center}
 
 \noindent 
-Beim Roaming mobiler Geräte in \ac{wifi}-Netzwerken werden menschliche Bewegungen derzeit nicht berücksichtigt, was zu Leistungsproblemen führt.
-Diese Arbeit stellt einen maschinellen Lernansatz vor, der ein \ac{lstm}-Modell verwendet, um den nächsten \ac{ap} basierend auf \ac{rssi}-Werten aus dem umgebenden \ac{ap} vorherzusagen.
-Das Modell wurde anhand realer Daten aus einem Microsoft Research-Wettbewerb trainiert und erreichte eine Top-3-Vorhersagegenauigkeit von 76\%.
+Beim Roaming mobiler Geräte in \ac{wifi}-Netzwerken werden menschliche Bewegungen derzeit nicht berücksichtigt, was zu Leistungsproblemen z. B. bei mobilen Endgeräten führt. Videokonferenzen \cite{handoff_performance_issues}.
+Diese Arbeit stellt einen maschinellen Lernansatz vor, der ein LSTM-Modell verwendet, um den nächsten \ac{ap} basierend auf \ac{rssi}-Werten aus dem umgebenden \ac{ap} vorherzusagen.
+Die Modelleingaben sind Sequenzen von Wegpunkt-, Beschleunigungs- und \ac{wifi}-Daten wie \acp{bssid} mit ihren \ac{rssi}-Werten.
+Seine Ausgabe sind die Top 3 \acp{bssid}, mit denen das Modell vorhersagt, dass die Station als nächstes eine Verbindung herstellen wird.
+Das Modell wurde mithilfe modifizierter realer Daten aus einem Microsoft Research-Wettbewerb trainiert und erreichte eine Top-3-Vorhersagegenauigkeit von 76 %.
+Mit diesen Vorhersagen könnte der von einem Mobilgerät initiierte Roaming-Prozess in \ac{wifi}-Netzwerken verbessert werden.
 Allerdings war die Leistung nur unwesentlich besser als bei einer heuristischen Methode.
 Verbesserungen könnten durch weniger Klassen, ein unterschiedlich großes Schiebefenster und zusätzliche Sensordaten erreicht werden.
-Zukünftige Forschungen sollten sich auf generierten Daten mit mehr Informationen wie der Position des \ac{ap} konzentrieren, damit menschliche Bewegungen zur präziseren Vorhersage des nächsten \ac{ap} genutzt werden können.
+Zukünftige Forschung sollte sich auf generierte Daten mit mehr Informationen wie der Position des \ac{ap} konzentrieren, damit menschliche Bewegungen genutzt werden können, um den nächsten \ac{ap} präzise vorherzusagen.
 \end{otherlanguage}
 \vfil\null

@@ -1,24 +1,25 @@
 \chapter{Suitable Machine Learning Model}\label{ch:discuss-ml}
 
 As mentioned in \Cref{ch:data-ana}, the floor analyzed there has 4795 \acp{bssid}.
-Resulting in 4795 classes for the classification problem.
-The selection of a suitable model for this task is even more critical.
+Building upon the insights from \Cref{ch:data-ana}, we recognize that the indoor location dataset, particularly from the Yintai City (Chengxi Branch) floor, presents us with 4795 \acp{bssid}, translating into a high-dimensional classification problem with 4795 classes.
+This intricate classification task necessitates a sophisticated machine learning model that can capture the underlying patterns in the data and generalize well to unseen instances.
 I will discuss the classification models of \Cref{ch:background} by the following topics: Temporal Dependency Handling, Capacity and Complexity, Multivariate Data, Flexibility and Integration, and Regularization and Overfitting. \\
 
 \begin{description}
 \item[Temporal Dependency Handling]
-As I want to predict the next BSSID, I need a model that can handle temporal dependencies.
-\acp{mlp} have no loop \cite{mlp_and_nn}, making them less suitable for time series data where temporal dependencies are crucial.
-While \acp{hmm} can handle temporal dependencies to some extent, they often struggle with longer sequences and multivariate data due to their Markovian assumption \cite{hmm-rabiner-1989}, which limits their memory to the most recent state.
-Standard RNNs were designed to handle temporal dependencies, but they suffer the vanishing gradient problem, making them less effective in capturing long-term dependencies compared to \acp{lstm} \cite{rnn_difficulties_2013}.
-\acp{lstm}, by design, are equipped to handle long-term temporal dependencies. Their unique cell state and gating mechanisms allow them to store, modify, and access information over extended periods, making them adept at capturing patterns from long sequences \cite{lstm-hochreiter}.
+Given the goal to predict the next \ac{bssid} based on the trajectory of a user, it's imperative to select a model that can capture temporal dependencies in the data.
+The irregularities in waypoint data, as mentioned in \Cref{sec:special-cases}, further emphasize the need for a model that can handle such temporal structures.
+While \acp{mlp} lack this capability \cite{mlp_and_nn}, \acp{hmm} do offer some temporal structure but often fall short for longer sequences and multivariate data \cite{hmm-rabiner-1989}.
+Traditional \acp{rnn} are better equipped but have their limitations, such as the vanishing gradient problem \cite{rnn_difficulties_2013}.
+\acp{lstm}, in contrast, are specifically designed to handle long-term temporal dependencies, making them well-suited for our dataset with interpolated waypoints and \ac{wifi} data.
 \end{description}
 
 \begin{description}
 \item[Capacity and Complexity]
-\acp{mlp} can also scale their capacity by adding more hidden layers and units.
+Given the large number of classes (4795 \acp{bssid}), the model needs to have a considerable capacity.
+\acp{mlp} can scale their capacity by adding more hidden layers and units.
 They are capable of modeling complex relationships within data through their nonlinear activations.
-\acp{hmm} have limitations in handling the complexity of multi-class and multivariate problems due to their inherent Markovian assumptions and discrete state representations.
+\acp{hmm} have limitations in handling the complexity of multi-class and multivariate problems due to their inherent Markovian assumptions and discrete state representations and may struggle with such a high-dimensional problem.
 Traditional \acp{rnn} suffer from the vanishing gradient problem, especially in longer sequences, which limits their ability to capture long-term dependencies effectively \cite{rnn_difficulties_2013}.
 With 4,795 classes, the model needs a considerable capacity to differentiate between the subtle differences in patterns that might exist among them. 
 \acp{lstm}, being deep learning models, can scale effectively in terms of capacity by adding more layers or units while still maintaining their ability to handle temporal data.
@@ -26,7 +27,8 @@ With 4,795 classes, the model needs a considerable capacity to differentiate bet
 
 \begin{description}
 \item [Multivariate Data]
-While \acp{mlp} can also handle multivariate data, they treat each feature and time step independently, often missing out on the interdependencies.
+The data at hand is multivariate, with features such as waypoint, accelerometer, and \ac{wifi} data.
+While \acp{mlp} can handle multivariate data, they treat each feature and time step independently, often missing out on the interdependencies.
 \acp{hmm} are primarily designed for univariate data. Extending them to multivariate scenarios requires additional complexities and assumptions.
 \acp{rnn} and \acp{lstm} can seamlessly handle multivariate time series data. 
 Their recurrent nature allows them to effectively process each time step with multiple features.
@@ -34,20 +36,21 @@ Their recurrent nature allows them to effectively process each time step with mu
 
 \begin{description}
 \item[Flexibility and Integration]
+Considering the interpolated data and the various preprocessing steps undertaken, as mentioned in \Cref{sec:prep-on-data-for-an-ml-model}, a flexible model that can be integrated with other architectures or preprocessing steps is desirable. 
 \acp{mlp} are very flexible and can be used generally to learn a mapping from inputs to outputs. \cite{mlp-vs-cnn-vs-rnn} 
 As I want to learn, which BSSID is the next one, this may be a good fit.
 \acp{hmm} are primarily designed for capturing state transitions in sequential data and may not be suitable for tasks requiring the integration of spatial and temporal information.
 Their rigid assumptions about state transitions limit their flexibility in capturing complex patterns \cite{hmm-rabiner-1989}.
 Traditional \acp{rnn} can capture short-term dependencies and are relatively simpler to integrate with other architectures due to their sequential nature.
-\acp{lstm} can be easily integrated with other deep learning architectures, such as Convolutional Neural Networks (CNNs), to capture both temporal and spatial features. 
-This flexibility is advantageous when dealing with complex and varied data sources.
+Also, \acp{lstm} can be easily integrated to capture both temporal and spatial features. 
+This flexibility of \acp{rnn} and \acp{lstm} is advantageous when dealing with complex and varied data sources.
 \end{description}
 
 \begin{description}
 \item[Regularization and Overfitting]
-Dropouts may be used to prevent overfitting for each model \cite{srivastava14a}.
-But traditional \acp{rnn} are prone to vanishing gradient issues, which can increase overfitting in general \cite{rnn_difficulties_2013}.
-Therefore, \acp{mlp}, \acp{hmm} or \acp{lstm} are better suited in this regard.
+Given the large number of data points, as detailed in \Cref{tab:data_summary}, and the intricate relationships between them, the potential for overfitting is high.
+Therefore, dropouts may be used to prevent overfitting for each model \cite{srivastava14a}.
+While \acp{rnn} might be more prone to overfitting \cite{rnn_difficulties_2013}, \acp{mlp}, \acp{hmm}, and \acp{lstm} offer better regularization capabilities.
 \end{description}
 
 \begin{table}[h]
@@ -68,3 +71,8 @@ Therefore, \acp{mlp}, \acp{hmm} or \acp{lstm} are better suited in this regard.
 In conclusion, while \acp{mlp}, \acp{hmm}, and traditional RNNs have their strengths and have been successful in many applications, they have problems with multivariate time series classification with many classes.
 This problem demands a model that can efficiently capture intricate temporal patterns, scale in capacity, and handle multivariate data.
 \acp{lstm}, with their unique architecture and properties, can deal with this challenge, making them the preferred choice for this task and the selected model for our implementation.
+
+% In conclusion, the dataset's unique characteristics, as detailed in \Cref{ch:data-ana}, necessitate a model that can effectively capture temporal patterns, scale in capacity, handle multivariate data, and offer flexibility.
+% Among the models discussed, \acp{lstm} emerge as the most suitable choice, given their ability to handle these requirements adeptly.
+% Thus, \acp{lstm} are chosen for our implementation.
+

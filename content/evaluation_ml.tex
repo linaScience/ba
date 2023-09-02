@@ -11,6 +11,7 @@ The top 3 prediction accuracy of the \ac{lstm} model results in 76\%.
 The predictions ranging from top 1 to top 5 are also evaluated, which can be seen in \Cref{fig:ml_plot}.
 
 \begin{figure}[h]
+    \centering
     \includegraphics*[scale=0.6]{images/ml_plot.pdf}
     \caption{Accuracy of the model that the predicted \ac{ap} is among the top X.}
     \label{fig:ml_plot}
@@ -36,3 +37,9 @@ As seen, the \ac{ml} model is slightly better than the heuristic approach for th
     \caption{Comparison of the Probabilities of correctly predicting the Top 1 to Top 5 \acp{ap} in the ML Model and the Heuristic Approach.}
     \label{fig:comparison_ml_heuristic_1_to_5}
 \end{figure}
+
+One of the major strengths of the machine learning model is that it utilizes user trajectories.
+This approach can capture complex patterns and relationships that other models might overlook.
+However, there are also inherent weaknesses.
+The model has to deal with many classes (4795), and given that it only relies on 6 features, this may compromise its predictive accuracy.
+This limitation might result in the model predicting worse than initially expected.
