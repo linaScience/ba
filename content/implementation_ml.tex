@@ -6,31 +6,31 @@ It is structured in preprocessing and \ac{lstm} implementation, which will be de
 \section{Preprocessing}
 As described in \Cref{ch:data-ana}, the data was prepared and has the following structure:
 The first column contains the \ac{wifi} timestamps in milliseconds, the second and third columns contain the waypoint data values x and y in meters, the fourth to sixth columns contain the acceleration data values x, y, and z in meters per second squared, and the rest of the columns contain the \ac{rssi} data for each \ac{bssid} in the dataset.
-This data is preprocessed for the model as follows:\\
+This data is preprocessed for the model as follows.\\
 First, I set a \texttt{window\_size} for the sliding window I want to use for the model, as \ac{lstm} needs sequence data.
-According to Ja{\'e}n-Vargas et al. \cite{EffectsSlidingWindow2022}, the sliding window size for acceleration-based activity recognition should be \(25 * 0.25 = 6.25\) seconds, so I choose \(3\) as the sliding window size, as our dataset has \ac{wifi} timestamps for every about 2 seconds.
-If a file has less or equal to \(3\) lines, it will not be used because I cannot apply a sliding window for this data.
+According to Ja{\'e}n-Vargas et al. \cite{EffectsSlidingWindow2022}, the sliding window size for acceleration-based activity recognition should be \(25 * 0.25 = 6.25\) seconds, so I choose \(3\) as the sliding window size, as the dataset has \ac{wifi} timestamps for about every 2 seconds.
+If a file has less than or equal to \(3\) lines, it will not be used because I cannot apply a sliding window for this data.
 Furthermore, the length of each file will be saved to know where I need to split the sliding window in the preprocessing later.
-Then, I create our target variable, which is a variable where the \ac{bssid} with the highest \ac{rssi} is saved for each timestamp, which results in a list with 4795 entries, as there are 4795 \acp{bssid} in our dataset.
+Then, I create the target variable, which is a variable where the \ac{bssid} with the highest \ac{rssi} is saved for each timestamp, which results in a list with 4795 entries, as there are 4795 \acp{bssid} in the dataset.
 An encoding of the target variable is necessary for the model, so I encode the target variable with a one-hot encoding.
-I initialize a \texttt{MinMaxScaler} which ranges from \(-1\) to \(1\), as \acp{lstm} use \texttt{tanh} as activation function. 
-Furthermore, our model needs to scale the \ac{rssi} values so that the \ac{rssi} values are considered in the learning process.
-By ensuring all \ac{rssi} features have similar scales, the learning process can be more stable and faster. 
+I initialize a \texttt{MinMaxScaler} which ranges from \(-1\) to \(1\), as \acp{lstm} use \texttt{tanh} as default activation function \cite{tanh-lstm-default}.
+Furthermore, the model needs to scale the \ac{rssi} values so that they are considered in the learning process.
+By ensuring that all \ac{rssi} features have similar scales, the learning process can be more stable and faster. 
 
-After this, I use the \texttt{window\_size} to create sequences with our files.
+After this, I use the \texttt{window\_size} to create sequences with the files.
 If the length of the file mentioned above is reached, a stop in creating the sequences for this file is done, and the next sequences will be created out of the next file.
 There are 
 \[S = \texttt{Length of file} - \texttt{window\_size} + 1\] 
 sequences per file, which results in 
 
 \[
-    S_{\text{total}} = \sum_{i=0}^{146} (\text{Length of } i^{\text{th}} \text{ file} - \text{window\_size} + 1)
+    S_{\text{total}} = \sum_{i=0}^{146} (\texttt{Length of } i^{\texttt{th}} \texttt{ file} - \texttt{window\_size} + 1)
 \]
 sequences in total.
 
 I shuffle the data to eliminate chronological biases. 
-Instead of a basic train-test split, I use 5-fold cross-validation.
-This trains the model on 4 partitions and tests on the remaining one, ensuring a comprehensive evaluation.
+Instead of a basic train-test split, I use k-fold cross-validation.
+This trains the model on 4 partitions and tests on the remaining one, ensuring a proper evaluation.
 A k-value of 5 is standard in machine learning due to its balance between computational efficiency and robust evaluation across varied data subsets.
 
 \begin{figure}[h]
@@ -43,18 +43,22 @@ A k-value of 5 is standard in machine learning due to its balance between comput
 
 \section{\ac{lstm} Tuning, Training and Testing}
 
-I test different models with keras-tuner \cite{keras_tuner} \texttt{RandomSearch} with different hyperparameters.
-As a \ac{lstm} model needs at least one \ac{lstm} layer, the number of layers must be set, which is one hyperparameter of the model.
+I test different models with keras-tuner \texttt{RandomSearch} with different hyperparameters.
+As described in \Cref{sec:hyperparameter-tuning}, we are tuning hyperparameters such as the number of units for the \ac{lstm} layer, the dropout rate, and the batch size.
+As an \ac{lstm} model needs at least one \ac{lstm} layer, the number of layers must be set, which is one hyperparameter of the model.
+The number of units, which the tuner tries out is between 64 and 1024 with a step size of 64.
 The first LSTM layer's architecture is contingent upon the potential presence of a subsequent LSTM layer, and it gets the number of samples, timesteps, and features.
-If there will be a second LSTM layer, the first LSTM must return sequences to feed the subsequent layer.
+If there will be a second LSTM layer, the first LSTM must return sequences to feed the subsequent layer, it has the same step sizes if chosen to be tried out by the tuner.
 This conditional structure provides flexibility in model depth.
-The activation function for the LSTM layers will be \texttt{tanh} as it is a traditional choice.
-A Dropout layer can be optionally added, to randomly select neurons to be ignored during training, helping prevent overfitting, which was mentioned in \Cref{ch:discuss-ml}.
+A Dropout layer can be optionally added, to randomly select neurons to be ignored during training, helping to prevent overfitting, which was mentioned in \Cref{ch:discuss-ml}.
+The value of the dropout rate is between 0 and 0.5 with a step size of 0.05.
 A Batch Normalization layer can also be optionally added.
 Batch normalization standardizes the activations of a given input volume before passing it to the next layer, helping improve the model's convergence speed and overall accuracy.
 The final layer is a Dense layer with a \texttt{softmax} activation function, which is needed for multi-class classification problems to get the probabilities for each class \cite{cat_cross_entropy}.
-As optimizers the \texttt{RandomSearch} will try out \texttt{Adam}, \texttt{SDG}, and \texttt{RMSprop} with adapted learning rates, which are used to minimize the loss function.
-If a learning rate should not be set, the default learning rate for each of the optimizers is \(0.001\).
+As optimizers, the \texttt{RandomSearch} tries out \texttt{Adam}, \texttt{SDG}, and \texttt{RMSprop} with adapted learning rates, which are used to minimize the loss function.
+Conditionally a learning rate may be selected with a value between \(1e^{-6}\) and \(1e^{-4}\) with a step size of \(1e^{-6}\).
+If a learning rate is not set, the default learning rate for each of the optimizers is \(0.001\).
+Also a batch size is tried out, which is between 16 and 128 with a step size of 16.
 
 Finally, the model is compiled and tested with the chosen optimizer and the loss function \texttt{categorical\_crossentropy}, which converts the probabilities to target values.
 
@@ -69,7 +73,7 @@ This \texttt{RandomSearch} leads to the following hyperparameters:
     \item batch\_size: 96
 \end{itemize}
 
-When configured with the parameters mentioned above, the model is shown in \Cref{final_model}.
+The resulting model is shown in \Cref{final_model}.
 \begin{figure}[h!]
     \centering
     \input{images/final_model.tex}
@@ -77,12 +81,3 @@ When configured with the parameters mentioned above, the model is shown in \Cref
     \label{final_model}
 \end{figure}
 
-
-% \begin{figure}[h!]
-%     \centering
-%     \includegraphics[scale=0.5]{images/model_plot.png}
-%     \caption{An example LSTM Network with Input, LSTM, and Dense Layer with 4801 Features and window\_size of 10.}
-%     \label{fig:lstm_architecture}
-% \end{figure}
-
-%\noindent

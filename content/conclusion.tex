@@ -1,7 +1,11 @@
 \chapter{Conclusion}\label{ch:conclusion}
  
+To reduce the number of roamings in large-scale \ac{wifi} environments, this thesis explored a first step towards selecting the next \ac{ap} a station may connect to.
+The proposed model can be used to predict, which \ac{ap} has the highest probability of being the next \ac{ap} with the highest \ac{rssi} value, but there is also other information needed such as the load of the \ac{ap} and the number of connected stations to know, whether the roam will be beneficial.
+For the selection process and use in future \ac{wifi} setups, the prediction needs to be implemented and tested in a real environment, which is important for the evaluation of the prediction.
+
 \ac{ap} prediction with user movement is a hard task with many classes.
-Although \ac{lstm} is the best choice among the discussed models for this task, the prediction accuracy for selecting on of the top 3 \acp{ap} is XX\%.
+Although I find \ac{lstm} to be the best choice among the discussed models for this task, the prediction accuracy for selecting one of the top three \acp{ap} is 76\%.
 In the future, the model could also be trained for other floors and sites, which would likely result in similar accuracies.
 
 With 4795 classes, the \ac{lstm} model faces the challenge of distinguishing between a vast number of classes.

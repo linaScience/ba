@@ -1,8 +1,9 @@
 \chapter{Suitable Machine Learning Model}\label{ch:discuss-ml}
 
-As mentioned in \Cref{ch:data-ana}, the floor analyzed there has 4795 \acp{bssid}.
-Building upon the insights from \Cref{ch:data-ana}, we recognize that the indoor location dataset, particularly from the Yintai City (Chengxi Branch) floor, presents us with 4795 \acp{bssid}, translating into a high-dimensional classification problem with 4795 classes.
-This intricate classification task necessitates a sophisticated machine learning model that can capture the underlying patterns in the data and generalize well to unseen instances.
+The floor I analyzed in \Cref{ch:data-ana} has 4795 \acp{bssid}.
+Building upon the previous insights, the Yintai City (Chengxi Branch) floor 1 data has 4795 \acp{bssid}.
+I will interpret each \ac{bssid} as a class, which translates to a high-dimensional classification problem with 4795 classes.
+This classification task necessitates a machine learning model that can capture the underlying patterns in the data and generalize well to unseen instances.
 I will discuss the classification models of \Cref{ch:background} by the following topics: Temporal Dependency Handling, Capacity and Complexity, Multivariate Data, Flexibility and Integration, and Regularization and Overfitting. \\
 
 \begin{description}
@@ -37,12 +38,12 @@ Their recurrent nature allows them to effectively process each time step with mu
 \begin{description}
 \item[Flexibility and Integration]
 Considering the interpolated data and the various preprocessing steps undertaken, as mentioned in \Cref{sec:prep-on-data-for-an-ml-model}, a flexible model that can be integrated with other architectures or preprocessing steps is desirable. 
-\acp{mlp} are very flexible and can be used generally to learn a mapping from inputs to outputs. \cite{mlp-vs-cnn-vs-rnn} 
+\acp{mlp} are very flexible and can generally be used to learn a mapping from inputs to outputs. \cite{mlp-vs-cnn-vs-rnn} 
 As I want to learn, which BSSID is the next one, this may be a good fit.
 \acp{hmm} are primarily designed for capturing state transitions in sequential data and may not be suitable for tasks requiring the integration of spatial and temporal information.
 Their rigid assumptions about state transitions limit their flexibility in capturing complex patterns \cite{hmm-rabiner-1989}.
 Traditional \acp{rnn} can capture short-term dependencies and are relatively simpler to integrate with other architectures due to their sequential nature.
-Also, \acp{lstm} can be easily integrated to capture both temporal and spatial features. 
+Also, \acp{lstm} can easily be integrated to capture both temporal and spatial features. 
 This flexibility of \acp{rnn} and \acp{lstm} is advantageous when dealing with complex and varied data sources.
 \end{description}
 
@@ -55,6 +56,7 @@ While \acp{rnn} might be more prone to overfitting \cite{rnn_difficulties_2013},
 
 \begin{table}[h]
     \centering
+    \caption{Suitability of models for various requirements.}
     \begin{tabular}{l|c|c|c|c}
         & MLP & HMM & RNN & LSTM \\
         \hline
@@ -64,15 +66,9 @@ While \acp{rnn} might be more prone to overfitting \cite{rnn_difficulties_2013},
         Flexibility & \checkmark & & \checkmark & \checkmark \\
         Overfitting & \checkmark & \checkmark & & \checkmark \\
     \end{tabular}
-    \caption{Suitability of models for various requirements.}
     \label{tab:model_suitability}
 \end{table}
 
 In conclusion, while \acp{mlp}, \acp{hmm}, and traditional RNNs have their strengths and have been successful in many applications, they have problems with multivariate time series classification with many classes.
-This problem demands a model that can efficiently capture intricate temporal patterns, scale in capacity, and handle multivariate data.
-\acp{lstm}, with their unique architecture and properties, can deal with this challenge, making them the preferred choice for this task and the selected model for our implementation.
-
-% In conclusion, the dataset's unique characteristics, as detailed in \Cref{ch:data-ana}, necessitate a model that can effectively capture temporal patterns, scale in capacity, handle multivariate data, and offer flexibility.
-% Among the models discussed, \acp{lstm} emerge as the most suitable choice, given their ability to handle these requirements adeptly.
-% Thus, \acp{lstm} are chosen for our implementation.
-
+The classification problem for this thesis demands a model that can efficiently capture temporal patterns, scale in capacity, and handle multivariate data.
+As \Cref{tab:model_suitability} shows, \acp{lstm} can deal with this challenge due to their unique architecture and properties, making them the preferred choice for this task and the selected model for our implementation.
