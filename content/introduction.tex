@@ -13,7 +13,7 @@ Then, there is no initiation of a roam from \ac{ap}1 to \ac{ap}3, but instead th
     \label{fig:roaming}
 \end{figure}
 
-Real-time applications such as video conferencing are particularly sensitive to these hand-offs,\fmhkn{Konsistentz: raoming, hand-off, ...? } which may result in dropped connections and unsatisfied users.
+Real-time applications such as video conferencing are particularly sensitive to these frequent roamings, which may result in dropped connections and unsatisfied users.
 Instead, it would be ideal if the movement from \ac{ap}1 to \ac{ap}3 was\fmhkn{were detected -- subjunctive, oder? } detected by the station beforehand and a roam from \ac{ap}1 to \ac{ap}3 was initiated.
 
 Therefore, this thesis explores if a time series \ac{ml} model can predict the nearest\fmhkn{best? in ihrem Beispiel ist es ja auch nicht der nächste... oder meinen Sie das zeitlich? dann wäre es the next, the following, ..?  } \ac{ap} a station may connect to next.
@@ -32,9 +32,9 @@ The only dataset which I found meeting these requirements is from a 2021 competi
 
 The prediction will be hard because of the high number of classes, because the dataset does not provide the location of the \acp{ap},\fmhkn{wozu brauchen wir Lokation? das ist uns doch egal???} and because  multi-class classification like image recognition deals with a limited number of classes.\fmhkn{naja... Sortier-Algorithmen führt man auch nur mit 10 Zahlen als Beispiel ein. Deswegen ist das Sortieren von 1000 Zahlen auch nicht schwerer. Was ist hier der Punkt??}
 The relaxation to a top-three prediction\fmhkn{wirkich , ich lgaube nict, dass Sie eine top-three preditction machen. Sie prediction doch eher ``three with the top''??} will make the prediction task easier, but it will still be challenging to beat the heuristic approach, as it is simple but\fmhkn{also, Sie erklären, warum heuristic gut ist indem Sie einen NAchteil erklären? ich bin verwirrt.} relies on the last measured \ac{rssi} value, which may not change that much in a short time. 
-I expect, \fmhkn{Kein Komma vor THAT!! } that the \ac{ml} model will be better than the heuristic approach because we can utilize the user's trajectory, which the heuristic approach cannot do.
+I expect that the \ac{ml} model will be better than the heuristic approach because we can utilize the user's trajectory, which the heuristic approach cannot do.
 
-The rest of this thesis is structured as follows:\fmhkn{never use \\ in text}
+The rest of this thesis is structured as follows:
 In \Cref{ch:background}, I will give an overview of the terms of \ac{ml} concepts and models used in this thesis.
 \Cref{ch:related-work} I will discuss related work and compare it to this thesis.
 The data will be analyzed in \Cref{ch:data-ana} to determine what parts of the data I will use for the \ac{ml} model.

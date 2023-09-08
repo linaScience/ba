@@ -1,7 +1,5 @@
 \chapter{Implementation}\label{ch:implementation}
 
-\fmhkn{obviously, this is a bit too brief in this form :-) }
-
 All the code for this implementation can be found in the GitHub repository \cite{github-repo}.
 It is structured in preprocessing and \ac{lstm} implementation, which will be described in the following sections.
 
@@ -42,9 +40,6 @@ A $k$-value of 5 is standard in machine learning due to its balance between comp
     \caption{Size of sequence generation for all files}
     \label{fig:sequence_generation}
 \end{figure}
-\fmhkn{uh... NIE pngs einbinden; immer Vektorformate!! }
-
-
 
 \section{\ac{lstm} Tuning, Training and Testing}
 
@@ -65,7 +60,7 @@ Batch normalization standardizes the activations of a given input volume before 
 The final layer is a Dense layer with a \texttt{softmax} activation function, which is needed for multi-class classification problems to get the probabilities for each class \cite{cat_cross_entropy}.
 As optimizers, the \texttt{RandomSearch} tries out \texttt{Adam}, \texttt{SDG}, and \texttt{RMSprop} with adapted learning rates, which are used to minimize the loss function.
 
-Conditionally\fmhkn{conditional on what? } a learning rate may be selected with a value between \(1e^{-6}\) and \(1e^{-4}\) with a step size of \(1e^{-6}\).
+A learning rate may be selected with a value between \(1e^{-6}\) and \(1e^{-4}\) with a step size of \(1e^{-6}\).
 If a learning rate is not set, the default learning rate for each of the optimizers is \(0.001\).
 Also, a batch size is tried out, which is between 16 and 128 with a step size of 16.
 

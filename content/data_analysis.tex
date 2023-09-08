@@ -62,8 +62,6 @@ The first contains the start time of the recording, the second site information 
     1571462195943   TYPE_WAYPOINT   59.72475    69.02152
     #   endTime:1571462195976
   \end{lstlisting}
-\fmhkn{das pinyin für den chinesischen Namen ist: Yíntài chéng (chéngxi dìan) Yintai city (chengxi branch)}
-  
 
 The last line contains the end time of the recording.
 The central part of the data consists of the collected data. 
@@ -157,7 +155,6 @@ A multivariate time series with \texttt{TYPE\_WAYPOINT} and \texttt{TYPE\_ACCELE
 This time series will be used for the machine learning model.
 Further interpolation of the data, such as \texttt{TYPE\_GYROSCOPE}, is possible, but this thesis only utilizes the abovementioned data.
 
-\fmhkn{ok }
 
 \subsection{Peculiarities of the data}\label{sec:special-cases}
 The dataset analysis revealed some peculiarities, which are described in the following.
@@ -175,10 +172,10 @@ As \Cref{fig:vis-wo-interpolated} shows, some waypoints seem to be very distant 
     \label{tab:metric-diff}
 \end{figure}
 
-This difference is too high for a human to walk in \(1.8\) to \(2.2\) \fmhkn{es gibt keinen Grund, einfache Zahlen in Mathe-Mode zu setzen. Da sehen dann nur die Fonts dumm aus.} seconds, the time between two waypoints.
-A human's gait speed has its maximum at about \(2.53\) meters per second \cite{bohannonComfortableMaximumWalking1997}.
-So in \(2.2\) seconds, a human can walk \(5.57\) meters, which is much less than each of the values in the top 10 in \Cref{tab:metric-diff}.
-Therefore, waypoints, which\fmhkn{das ist defining relative clause; der wählt aus der Menge aller waypoints welche aus. Also: that und kein Komma.} are more than about 5.57 meters apart, are defined as ``too apart from each other'' to walk in this time, and therefore, a split in the path will be done and  separated files are generated, indicating a new path.
+This difference is too high for a human to walk in 1.8 to 2.2 seconds, the time between two waypoints.
+A human's gait speed has its maximum at about 2.53 meters per second \cite{bohannonComfortableMaximumWalking1997}.
+So in 2.2 seconds, a human can walk 5.57 meters, which is much less than each of the values in the top 10 in \Cref{tab:metric-diff}.
+Therefore, waypoints that are more than about 5.57 meters apart, are defined as ``too apart from each other'' to walk in this time, and therefore, a split in the path will be done and separated files are generated, indicating a new path.
 This results in 147 files with data interpolation, which will be used for the \ac{ml} model.
 However, the data in those interpolated files does not contain any information about the \ac{bssid} and corresponding \ac{rssi} values, which are needed for the prediction.
 This will be solved in the following \Cref{sec:wifi-data}.
@@ -191,7 +188,7 @@ In order to use the \ac{rssi} in the prediction and treat each \ac{bssid} as a c
 For this, all \acp{bssid} of the site will be gathered by iterating over all \ac{wifi} data and saved in one file.
 Every line contains the timestamp, and each column header is the \ac{bssid} of the \ac{ap}, and each value of the line is the \ac{rssi} value of the \ac{bssid} at the timestamp.
 If an \ac{ap} is absent, a very low value \(-999\) is inserted, because the typical \ac{rssi} value ranges from \(-55\) to \(-90\) \cite{rssi_calculation}.
-This ensures that it is \fmhkn{keine contractions in formal text} highly improbable for an \ac{ap} to be selected for the prediction with this value.
+This ensures that it is highly improbable for an \ac{ap} to be selected for the prediction with this value.
 Then, I iterate over each file with interpolated data, and for each timestamp, the \ac{bssid} and the corresponding \ac{rssi} value from the \ac{wifi} file is added to the interpolated file.
 At each \texttt{TYPE\_WIFI} timestamp with waypoint and acceleration data, the \ac{rssi} value for each \ac{bssid} is now saved.
 The code for this can be found in the GitHub repository in the file \texttt{preparation.ipynb}.

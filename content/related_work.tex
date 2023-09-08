@@ -1,7 +1,7 @@
 \chapter{Related Work}\label{ch:related-work}
 
 Numerous studies have focused on a variety of topics in the fast developing field of wireless communications and networking, from handover prediction to user mobility and network traffic prediction.
-This chapter gives a summary of the important research,\fmhkn{wirklich dieses Komma?} that are related to this thesis.
+This chapter gives a summary of the important research that are related to this thesis.
 
 
 
@@ -9,22 +9,22 @@ This chapter gives a summary of the important research,\fmhkn{wirklich dieses Ko
 
 Montavont et al.~\cite{handover-assisted-by-gps}\fmhkn{non-breaking space nach al. -- in jedem Fall aber ein normal space. Siehe frenchspacing. } propose a handover decision algorithm based on the \ac{gps} location of the mobile device.
 Unfortunately, in large-scale and dense \ac{wifi} environments, \ac{gps} may not be available or not accurate enough for indoor trajectories.
-Khan et al. \cite{MLBasedHandoverPrediction2022} address the problem of handover prediction and \ac{ap} selection in dense \ac{wifi} networks with \ac{sdn}.
-Their \ac{ap} selection predictions outperform the current approaches of strongest received signal first by 9.2\,\% \fmhkn{short space between number and unit} and least-loaded signal\fmhkn{was ist denn ein least-loaded signal? meinen Sie AP statt signal?} first by 8\,\%.
+Khan et al.~\cite{MLBasedHandoverPrediction2022} address the problem of handover prediction and \ac{ap} selection in dense \ac{wifi} networks with \ac{sdn}.
+Their \ac{ap} selection predictions outperform the current approaches of strongest received signal first by 9.2\,\% and least-loaded \ac{ap} first by 8\,\%.
 Khan et al. focus on using \ac{ml} for throughput estimation of the network and accordingly choose the best \ac{ap} to roam to; they do not consider the trajectory of the mobile device in the \ac{ap} selection or use \ac{ml} for the \ac{ap} selection process directly.
 
 \section{User Movement Prediction}
 
-Bakirtzis et al. \cite{multivariate-lstm-indoor-outdoor} treat their indoor outdoor detection problem as a multivariate time-series classification.
+Bakirtzis et al.~\cite{multivariate-lstm-indoor-outdoor} treat their indoor outdoor detection problem as a multivariate time-series classification.
 They use \ac{ml} containing \ac{lstm} for their prediction and demonstrate that a multivariate time-series classification approach can be used to monitor a user's environment.
 To predict user movement, Bourjandi et al. \cite{bourjandiPredictingUserMovement2022} use a mix of multiple \ac{ml} models, where \ac{lstm} is used to learn long-term dependencies.
-Prasad et al. \cite{hmm-movement-prediction} propose a \ac{hmm} to predict the next possible location.
+Prasad et al.~\cite{hmm-movement-prediction} propose a \ac{hmm} to predict the next possible location.
 They use real-world data, which contain times, direction, and speed of movement.
 
 \section{Network Prediction}
 
 There are also approaches to predict network traffic.
 To forecast network traffic, Ferreira et al. \cite{ferreiraForecastingNetworkTraffic2023} compare different \ac{ml} models such as \ac{rnn} and \ac{lstm} and perform experiments with real-world data.
-Mirza et al. \cite{mirzaMachineLearningApproach2007} predict \ac{tcp} throughput for arbitrary network paths in the Internet with the \ac{ml} model Support Vector Machines.
+Mirza et al.~\cite{mirzaMachineLearningApproach2007} predict \ac{tcp} throughput for arbitrary network paths in the Internet with the \ac{ml} model Support Vector Machines.
 
 \fmhkn{hier fehlt eine Zusammenfassung: was heißt das nun alles? Wo ist die Lücke, in die die Arbeit hineinpasst? Insgesamt sehr knapp.}

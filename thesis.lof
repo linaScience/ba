@@ -1,0 +1,25 @@
+\acswitchoff 
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {ngerman}{}\relax 
+\babel@toc {english}{}\relax 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Roaming process of a user's station from \ac {ap}1 to \ac {ap}3 bypassing also \ac {ap}2.\relax }}{1}{figure.caption.3}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Visualization of the 2,027 waypoints of the site Yintai City (Chengxi Branch) on floor F1\relax }}{14}{figure.caption.21}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Visualization of the interpolated waypoints for site Yintai City (Chengxi Branch) on floor F1\relax }}{15}{figure.caption.23}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Top 10 pairs with the most significant metric differences of data from floor F1 of site Yintai City (Chengxi Branch)\relax }}{16}{figure.caption.24}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Size of sequence generation for all files\relax }}{22}{figure.caption.30}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces The final model architecture.\relax }}{24}{figure.caption.31}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Comparison of the Probabilities of correctly predicting the Top one to Top five \acp {ap} in the ML Model and the Heuristic Approach.\relax }}{26}{figure.caption.35}%
+\addvspace {10\p@ }
+\babel@toc {ngerman}{}\relax 
+\babel@toc {english}{}\relax 
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
