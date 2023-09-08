@@ -5,9 +5,10 @@ First, the predictions of the test set are in \texttt{X\_test}.
 Since the predictions are probabilities for each class, a conversion of the highest probability as true labels in \texttt{y\_test} is done, because this value will be the predicted \ac{ap}.
 Those are one-hot encoded, as described in \Cref{ch:implementation}.
 Then, I decode the one-hot encoded classes to the original classes, which can be done by \texttt{inverse\_transform} with the encoder.
-Finally, I select the highest probabilities of the predictions and compare it with the corresponding true label for the timestamp.
+
+Finally, I select the highest probabilities of the predictions\fmhkn{? ich dachte, da kommen nur 0/1 encodings raus? Wie können Sie dann probabilities aus der Prädiktion bekommen? ich bin verwirrt.} and compare it with the corresponding true label for the timestamp.
 If they are equal, the prediction is correct, otherwise it is false.
-The top three prediction accuracy of the \ac{lstm} model, so that one of the three predicts the correct \ac{bssid}, results in 76\%.
+The top three prediction accuracy of the \ac{lstm} model, so that one of the three predicts the correct \ac{bssid}, results\fmhkn{versteh ich nicht... die accuracy IST doch einfach 76 prozent? wie kann das was anderes sein, was dann in eine Zahl resultiert? verwirrend... } in 76\%.
 The predictions ranging from top one to top five are also evaluated, as shown in \Cref{fig:comparison_ml_heuristic_1_to_5}.
 
 \begin{figure}[h]
@@ -18,11 +19,13 @@ The predictions ranging from top one to top five are also evaluated, as shown in
 \end{figure}
 
 Instead of predicting the top three \acp{ap}, a heuristic approach could be used and will be compared with the model in the following.
-The heuristic chooses the \ac{ap} with the highest signal strength as next \ac{ap}, if this is not the next strongest, it will proceed with the second strongest and so on.
+The heuristic chooses the \ac{ap} with the highest signal strength as next \ac{ap}; if this is not the next strongest, it will proceed with the second strongest and so on.\fmhkn{versteh ich nicht... ? was beduet dieser Satz? }
 \Cref{fig:comparison_ml_heuristic_1_to_5} shows the accuracy of this heuristic approach for choosing the strongest to the fifth strongest \ac{ap}.
 
 Also, for predicting the top one to top five \ac{ap} the \ac{ml} models predictions are from top two on better than the heuristic approach.
-The \ac{ml} model is slightly better than the heuristic approach for the top three \acp{ap}.
+The \ac{ml} model is slightly better than the heuristic approach for the top three \acp{ap}.\fmhkn{es tut mir leid, aber das ist mir zu kanpp. Ich kann hier nur mit Mühe folgen?}
+
+\fmhkn{Sie müssen mir jetzt schon noch die Ergebnisse erklären. DAs reicht knapp, aber ein paar Sätze sollten es schon sein. Und spezifischer als der folgende Absatz.}
 
 One of the major strengths of the machine learning model is that it utilizes user trajectories.
 This approach can capture complex patterns and relationships that other models might overlook.

@@ -1,6 +1,6 @@
 \chapter{Background}\label{ch:background}
 
-The basic information in this chapter is necessary for comprehending the key ideas covered in this thesis.
+The basic information in this chapter is necessary\fmhkn{should be helpful?} for comprehending the key ideas covered in this thesis.
 The field of \ac{ml} is extensive, with many models created for diverse tasks, each with advantages and uses.
 This chapter will provide a brief overview of the models discussed and used in this thesis, as well as the concepts of time series prediction and hyperparameter tuning.
 
@@ -16,7 +16,7 @@ In this thesis, a multi-class classification model will be used to predict which
 
 \section{Univariate and Multivariate Time Series}
 
-A time series is univariate, if one observation is recorded sequentially over time, e.g., temperature or stock prices.
+A time series is univariate if one observation is recorded sequentially over time, e.g., temperature or stock prices.
 If another observation was recorded over time together with the temperature like humidity, then the time series is multivariate \cite{brownleeDeepLearningTime}.
 
 \section{Time Series Prediction}
@@ -27,6 +27,8 @@ Due to its inherent temporal dependencies, where sequent data points influence p
 These include \ac{mlp} \cite{mlp-backpropagation-rumelhart}, \ac{hmm} \cite{hmm-rabiner-1989}, and \ac{rnn} \cite{hopfield-rnn} models such as \ac{lstm} \cite{lstm-hochreiter}.
 Each model is designed to capture and leverage temporal patterns within the data, predicting future trends based on historical observations \cite{neptune-ai}.
 
+
+\fmhkn{this is not structured so nicely. We are mixing problems -- time-series prediction -- with techniques -- MLP -- and mathematicl structures -- HMM. I am confused :-/ }
 
 % Machine learning models
 \section{Multilayer Perceptron}
@@ -65,3 +67,6 @@ Hyperparameters can be tuned by, e.g., random search, which can be done manually
 This thesis will use keras-tuner \footnote{Keras-tuner, the hyperparameter optimization framework for keras: \url{https://github.com/keras-team/keras-tuner}} to tune the hyperparameters of the \ac{lstm} model.
 \texttt{RandomSearch} is a hyperparameter optimization algorithm that randomly searches the hyperparameter space for the best configuration.
 The hyperparameter space is predefined by the user, and the algorithm tries out different hyperparameters in this space.
+
+
+\fmhkn{treating all these topics at the same hierarchy level is really odd}

@@ -2,9 +2,9 @@
 
 In large-scale \ac{wifi} environments such as office buildings, shopping malls, and airports, where multiple \acp{ap} are required, people often move around indoors with their mobile devices.
 To maintain a stable connection to the \ac{wifi}, the station must remain in the range of an \ac{ap} or may roam to another with the same \ac{ssid}.
-However, the current roaming process, as defined in the 802.11k/r\cite{802.11k}\cite{802.11r} \ac{wifi} standard, does not consider human movement.
+However, the current roaming process, as defined in the 802.11k/r\cite{802.11k}\cite{802.11r} \ac{wifi} standard, does not consider human movement.\fmhkn{naja... ``consider'' heißt was? natürlich considered im Sinne das human movement zu roaming führt}
 For example, consider that a user's station moves away from \ac{ap}1 towards \ac{ap}2 and further towards \ac{ap}3, as seen in \Cref{fig:roaming}.
-Then there is no initiation of a roam from \ac{ap}1 to \ac{ap}3, but instead the station will first roam from \ac{ap}1 to \ac{ap}2 and then to \ac{ap}3, which increases the number of roamings.
+Then, there is no initiation of a roam from \ac{ap}1 to \ac{ap}3, but instead the station will first roam from \ac{ap}1 to \ac{ap}2 and then to \ac{ap}3, which increases the number of roamings.
 
 \begin{figure}[h]
     \centering
@@ -13,28 +13,28 @@ Then there is no initiation of a roam from \ac{ap}1 to \ac{ap}3, but instead the
     \label{fig:roaming}
 \end{figure}
 
-Real time applications such as video conferencing are particularly sensitive to these hand-offs, which may result in dropped connections and unsatisfied users.
-Instead, it would be ideal if the movement from \ac{ap}1 to \ac{ap}3 was detected by the station beforehand and a roam from \ac{ap}1 to \ac{ap}3 was initiated.
+Real-time applications such as video conferencing are particularly sensitive to these hand-offs,\fmhkn{Konsistentz: raoming, hand-off, ...? } which may result in dropped connections and unsatisfied users.
+Instead, it would be ideal if the movement from \ac{ap}1 to \ac{ap}3 was\fmhkn{were detected -- subjunctive, oder? } detected by the station beforehand and a roam from \ac{ap}1 to \ac{ap}3 was initiated.
 
-Therefore, this thesis explores if a time series \ac{ml} model can predict the nearest \ac{ap} a station may connect to next.
+Therefore, this thesis explores if a time series \ac{ml} model can predict the nearest\fmhkn{best? in ihrem Beispiel ist es ja auch nicht der nächste... oder meinen Sie das zeitlich? dann wäre es the next, the following, ..?  } \ac{ap} a station may connect to next.
 Because of the many \acp{ap} in large-scale \ac{wifi} environments, I interpret this prediction as a multi-class classification problem with many classes.
 Typical applications for multi-class classification are image recognition of e.g. animals or handwriting recognition with a limited number of classes.
-As this thesis has near to 4800 classes, the prediction task will be much harder.
-To make the prediction task easier, the model will predict the top three \acp{ap} the station may connect to next.
-Thus, the nearest station needs to be in the top three instead of top one of the predictions to be considered a correct prediction.
-This prediction will be compared to a heuristic approach, which will choose the next \ac{ap} based on the last measured \ac{rssi} value.
+As this thesis has near to 4800 classes,\fmhkn{not clear what the classes are??} the prediction task will be much harder.
+To make the prediction task easier, the model will predict the top three \acp{ap} the station may connect to next.\fmhkn{exakter formulieren!! was heißt ``top three connect to next''? heißt das z.B. : ``die drei APs, deren W'keit als nächstes dran zu kommen, am höchsten ist'', oder ``eine Menge von drei APs, unter denen der max-W'keit AP enthalten ist'' (es darf also z.B. auch der 5. wahrscheinlichste in der Menge sein; das ist ein einfacheres Problem!), oder ... -- das sind alles leicht andere Formulierung. DAs muss klar sein!}\fmhkn{und was ist jetzt die Klasse? ist jeder AP eine Klasse? oder jede Teilmenge ,mit drei APs? ...? }
+Put differently, the nearest station needs to be in the top three\fmhkn{versteht ich immer noch nicht...} instead of top one of the predictions to be considered a correct prediction.
+This prediction will be compared to a heuristic approach, which will choose the next \ac{ap} based on the last measured \ac{rssi} value.\fmhkn{ja, und WIE? also den hcöshten, kleinsten, lustigsten RSSI Wert?? exakt formulieren!!}
 
-A time series \ac{ml} model requires time series data as input.
+A time-series \ac{ml} model requires time series  as input.
 There are two possible data sources: generate new or utilize existing data. 
 Creating a large-scale environment with many \acp{ap} and users is not feasible for this thesis, as this process is time-consuming and needs a lot of planning and evaluation beforehand.
 Thus, this thesis will use an existing dataset with sensor data such as acceleration, waypoint, and \ac{wifi} data from large-scale environments.
-The only dataset which I found with these requirements is from a 2021 competition by Microsoft Research \cite{IndoorLocationNavigation} on kaggle\footnote{Kaggle, a website containing competitions and datasets for machine learning: \url{https://www.kaggle.com}}.
+The only dataset which I found meeting these requirements is from a 2021 competition by Microsoft Research \cite{IndoorLocationNavigation}, located on kaggle\footnote{Kaggle, a website containing competitions and datasets for machine learning: \url{https://www.kaggle.com}}.
 
-The prediction will be hard, because of the high number of classes, and that the dataset does not provide the location of the \acp{ap} and that multi-class classification like image recognition deal with a limited number of classes.
-The relaxation to a top three prediction will make the prediction task easier, but it will still be challenging to beat the heuristic approach, as it is simple, but relies on the last measured \ac{rssi} value, which may not change that much in a short time. 
-I expect, that the \ac{ml} model will be better than the heuristic approach, because we can utilize the user's trajectory, which the heuristic approach cannot.
+The prediction will be hard because of the high number of classes, because the dataset does not provide the location of the \acp{ap},\fmhkn{wozu brauchen wir Lokation? das ist uns doch egal???} and because  multi-class classification like image recognition deals with a limited number of classes.\fmhkn{naja... Sortier-Algorithmen führt man auch nur mit 10 Zahlen als Beispiel ein. Deswegen ist das Sortieren von 1000 Zahlen auch nicht schwerer. Was ist hier der Punkt??}
+The relaxation to a top-three prediction\fmhkn{wirkich , ich lgaube nict, dass Sie eine top-three preditction machen. Sie prediction doch eher ``three with the top''??} will make the prediction task easier, but it will still be challenging to beat the heuristic approach, as it is simple but\fmhkn{also, Sie erklären, warum heuristic gut ist indem Sie einen NAchteil erklären? ich bin verwirrt.} relies on the last measured \ac{rssi} value, which may not change that much in a short time. 
+I expect, \fmhkn{Kein Komma vor THAT!! } that the \ac{ml} model will be better than the heuristic approach because we can utilize the user's trajectory, which the heuristic approach cannot do.
 
-The rest of this thesis is structured as follows:\\
+The rest of this thesis is structured as follows:\fmhkn{never use \\ in text}
 In \Cref{ch:background}, I will give an overview of the terms of \ac{ml} concepts and models used in this thesis.
 \Cref{ch:related-work} I will discuss related work and compare it to this thesis.
 The data will be analyzed in \Cref{ch:data-ana} to determine what parts of the data I will use for the \ac{ml} model.

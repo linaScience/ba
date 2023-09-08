@@ -3,7 +3,7 @@
 As mentioned in \Cref{ch:intro}, the dataset used in this thesis is the Indoor Location \& Navigation from kaggle, which was part of a competition of Microsoft Research in 2021 \cite{IndoorLocationNavigation}.
 The company ``\(XYZ^{10}\)''\footnote{Website of \(XYZ^{10}\): https://dangwu.io} recorded the data in shopping malls and was provided by Microsoft Research for this competition.
 The goal of the competition was to predict the indoor position of users' smartphones based on real-time sensor data and user trace data.
-The prediction for this competition contain the floor and waypoint at a certain timestamp.
+The prediction for this competition contains the floor and waypoint at a certain timestamp.
 However, this thesis will not predict the floor and waypoint but the next \ac{bssid} a device may connect to based on the \ac{rssi} of the \acp{ap} and the trajectory of the user, as this prediction is more useful for the roaming process.
 Therefore, the dataset will be analyzed to determine what parts of the data I use for the \ac{ml} model.
 
@@ -16,8 +16,8 @@ As noted in the kaggle notebook ``Indoor Navigation: Complete Data Understanding
     \item a \texttt{metadata} folder with floor metadata, organized by site and floor, which includes floor images, further information, and a geojson map.
 \end{itemize}
 
-The train folder contains 204 subfolders representing each shopping mall (site) where the data was recorded.
-In each site folder are a minimum of one and a maximum of twelve subfolders, which represent the floors of the site; the median is five floors.
+The train folder contains 204 subfolders representing each shopping mall (site) where  data was recorded.
+In each site folder, there is at least  one and at most twelve subfolders, which represent the floors of the site; the median is five floors.
 Overall, there are 26,925 files, each containing the movement of a person for a specific site and floor.
 Per floor, there are between one and 284 files with a median of 14.
 The floor F1 of the site \begin{CJK*}{UTF8}{gbsn}银泰城(城西店)\end{CJK*} (Yintai City (Chengxi Branch)) in the train folder of the competition, has the most files.
@@ -135,7 +135,7 @@ The visualization of the waypoints can be seen in \Cref{fig:vis-wo-interpolated}
 \end{figure}
 
 Further human movement between \texttt{TYPE\_WAYPOINT} and \texttt{TYPE\_WIFI} data points may have occurred.
-Therefore, a combination of the data points to directly get a location for the \ac{wifi} data points will not work, because the waypoint may have changed in that time.
+Therefore, a combination of the data points to directly get a location for the \ac{wifi} data points will not work,\fmhkn{I am still struggling why you even boterh with location??? is that really relevant? Why not just focus on RSSI, as stated above?} because the waypoint may have changed in that time.
 Nevertheless, they can be combined using linear interpolation.
 
 Therefore, I perform an interpolation of \texttt{TYPE\_WAYPOINT} data for \texttt{TYPE\_WIFI} timestamps in order to get a location for the \ac{wifi}.
@@ -157,13 +157,15 @@ A multivariate time series with \texttt{TYPE\_WAYPOINT} and \texttt{TYPE\_ACCELE
 This time series will be used for the machine learning model.
 Further interpolation of the data, such as \texttt{TYPE\_GYROSCOPE}, is possible, but this thesis only utilizes the abovementioned data.
 
+\fmhkn{ok }
+
 \subsection{Peculiarities of the data}\label{sec:special-cases}
 The dataset analysis revealed some peculiarities, which are described in the following.
 
 Different devices collect the data at different timestamps and days.
 A problem for the time series is that the waypoint data were measured irregularly.
 As \Cref{fig:vis-wo-interpolated} shows, some waypoints seem to be very distant from the next one, which can be detected by the dotted lines that go all across the floor.
-\Cref{tab:metric-diff} shows the top 10 pairs of waypoints with the most significant metric differences, where \(174.77\) meters is the most significant difference.\\
+\Cref{tab:metric-diff} shows the top 10 pairs of waypoints with the most significant metric differences, where \(174.77\) meters is the most significant difference.
 
 \begin{figure}[h]
     \centering
@@ -173,10 +175,10 @@ As \Cref{fig:vis-wo-interpolated} shows, some waypoints seem to be very distant 
     \label{tab:metric-diff}
 \end{figure}
 
-This difference is too high for a human to walk in \(1.8\) to \(2.2\) seconds, the time between two waypoints.
+This difference is too high for a human to walk in \(1.8\) to \(2.2\) \fmhkn{es gibt keinen Grund, einfache Zahlen in Mathe-Mode zu setzen. Da sehen dann nur die Fonts dumm aus.} seconds, the time between two waypoints.
 A human's gait speed has its maximum at about \(2.53\) meters per second \cite{bohannonComfortableMaximumWalking1997}.
 So in \(2.2\) seconds, a human can walk \(5.57\) meters, which is much less than each of the values in the top 10 in \Cref{tab:metric-diff}.
-Therefore, waypoints, which are more than about 5.57 meters apart, are defined as ``too apart from each other'' to walk in this time, and therefore, a split in the path will be done and generate separated files, indicating a new path.
+Therefore, waypoints, which\fmhkn{das ist defining relative clause; der wählt aus der Menge aller waypoints welche aus. Also: that und kein Komma.} are more than about 5.57 meters apart, are defined as ``too apart from each other'' to walk in this time, and therefore, a split in the path will be done and  separated files are generated, indicating a new path.
 This results in 147 files with data interpolation, which will be used for the \ac{ml} model.
 However, the data in those interpolated files does not contain any information about the \ac{bssid} and corresponding \ac{rssi} values, which are needed for the prediction.
 This will be solved in the following \Cref{sec:wifi-data}.
@@ -189,8 +191,10 @@ In order to use the \ac{rssi} in the prediction and treat each \ac{bssid} as a c
 For this, all \acp{bssid} of the site will be gathered by iterating over all \ac{wifi} data and saved in one file.
 Every line contains the timestamp, and each column header is the \ac{bssid} of the \ac{ap}, and each value of the line is the \ac{rssi} value of the \ac{bssid} at the timestamp.
 If an \ac{ap} is absent, a very low value \(-999\) is inserted, because the typical \ac{rssi} value ranges from \(-55\) to \(-90\) \cite{rssi_calculation}.
-This ensures that it's highly improbable for an \ac{ap} to be selected for the prediction with this value.
+This ensures that it is \fmhkn{keine contractions in formal text} highly improbable for an \ac{ap} to be selected for the prediction with this value.
 Then, I iterate over each file with interpolated data, and for each timestamp, the \ac{bssid} and the corresponding \ac{rssi} value from the \ac{wifi} file is added to the interpolated file.
 At each \texttt{TYPE\_WIFI} timestamp with waypoint and acceleration data, the \ac{rssi} value for each \ac{bssid} is now saved.
 The code for this can be found in the GitHub repository in the file \texttt{preparation.ipynb}.
 These files will train the \ac{ml} model.
+
+\fmhkn{ok... und was haben wir jetzt davon? kleine Zusammenfassung?? sind wir jetzt glücklich und können frohen Mutes an die Prädiktion gehen? Oder ist das immer noch doof, ...??? Geben Sie dem Leser eine Einschätzung!}

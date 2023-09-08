@@ -2,9 +2,9 @@
 
 The floor I analyzed in \Cref{ch:data-ana} has 4795 \acp{bssid}.
 Building upon the previous insights, the Yintai City (Chengxi Branch) floor 1 data has 4795 \acp{bssid}.
-I will interpret each \ac{bssid} as a class, which translates to a high-dimensional classification problem with 4795 classes.
+I will interpret each \ac{bssid} as a class,\fmhkn{AHA!} which translates to a high-dimensional classification problem with 4795 classes.
 This classification task necessitates a machine learning model that can capture the underlying patterns in the data and generalize well to unseen instances.
-I will discuss the classification models of \Cref{ch:background} by the following topics: Temporal Dependency Handling, Capacity and Complexity, Multivariate Data, Flexibility and Integration, and Regularization and Overfitting. \\
+I will discuss the classification models of \Cref{ch:background} by the following topics: Temporal Dependency Handling, Capacity and Complexity, Multivariate Data, Flexibility and Integration, and Regularization and Overfitting. 
 
 \begin{description}
 \item[Temporal Dependency Handling]
@@ -76,3 +76,5 @@ While \acp{rnn} might be more prone to overfitting \cite{rnn_difficulties_2013},
 In conclusion, while \acp{mlp}, \acp{hmm}, and traditional RNNs have their strengths and have been successful in many applications, they have problems with multivariate time series classification with many classes.
 The classification problem for this thesis demands a model that can efficiently capture temporal patterns, scale in capacity, and handle multivariate data.
 As \Cref{tab:model_suitability} shows, \acp{lstm} can deal with this challenge due to their unique architecture and properties, making them the preferred choice for this task and the selected model for our implementation.
+
+\fmhkn{ich lgaube, hier hatte sich nicht allzu viel verändert, oder? }
