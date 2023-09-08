@@ -6,9 +6,9 @@ Since the predictions are probabilities for each class, a conversion of the high
 Those are one-hot encoded, as described in \Cref{ch:implementation}.
 Then, I decode the one-hot encoded classes to the original classes, which can be done by \texttt{inverse\_transform} with the encoder.
 
-Finally, I select the highest probabilities of the predictions\fmhkn{? ich dachte, da kommen nur 0/1 encodings raus? Wie können Sie dann probabilities aus der Prädiktion bekommen? ich bin verwirrt.} and compare it with the corresponding true label for the timestamp.
+Finally, I select the target value of the predictions and compare it with the corresponding true label for the timestamp.
 If they are equal, the prediction is correct, otherwise it is false.
-The top three prediction accuracy of the \ac{lstm} model, so that one of the three predicts the correct \ac{bssid}, results\fmhkn{versteh ich nicht... die accuracy IST doch einfach 76 prozent? wie kann das was anderes sein, was dann in eine Zahl resultiert? verwirrend... } in 76\,\% %.
+The top three prediction accuracy of the \ac{lstm} model, so that one of the three predicted \ac{bssid} is the one with the highest \ac{rssi} value, is 76\,\%.
 The predictions ranging from top one to top five are also evaluated, as shown in \Cref{fig:comparison_ml_heuristic_1_to_5}.
 
 \begin{figure}[h]

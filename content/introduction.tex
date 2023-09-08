@@ -14,15 +14,16 @@ Then, there is no initiation of a roam from \ac{ap}1 to \ac{ap}3, but instead th
 \end{figure}
 
 Real-time applications such as video conferencing are particularly sensitive to these frequent roamings, which may result in dropped connections and unsatisfied users.
-Instead, it would be ideal if the movement from \ac{ap}1 to \ac{ap}3 was\fmhkn{were detected -- subjunctive, oder? } detected by the station beforehand and a roam from \ac{ap}1 to \ac{ap}3 was initiated.
+Instead, it would be ideal if the movement from \ac{ap}1 to \ac{ap}3 were detected by the station beforehand and a roam from \ac{ap}1 to \ac{ap}3 was initiated.
 
-Therefore, this thesis explores if a time series \ac{ml} model can predict the nearest\fmhkn{best? in ihrem Beispiel ist es ja auch nicht der nächste... oder meinen Sie das zeitlich? dann wäre es the next, the following, ..?  } \ac{ap} a station may connect to next.
+Therefore, this thesis explores if a time series \ac{ml} model can predict the following \ac{ap} a station may connect to next.
 Because of the many \acp{ap} in large-scale \ac{wifi} environments, I interpret this prediction as a multi-class classification problem with many classes.
 Typical applications for multi-class classification are image recognition of e.g. animals or handwriting recognition with a limited number of classes.
-As this thesis has near to 4800 classes,\fmhkn{not clear what the classes are??} the prediction task will be much harder.
-To make the prediction task easier, the model will predict the top three \acp{ap} the station may connect to next.\fmhkn{exakter formulieren!! was heißt ``top three connect to next''? heißt das z.B. : ``die drei APs, deren W'keit als nächstes dran zu kommen, am höchsten ist'', oder ``eine Menge von drei APs, unter denen der max-W'keit AP enthalten ist'' (es darf also z.B. auch der 5. wahrscheinlichste in der Menge sein; das ist ein einfacheres Problem!), oder ... -- das sind alles leicht andere Formulierung. DAs muss klar sein!}\fmhkn{und was ist jetzt die Klasse? ist jeder AP eine Klasse? oder jede Teilmenge ,mit drei APs? ...? }
-Put differently, the nearest station needs to be in the top three\fmhkn{versteht ich immer noch nicht...} instead of top one of the predictions to be considered a correct prediction.
-This prediction will be compared to a heuristic approach, which will choose the next \ac{ap} based on the last measured \ac{rssi} value.\fmhkn{ja, und WIE? also den hcöshten, kleinsten, lustigsten RSSI Wert?? exakt formulieren!!}
+As this thesis has near to 4800 \acp{bssid}, which are treated as classes, the prediction task will be much harder.
+To facilitate prediction, the model predicts a set of three \acp{ap} that the station can connect to next, which must include the most likely AP to be claimed as a correct prediction.
+We will call this prediction the top-three prediction.
+This prediction will be compared to a heuristic approach, which will choose the next \ac{ap} based on the last measured \ac{rssi} value.
+If the \ac{rssi} is the highest, it is considered to be the next one to connect to.
 
 A time-series \ac{ml} model requires time series  as input.
 There are two possible data sources: generate new or utilize existing data. 
