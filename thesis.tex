@@ -9,8 +9,14 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{amsmath}
+\usepackage{svg}
+\usepackage{amssymb}
+\usepackage{acro}
+\usepackage{parskip}[parskip]
+\usepackage{hyperref}
 
-
+% Set the caption position for listings and tables to top
+\lstset{captionpos=t}
 
 \graphicspath{{images}}
 
@@ -21,8 +27,8 @@
 % ABOUT
 \newcommand{\hpitype}{Bachelor's thesis}
 \newcommand{\hpiauthor}{Lina Wilske}
-\newcommand{\hpititle}{Machine Learning-Based User Movement Prediction in Layer 2 Networks}
-\newcommand{\hpititleother}{Vorhersage von Benutzerbewegungen in Layer 2 Netzen basierend auf Maschinellem Lernen} % <= das Studienreferat verlangt einen deutschen UND englischen Titel
+\newcommand{\hpititle}{Machine Learning-based User Movement Prediction in Layer 2 Networks}
+%\newcommand{\hpititleother}{Vorhersage von Benutzerbewegungen in Layer 2 Netzwerken basierend auf Maschinellem Lernen} % <= das Studienreferat verlangt einen deutschen UND englischen Titel
 \newcommand{\hpisupervisor}{Prof.\,Dr.\,Holger Karl \\ Leonard Paeleke}
 \newcommand{\hpichair}{Internet Technology and Softwarization Group}
 \newcommand{\hpidate}{\today}
@@ -53,7 +59,7 @@
 	% (Haupt-)Titelseite, Abstract, ggf. Danksagung & Inhaltsverzeichnis
 	\pagenumbering{roman}
 	\include{content/titlepage}
-	\ifisbook\cleardoubleemptypage\fi\include{content/abstract_eng}
+	\ifisbook\cleardoubleemptypage\fi\include{content/abstract}
 	%\ifisbook\cleardoubleemptypage\fi\include{content/dedication}
 	\tableofcontents
 	\cleardoublepage
@@ -62,6 +68,7 @@
 	\pagenumbering{arabic}
 	\include{content/introduction}
 	\include{content/background}
+	\include{content/related_work}
 	\include{content/data_analysis}
 	\include{content/discussion_ml}
 	\include{content/implementation_ml}
@@ -78,6 +85,17 @@
 	
 	% ggf. bei englischen Arbeiten den deutschen Abstract nach hinten verschieben
 	\ifisbook\pagestyle{plain}\cleardoubleemptypage\include{content/abstract_ger}\fi
+
+	\listoftables
+    \begingroup
+    \let\clearpage\relax
+    \let\cleardoublepage\relax
+    \listoffigures
+
+    \renewcommand{\lstlistlistingname}{List of Listings}
+    \lstlistoflistings
+    \endgroup
+
 
 	% Eigenständigkeitserklärung
 	\ifisbook\pagestyle{plain}\cleardoubleemptypage\include{content/disclaimer}\fi

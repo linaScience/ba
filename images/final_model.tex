@@ -1,0 +1,20 @@
+\begin{tikzpicture}[
+    node distance=3cm,
+    block/.style={rectangle, draw, fill=blue!20, text width=7em, text centered, rounded corners, minimum height=4em},
+    line/.style={draw, -{Latex[length=2mm]}},
+]
+
+% Nodes
+\node (input) {Input}; %\\ $3 \times 4975$ does not work
+\node [block, right of=input] (lstm) {LSTM\\Units: 512\\Optimizer: sgd\\Batch Size: 96};
+\node [block, right of=lstm] (dropout) {Dropout Layer\\Rate: 0.3};
+\node [block, right of=dropout] (batchnorm) {Batch Normalization};
+\node [block, right of=batchnorm] (output) {Output (Dense layer)\\softmax\\};
+
+% Paths
+\path [line] (input) -- (lstm);
+\path [line] (lstm) -- (dropout);
+\path [line] (dropout) -- (batchnorm);
+\path [line] (batchnorm) -- (output);
+
+\end{tikzpicture}

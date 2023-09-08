@@ -1,0 +1,37 @@
+\null\vfil
+\begin{otherlanguage}{english}
+\begin{center}\textsf{\textbf{\abstractname}}\end{center}
+
+\noindent 
+Mobile device roaming on \ac{wifi} networks currently does not consider human movement, leading to performance issues for e.g. video conferencing \cite{handoff_performance_issues}.
+This thesis presents a machine learning approach that uses an \ac{lstm} model to predict the nearest \ac{ap} based on \ac{rssi} values from the surrounding \acp{ap}\footnote{Implementation of this thesis: \url{https://github.com/linaScience/ba-implementation}}.
+The models input are time sequences of waypoint, acceleration and \ac{wifi} data such as \acp{bssid} with their \ac{rssi} values.
+The output of the model will be used to get the top three \acp{bssid}, where one of it must be the \ac{ap} the station connects to next to be a correct prediction.
+The model was trained using modified real-world data from a Microsoft Research competition and achieved a top three prediction accuracy of 76\%.
+With these predictions, the roaming process in \ac{wifi} networks initiated by a mobile device could be improved.
+However, the performance was only marginally better than a heuristic method.
+Further improvements could be achieved with fewer classes, a different sized sliding window, and additional sensor data.
+Future research should focus on generated data with more information such as the location of the \ac{ap}, so that human movement can be utilized to precisely predict the next \ac{ap}.
+\end{otherlanguage}
+\vfil\null
+
+
+% => Wenn die Arbeit auf Englisch verfasst wurde, verlangt das Studienreferat einen englischen UND deutschen Abstract (der dt. Abstract kann dann ggf. auch ans Ende der Arbeit)
+
+% deutsche Zusammenfassung
+\null\vfil
+\begin{otherlanguage}{ngerman}
+\begin{center}\textsf{\textbf{\abstractname}}\end{center}
+
+\noindent
+Das Roaming von Mobilgeräten in \ac{wifi}-Netzwerken berücksichtigt derzeit nicht die Bewegungen von Menschen, was zu Leistungsproblemen, z. B. bei Videokonferenzen, führt \cite{handoff_performance_issues}.
+In dieser Arbeit wird ein Ansatz des maschinellen Lernens vorgestellt, der ein \ac{lstm}-Modell zur Vorhersage des nächstgelegenen \ac{ap} auf der Grundlage von \ac{rssi}-Werten aus den umliegenden \acp{ap}.
+Die Eingabe des Modells sind Zeitsequenzen von Wegpunkt-, Beschleunigungs- und \ac{wifi}-Daten wie \acp{bssid} mit ihren \ac{rssi}-Werten.
+Die Ausgabe des Modells wird verwendet, um die drei besten \acp{bssid} zu erhalten, von denen einer der \ac{ap} sein muss, mit dem sich die Station als nächstes verbindet, um eine korrekte Vorhersage zu erhalten.
+Das Modell wurde mit modifizierten realen Daten aus einem Microsoft Research-Wettbewerb trainiert und erreichte eine Vorhersagegenauigkeit für die ersten drei Plätze von 76\%.
+Mit diesen Vorhersagen könnte der Roaming-Prozess in \ac{wifi}-Netzen, der von einem mobilen Gerät initiiert wird, verbessert werden.
+Die Leistung war jedoch nur geringfügig besser als eine heuristische Methode.
+Weitere Verbesserungen könnten mit weniger Klassen, einer anderen Größe des Schiebefensters und zusätzlichen Sensordaten erzielt werden.
+Zukünftige Forschungen sollten sich auf die Generierung von Daten mit mehr Informationen, wie z. B. dem Standort des \ac{ap}, konzentrieren, sodass die menschliche Bewegung zur genauen Vorhersage des nächsten \ac{ap} genutzt werden kann.
+\end{otherlanguage}
+\vfil\null
