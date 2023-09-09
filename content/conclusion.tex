@@ -1,21 +1,21 @@
 \chapter{Conclusion}\label{ch:conclusion}
  
-To reduce the number of roamings in large-scale \ac{wifi} environments, this thesis explored a first step towards selecting the next \ac{ap} a station may connect to.
-The proposed model can be used to predict which \ac{ap} has the highest probability of being the next \ac{ap} with the highest \ac{rssi} value, but there is also other information needed such as the load of the \ac{ap} and the number of connected stations to know, whether the roam will be beneficial.
-For the selection process and use in future \ac{wifi} setups, the prediction needs to be implemented and tested in a real environment, which is important for the evaluation of the prediction.
+To reduce the number of roamings in large-scale \ac{wifi} environments, this thesis explored a first step towards selecting the following \ac{ap} a station may connect to.
+The proposed model can be used to predict which \ac{ap} has the highest probability of being the following \ac{ap} with the highest \ac{rssi} value. However, other information is also needed, such as the load of the \ac{ap} and the number of connected stations, to know whether the roam will be beneficial.
+For the selection process and use in future \ac{wifi} setups, the prediction needs to be implemented and tested in a real-world environment, which is essential for evaluating the prediction.
 
-\ac{ap} prediction with user movement is a hard task with many classes.
-Although I find \ac{lstm} to be the best choice among the discussed models for this task, the prediction accuracy for selecting one of the top three \acp{ap} is 76\%.
-In the future, the model could also be trained for other floors and sites, which would likely result in similar accuracies.
+\ac{ap} prediction with user movement is challenging with many classes.
+Although I find \ac{lstm} the best choice among the discussed models for this task, the prediction accuracy for selecting one of the top three \acp{ap} is 76\%.
+The model could also be trained for other floors and sites in the future, which would likely result in similar accuracies.
 
-With 4795 classes, the \ac{lstm} model faces the challenge of distinguishing between a vast number of classes.
-Such high class cardinality can introduce greater complexity, making it harder for the model to generalize well across all classes.
-This could be one reason why the \ac{ml} model prediction is only slightly better than the simpler heuristic approach.
-Moreover, the data not being generated specifically for this type of prediction suggests that it might not be the most relevant or informative for the task, leading to potential shortcomings in learning the underlying patterns effectively.
+With 4795 classes, the \ac{lstm} model faces the challenge of distinguishing between many classes.
+Such a high number of classes can introduce greater complexity, making it harder for the model to generalize well across all classes.
+This could be one reason why the \ac{ml} model prediction accuracy is only slightly better than the simpler and faster heuristic approach.
+Moreover, the data not being explicitly generated for this type of prediction suggests that it might not be the most relevant or informative for the task, leading to potential shortcomings in learning the underlying patterns effectively.
 
-On the aspect of features, incorporating other sensor data, such as gyroscope and magnetic field data, can offer a more comprehensive view of the environment, potentially capturing patterns not evident with the existing features.
-Additionally, the sliding window size of 3 might not be providing enough historical context. An increased window size could offer more temporal information, improving the model's prediction capabilities.
+Regarding features, incorporating other sensor data, such as gyroscope and magnetic field data, can offer a more comprehensive view of the environment, potentially capturing patterns not evident with the existing features.
+Additionally, the sliding window size of 3 might not provide enough historical context. An increased window size could offer more temporal information, improving the model's prediction capabilities.
 
 Lastly, generating data from mobile devices or \acp{ap} to gain knowledge about the location and setup can provide valuable context.
-Understanding specific locations or setups can aid the model in capturing patterns unique to certain environments, thereby enhancing its predictive power.
+Understanding specific locations or setups can aid the model in capturing patterns unique to certain environments, enhancing its predictive power.
 %\noindent
