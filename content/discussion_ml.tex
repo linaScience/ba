@@ -1,14 +1,14 @@
 \chapter{Suitable Machine Learning Model}\label{ch:discuss-ml}
 
 The floor I analyzed in \Cref{ch:data-ana} has 4795 \acp{bssid}.
-Building upon the previous insights, the Yintai City (Chengxi Branch) floor 1 data has 4795 \acp{bssid}.
+Building upon the previous insights, the floor one Yintai City (Chengxi Branch) data has 4795 \acp{bssid}.
 I will interpret each \ac{bssid} as a class, translating to a high-dimensional classification problem with 4795 classes.
 This classification task necessitates a \ac{ml} model that can capture the underlying patterns in the data and generalize well to unseen instances.
 I will discuss the classification models of \Cref{ch:background} by the following topics: Temporal Dependency Handling, Capacity and Complexity, Multivariate Data, Flexibility and Integration, and Regularization and Overfitting. 
 
 \begin{description}
 \item[Temporal Dependency Handling]
-Given the goal to predict the following \ac{bssid} based on the trajectory of a user, it is imperative to select a model that can capture temporal dependencies in the data.
+%Given the goal to predict the following \ac{bssid} based on the trajectory of a user, the \ac{ml} model needs to capture temporal dependencies in the data.
 As mentioned in \Cref{sec:special-cases}, the irregularities in waypoint data further emphasize the need for a model that can handle such temporal structures.
 While \acp{mlp} lack this capability \cite{mlp_and_nn}, \acp{hmm} do offer some temporal structure but often fall short for longer sequences and multivariate data \cite{hmm-rabiner-1989}.
 Traditional \acp{rnn} are better equipped but have limitations, such as the vanishing gradient problem \cite{rnn_difficulties_2013}.
@@ -17,12 +17,11 @@ Traditional \acp{rnn} are better equipped but have limitations, such as the vani
 
 \begin{description}
 \item[Capacity and Complexity]
-Given the large number of classes (4795 \acp{bssid}), the model needs to have a considerable capacity.
+Given the 4795 classes, the model needs to have a considerable capacity.
 \acp{mlp} can scale their capacity by adding more hidden layers and units.
-They are capable of modeling complex relationships within data through their nonlinear activations.
+They are capable of modeling complex relationships within data through their nonlinear activations to differentiate between the subtle differences in patterns that might exist among them. 
 \acp{hmm} have limitations in handling the complexity of multi-class and multivariate problems due to their inherent Markovian assumptions and discrete state representations. They may struggle with such a high-dimensional problem.
 Traditional \acp{rnn} suffer from the vanishing gradient problem, especially in longer sequences, which limits their ability to capture long-term dependencies effectively \cite{rnn_difficulties_2013}.
-With 4,795 classes, the model needs a considerable capacity to differentiate between the subtle differences in patterns that might exist among them. 
 \acp{lstm}, being deep learning models, can scale effectively in terms of capacity by adding more layers or units while still maintaining their ability to handle temporal data.
 \end{description}
 
@@ -70,6 +69,6 @@ While \acp{rnn} might be more prone to overfitting \cite{rnn_difficulties_2013},
 \end{table}
 
 
-In conclusion, while \acp{mlp}, \acp{hmm}, and traditional RNNs have their strengths and have been successful in many applications, they have problems with multivariate time series classification with many classes.
+To summarize, while \acp{mlp}, \acp{hmm}, and traditional RNNs have their strengths and have been successful in many applications, they have problems with multivariate time series classification with many classes.
 The classification problem for this thesis demands a model that can efficiently capture temporal patterns, scale in capacity, and handle multivariate data.
 As \Cref{tab:model_suitability} shows, \acp{lstm} can deal with this challenge due to their unique architecture and properties, making them the preferred choice for this task and the selected model for our implementation.

@@ -2,7 +2,7 @@
 
 For the evaluation of the model, I do the following:
 First, the predictions of the test set are in \texttt{X\_test}.
-Since the predictions are probabilities for each class, a conversion of the highest probability as true labels in \texttt{y\_test} is done because this value will be the predicted \ac{ap}.
+Since the predictions are probabilities for each class, conversing the highest probability as true labels in \texttt{y\_test} is done because this value will be the predicted \ac{ap}.
 Those are one-hot encoded, as described in \Cref{ch:implementation}.
 Then, I decode the one-hot encoded classes to the original classes, which can be done by \texttt{inverse\_transform} with the encoder.
 
@@ -27,13 +27,15 @@ For predicting the set size of one, so the predicted \ac{ap} is correct, the heu
 For the set size of two, the \ac{ml} model outperforms the heuristic by 0.3\,\%.
 For \threeAP the prediction accuracy improves by 1.7\,\% compared to the heuristic approach.
 Four and five set sizes outperform the heuristic by 2.2\,\%, and 1.2\,\%, respectively.
+Training for malls with similar-sized floors would likely result in similar accuracies.
 
-Regarding the execution time, the \ac{ml} model needs nearly 12 hours to tune.
+Regarding the execution time, the \ac{ml} model needs nearly 12 hours to tune on a M1 MacBook Pro.
 The training of the proposed \ac{lstm} model takes about 25 minutes for a five-fold cross-validation.
-The heuristic approach must only choose the three highest \ac{rssi} values out of 4795, which is much faster.
-The heuristic is much easier to implement and execute than the \ac{ml} model.
+The heuristic approach must only choose the three highest \ac{rssi} values out of 4795.
+Choosing the three maximums of a set of 4795 values takes 75 milliseconds for one line of the prepared dataset, which is much faster than training the \ac{lstm} model.
+Hence, the heuristic is much easier to implement and execute than the \ac{ml} model.
 
-The \ac{ml} model needs to be trained for each floor of a mall separately, as the \ac{ap} are different on each floor.
+The \ac{ml} model needs to be trained for each mall floor separately, as the \ac{ap} are different on each floor.
 The heuristic approach can be used for all floors, as it only needs the latest \ac{rssi} values of the \acp{ap}.
 
 One of the significant strengths of the machine learning model is that it utilizes user trajectories.

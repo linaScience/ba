@@ -1,7 +1,7 @@
 \chapter{Dataset analysis and preparation}\label{ch:data-ana}
 
 As mentioned in \Cref{ch:intro}, the dataset used in this thesis is the Indoor Location \& Navigation from kaggle, which was part of a competition of Microsoft Research in 2021 \cite{IndoorLocationNavigation}.
-The company ``\(XYZ^{10}\)''\footnote{Website of \(XYZ^{10}\): https://dangwu.io} recorded the data in shopping malls and was provided by Microsoft Research for this competition.
+The company ``\(XYZ^{10}\)''\footnote{Website of \(XYZ^{10}\): \url{https://dangwu.io}} recorded the data in shopping malls and was provided by Microsoft Research for this competition.
 The competition's goal was to predict the indoor position of users' smartphones based on real-time sensor data and user trace data.
 The prediction for this competition contains the floor and waypoint at a particular timestamp.
 However, this thesis will not predict the floor and waypoint but the following \ac{bssid} a device may connect to based on the \ac{rssi} of the \acp{ap} and the trajectory of the user, as this prediction is more beneficial for the roaming process.
@@ -39,7 +39,8 @@ The first contains the start time of the recording, the second site information 
     numbers=left,
     numberstyle=\tiny\color{gray},
     stepnumber=1,
-    numbersep=5pt,
+    breakatwhitespace=true,
+    xleftmargin=2.5em,
 }
 
 \begin{lstlisting}[caption={A snippet from the dataset of the file 5daa9e38df065a00069beb79.txt of the floor F4},label={lst:dataset}]
@@ -57,11 +58,11 @@ The first contains the start time of the recording, the second site information 
     1571462194883   TYPE_WIFI   b06c4e327882fab58dfa93ea85ca373a54e887b5    9f967858afcbb907af6e5adef766c7e7b936ef07    -63 2462    1571462190744
     1571462194883   TYPE_WIFI   8204870beb9d02995dab3f08aad97af5eab723cc    0413b35df78fc865af15b4721d5aeb33ff57da45    -64 2447    1571462188686
     ...
-    1571462194020   TYPE_BEACON 07efd69e3167537492f0ead89fb2779633b04949    b6589fc6ab0dc82cf12099d1c2d40ab994e8410c    76e907e391ad1856762f70538b0fd13111ba68cd    -57 -71 5.002991815535578   1b7e1594febd760b00f1a7984e470867616cee4e    1571462194020
+    1571462194020   TYPE_BEACON 07efd69e3167537492f0ead89fb2779633b04949    b6589fc6ab0dc82cf12099d1c2d40ab994e8410c    76e907e391ad1856762f70538b0fd13111ba68cd      -57 -71 5.002991815535578   1b7e1594febd760b00f1a7984e470867616cee4e    1571462194020
     ...
     1571462195943   TYPE_WAYPOINT   59.72475    69.02152
     #   endTime:1571462195976
-  \end{lstlisting}
+\end{lstlisting}
 
 The last line contains the end time of the recording.
 The central part of the data consists of the collected data. 
@@ -91,7 +92,7 @@ Presumably, the waypoint data recording is triggered by an exterior event, e.g.,
 As seen in \Cref{lst:dataset}, the data are measured separately from each other, so there are no combinations of the data types.
 Most importantly, there is no combination of \texttt{TYPE\_WAYPOINT} and \texttt{TYPE\_WIFI} data, which would be needed for the prediction.
 The location provided by \texttt{TYPE\_WAYPOINT} may be necessary because not only the strength of the \acp{rssi} is important but also the trajectory of the user, which can be identified by the \texttt{TYPE\_WAYPOINT} data.
-Furthermore, the \ac{rssi} values are influenced by the environment, e.g., walls, which may result in a lower \ac{rssi} value.
+Furthermore, the \ac{rssi} values may be influenced by the environment, e.g., walls, which may result in a lower \ac{rssi} value.
 
 A prediction of the following \ac{bssid} will only work per site due to the different \acp{ap}.
 Still, the prediction could be difficult for a whole site because the \acp{ap} are different on each floor, which may result in many \acp{ap} for the prediction.
@@ -201,4 +202,5 @@ The previous sections analyze the datasets and file structure.
 The folder with the most user movement will be used for the prediction task.
 The data was prepared into multivariate time series data for a \ac{ml} model based on \ac{wifi}, location, and acceleration data. 
 An interpolation of the acceleration and waypoint data for each \texttt{TYPE\_WIFI} timestamp was necessary to combine this information for the prediction task.
+The implementation of the preparation can be found in the GitHub repository \cite{github-repo} in the file ``preparation.ipynb''.
 This prepared data will be further preprocessed in \Cref{ch:implementation} and utilized in the chosen \ac{ml} model, which will be discussed in the next Chapter.
