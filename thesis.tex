@@ -1,6 +1,6 @@
 \documentclass{scrbook} % <= Druckversion: "scrbook" / Bildschirmversion: "scrreprt"
 \usepackage[english,bibtex]{osm-thesis} % <= Sprache der Arbeit ("ngerman"/"english"), Biblatex-Backend ("bibtex"/"biber")
-\usepackage{cleveref}
+\usepackage[capitalise]{cleveref} % HK: to stick to IEEE and similar standards
 \usepackage{acro}
 \usepackage{CJKutf8}
 \usepackage{listings}
@@ -14,6 +14,7 @@
 \usepackage{acro}
 \usepackage{parskip}[parskip]
 \usepackage{hyperref}
+\usepackage{xspace}
 
 % Set the caption position for listings and tables to top
 \lstset{captionpos=t}
@@ -21,6 +22,8 @@
 \graphicspath{{images}}
 
 
+\usepackage{todonotes}
+\newcommand{\fmhkn}[1]{\todo[inline,color=green!10]{#1}}
 
 % ABOUT
 \newcommand{\hpitype}{Bachelor's thesis}
@@ -30,6 +33,7 @@
 \newcommand{\hpisupervisor}{Prof.\,Dr.\,Holger Karl \\ Leonard Paeleke}
 \newcommand{\hpichair}{Internet Technology and Softwarization Group}
 \newcommand{\hpidate}{\today}
+\newcommand{\threeAP}{\texttt{3AP}\xspace}
 
 \definecolor{hpiyellow}{RGB}{246,168,0}
 \definecolor{hpiorange}{RGB}{221,97,8}

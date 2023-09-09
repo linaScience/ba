@@ -1,67 +1,72 @@
 \chapter{Background}\label{ch:background}
 
-The basic information in this chapter is necessary for comprehending the key ideas covered in this thesis.
+The basic information in this chapter helps to comprehend the key ideas covered in this thesis.
 The field of \ac{ml} is extensive, with many models created for diverse tasks, each with advantages and uses.
-This chapter will provide a brief overview of the models discussed and used in this thesis, as well as the concepts of time series prediction and hyperparameter tuning.
+This chapter will provide a brief overview of the models discussed and used in this thesis, as well as the concepts of classification, multivariate time series, time series prediction, and hyperparameter tuning.
 
 \section{Classification}
 
 Classification models in \ac{ml} are designed to categorize input data into specific classes using input features and labels.
-In supervised learning, models are trained with input vectors, and their associated target vectors, which represent the desired output or correct category for each input.
-Classification problems, like digit recognition, assign input vectors to discrete categories.
-Practical applications include determining whether an email is spam, or a transaction fraudulent \cite{binary-classification}.
-Multi-class classification, a set of classification, differentiates among more than two classes \cite{BishopPatternRecognition}.
+In supervised learning, models are trained with input vectors and their associated target vectors, which represent the desired output or correct category for each input.
+Classification problems, such as digit recognition, assign input vectors to discrete categories.
+Practical applications include determining whether an email is spam or a fraudulent transaction \cite{binary-classification}.
+Multi-class classification differentiates among more than two classes \cite{BishopPatternRecognition}.
 In this thesis, a multi-class classification model will be used to predict which \ac{ap} a user will be closest to, based on the \ac{rssi} from the \acp{ap} and the user's trajectory.
 
 
 \section{Univariate and Multivariate Time Series}
 
-A time series is univariate, if one observation is recorded sequentially over time, e.g., temperature or stock prices.
-If another observation was recorded over time together with the temperature like humidity, then the time series is multivariate \cite{brownleeDeepLearningTime}.
+A time series is univariate if one observation is recorded sequentially over time, e.g., temperature or stock prices.
+If another observation was recorded over time together with, e.g., the temperature, such as humidity, then the time series is multivariate \cite{brownleeDeepLearningTime}.
 
 \section{Time Series Prediction}
 
-Time series prediction is a type of supervised learning where a model is trained on a sequence of observations and learns to predict the next value in the sequence \cite{brownleeDeepLearningTime}.
-Those sequences consist of data points arranged chronologically, prevalent in numerous domains like stock prices.
-Due to its inherent temporal dependencies, where sequent data points influence previous ones, specific machine learning techniques are applied.
-These include \ac{mlp} \cite{mlp-backpropagation-rumelhart}, \ac{hmm} \cite{hmm-rabiner-1989}, and \ac{rnn} \cite{hopfield-rnn} models such as \ac{lstm} \cite{lstm-hochreiter}.
-Each model is designed to capture and leverage temporal patterns within the data, predicting future trends based on historical observations \cite{neptune-ai}.
+Time series prediction involves training models on sequences of observations to predict the next value in the sequence \cite{brownleeDeepLearningTime}.
+These sequences, consisting of chronologically arranged data points, are prevalent in numerous domains.
+Due to the inherent temporal dependencies in time series data, where subsequent data points influence previous ones, specific \ac{ml} techniques are applied.
+These techniques aim to capture and leverage temporal patterns within the data, predicting future trends based on historical observations \cite{neptune-ai}.
 
+%\fmhkn{this is not structured so nicely. We are mixing problems -- time-series prediction -- with techniques -- MLP -- and mathematicl structures -- HMM. I am confused :-/ }
 
-% Machine learning models
-\section{Multilayer Perceptron}
+\section{Machine Learning Models for Time Series Prediction}
+
+Various \ac{ml} models have been developed to handle sequential data.
+Some of these models derive from established statistical techniques, while others emerge from recent developments.
+This section overviews a few pre-chosen models relevant to this thesis.
+
+\subsection{Hidden Markov Model}
+
+\ac{hmm} is a statistical model that assumes the system being modeled is a Markov process with unobserved states \cite{hmm-rabiner-1989}.
+\acp{hmm} are mainly known for their application in temporal pattern recognition, such as speech and handwriting.
+They describe the probability of a sequence of observable data, which is assumed to result from a sequence of hidden states, each producing an observable output according to a particular probability distribution.
+
+\subsection{Multilayer Perceptron}
 
 \ac{mlp}, also known as a feedforward artificial neural network, is a class of deep learning models primarily used for supervised learning tasks \cite{mlp-backpropagation-rumelhart}.
 An MLP consists of multiple layers of nodes in a directed graph, each fully connected to the next one.
 Each node in one layer is connected with certain weights to every node in the following layer.
 \acp{mlp} apply a series of transformations, typically nonlinear, to the input data using activation functions, such as the sigmoid or \ac{relu}, facilitating the model's ability to model complex patterns and dependencies in the data \cite{goodfellow_deep_2016}.
 
-\section{Hidden Markov Model}
+\subsection{Recurrent Neural Networks}
 
-\ac{hmm} is a statistical model that assumes the system being modeled is a Markov process with unobserved states \cite{hmm-rabiner-1989}.
-\acp{hmm} are mainly known for their application in temporal pattern recognition, such as speech and handwriting.
-They describe the probability of a sequence of observable data, which is assumed to result from a sequence of hidden states, each producing an observable output according to a particular probability distribution.
+\ac{rnn} is a neural network well-suited to sequential data because of its design \cite{hopfield-rnn}.
+Unlike to traditional feedforward neural networks, a \ac{rnn} possesses loops in its topology, allowing information to persist over time.
+This unique characteristic enables the model to use its ``memory'' to process sequences of inputs, making it ideally suited for tasks involving sequential data such as speech recognition, language modeling, and time series prediction \cite{elman_finding_1990}.
 
-\section{Recurrent Neural Networks}
-
-\ac{rnn} is an neural network well-suited to sequential data because of its design \cite{hopfield-rnn}.
-Unlike traditional feedforward neural networks, an \ac{rnn} possesses loops in its topology, allowing information to persist over time.
-This unique characteristic enables the model to use its internal state (memory) to process sequences of inputs, making it ideally suited for tasks involving sequential data such as speech recognition, language modeling, and time series prediction \cite{elman_finding_1990}.
-
-\subsection{Long Short-Term Memory}
+\subsubsection{Long Short-Term Memory}
 
 \ac{lstm} is a special kind of RNN, capable of learning long-term dependencies \cite{lstm-hochreiter}.
 \acp{lstm} were designed to combat the ``vanishing gradient'' problem in traditional \acp{rnn}. 
 This problem made it difficult for other neural networks to learn from data where relevant events occurred with significant gaps between them.
-The key to the ability of the \acp{lstm} is its cell state and the accompanying gates (input, forget, and output gate), which regulate the flow of information in the network.
+The key to the ability of the \acp{lstm} is its cell state and the input, forget, and output gates, which regulate the flow of information in the network.
 
 \section{Hyperparameter tuning}\label{sec:hyperparameter-tuning}
 
-In machine learning, hyperparameters play an important role in model development as they may improve the model's performance \cite{yuHyperParameterOptimizationReview2020}.
-These are parameters such as the learning rate, neural network layers, and the number of windows or batch sizes.
+In \ac{ml}, hyperparameters play an important role in model development as they may improve the model's performance \cite{yuHyperParameterOptimizationReview2020}.
+These are parameters such as the learning rate, neural network layers, and the sliding window or batch sizes.
 Proper selection of hyperparameters, known as hyperparameter tuning or optimization, is crucial to optimize model performance.
 This iterative procedure involves exploring various hyperparameter combinations for the configuration that yields the most accurate predictions.
 Hyperparameters can be tuned by, e.g., random search, which can be done manually or using libraries.
 This thesis will use keras-tuner \footnote{Keras-tuner, the hyperparameter optimization framework for keras: \url{https://github.com/keras-team/keras-tuner}} to tune the hyperparameters of the \ac{lstm} model.
 \texttt{RandomSearch} is a hyperparameter optimization algorithm that randomly searches the hyperparameter space for the best configuration.
-The hyperparameter space is predefined by the user, and the algorithm tries out different hyperparameters in this space.
+The user predefines the hyperparameter space, and the algorithm tries out different hyperparameters in this space.
